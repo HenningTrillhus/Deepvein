@@ -2,18 +2,19 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - Ground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ground
+  - Ladder
+  - Enemy
   - 
   - 
   - 
@@ -41,3 +42,20 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ladder
+    uniqueID: 3276613139
+    locked: 0
+  - name: UI1
+    uniqueID: 2592847379
+    locked: 0
+  - name: UI2
+    uniqueID: 1261713389
+    locked: 0
+  - name: Enemys
+    uniqueID: 1484230849
+    locked: 0
+  - name: Player
+    uniqueID: 2500465957
+    locked: 0
+  m_RenderingLayers:
+  - Default
