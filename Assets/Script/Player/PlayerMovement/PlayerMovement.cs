@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask blockingLayer;
     public float blockCheckDistance = 0.05f;
 
+    private PlayerHealth playerHealth;
+
     private Rigidbody2D rb;
     private Collider2D col;
     private PlayerControls controls;
@@ -47,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        playerHealth = GetComponent<PlayerHealth>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         rb.freezeRotation = true;
@@ -66,6 +69,10 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (playerHealth != null && playerHealth.IsStunned) return;   // <- ny linje
+
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         onLadder = Physics2D.OverlapCircle(transform.position, ladderCheckRadius, ladderLayer);
 

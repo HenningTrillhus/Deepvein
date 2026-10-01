@@ -48,6 +48,9 @@ public class EnemyAI : MonoBehaviour
     private enum State { Patrol, Chase }
     private State state = State.Patrol;
 
+    private EnemyAttack attack;
+    public int FacingDirection => direction;
+
     private Rigidbody2D rb;
     private Vector2 startPos;
     private int direction = 1;
@@ -57,6 +60,7 @@ public class EnemyAI : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        attack = GetComponent<EnemyAttack>();     // <- ny linje
         rb.freezeRotation = true;
         startPos = transform.position;
 
@@ -69,6 +73,8 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (attack != null && attack.IsAttacking) return;    // <- ny linje
+
         UpdateState();
 
         if (state == State.Chase) Chase();
