@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyAI : MonoBehaviour
@@ -56,6 +57,7 @@ public class EnemyAI : MonoBehaviour
     private int direction = 1;
     private float pauseTimer;
     private float memoryTimer;
+    private float knockbackTimer;
 
     void Awake()
     {
@@ -73,13 +75,20 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (attack != null && attack.IsAttacking) return;    // <- ny linje
+        if (knockbackTimer > 0f)
+        {
+            knockbackTimer -= Time.fixedDeltaTime;
+            return;
+        }
+
+        if (attack != null && attack.IsAttacking) return;
 
         UpdateState();
 
         if (state == State.Chase) Chase();
         else Patrol();
     }
+    
 
     // ---------- State ----------
 
@@ -227,5 +236,19 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.green;
         if (groundCheck != null) Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
         if (wallCheck != null) Gizmos.DrawWireSphere(wallCheck.position, checkRadius);
+    }
+
+    public void ApplyKnockback(Vector2 force, float stunDuration = 0.3f)
+    {
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForce(force, ForceMode2D.Impulse);
+        StartCoroutine(KnockbackStun(stunDuration));
+    }
+
+    private IEnumerator KnockbackStun(float duration)
+    {
+        knockbackTimer = duration;
+        yield return new WaitForSeconds(duration);
+        knockbackTimer = 0f;
     }
 }

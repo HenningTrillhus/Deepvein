@@ -31,12 +31,14 @@ public class EnemyAttack : MonoBehaviour
     private Transform player;
     private bool isAttacking;
     private float lastAttackEnd = -999f;
+    private EnemyBlock block;
 
     public bool IsAttacking => isAttacking;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        block = GetComponent<EnemyBlock>();
 
         GameObject found = GameObject.FindGameObjectWithTag("Player");
         if (found != null) player = found.transform;
@@ -52,14 +54,11 @@ public class EnemyAttack : MonoBehaviour
         AimAtPlayer();
 
         if (isAttacking) return;
+        if (block != null && block.IsBlocking) return;    // <- ny linje
         if (Time.time < lastAttackEnd + recoveryTime) return;
 
-        float dist = Vector2.Distance(transform.position, player.position);
-
-        if (dist <= triggerRange)
-        {
+        if (Vector2.Distance(transform.position, player.position) <= triggerRange)
             StartCoroutine(AttackRoutine());
-        }
     }
 
     private void AimAtPlayer()
