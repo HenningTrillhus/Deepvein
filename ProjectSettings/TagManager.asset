@@ -16,7 +16,7 @@ TagManager:
   - Ground
   - Ladder
   - Enemy
-  - 
+  - Grass
   - 
   - 
   - 
@@ -45,6 +45,12 @@ TagManager:
     locked: 0
   - name: Ladder
     uniqueID: 3276613139
+    locked: 0
+  - name: Ground
+    uniqueID: 4012343483
+    locked: 0
+  - name: Grass
+    uniqueID: 3356547259
     locked: 0
   - name: UI1
     uniqueID: 2592847379

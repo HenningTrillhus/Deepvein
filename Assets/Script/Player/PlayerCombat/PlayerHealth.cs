@@ -79,9 +79,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         amount = Mathf.RoundToInt(amount * block.DamageMultiplier);
         knockback *= block.KnockbackMultiplier;
 
-        // Dytt angriperen tilbake
         Collider2D attacker = Physics2D.OverlapCircle(attackOrigin, attackerSearchRadius, enemyLayer);
         if (attacker == null) return;
+
+        // Parry: traff innenfor vinduet -> stun i stedet for vanlig knockback
+        if (block.IsInParryWindow)
+        {
+            EnemyStateMachine enemyStates = attacker.GetComponentInParent<EnemyStateMachine>();
+            if (enemyStates != null)
+            {
+                enemyStates.EnterStun();
+                return;
+            }
+        }
 
         EnemyAI enemyAI = attacker.GetComponentInParent<EnemyAI>();
         if (enemyAI == null) return;

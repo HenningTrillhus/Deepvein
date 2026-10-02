@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask blockingLayer;
     public float blockCheckDistance = 0.05f;
 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
     private PlayerHealth playerHealth;
 
     private Rigidbody2D rb;
@@ -46,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
     private bool onLadder;
     private bool isClimbing;
     private float defaultGravity;
+
+    
 
     void Awake()
     {
@@ -62,10 +66,18 @@ public class PlayerMovement : MonoBehaviour
         controls.Player.Climb.performed += ctx => climbInput = ctx.ReadValue<float>();
         controls.Player.Climb.canceled += ctx => climbInput = 0f;
         controls.Player.Jump.performed += ctx => jumpPressed = true;
+        if (spriteRenderer == null)
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     void OnEnable() => controls.Player.Enable();
     void OnDisable() => controls.Player.Disable();
+
+    void Update()
+    {
+        if (moveInput != 0)
+            spriteRenderer.flipX = moveInput < 0;
+    }
 
     void FixedUpdate()
     {
@@ -210,4 +222,5 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public bool IsClimbing => isClimbing;
+    public float HorizontalInput => moveInput;
 }

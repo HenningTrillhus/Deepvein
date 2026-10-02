@@ -42,6 +42,11 @@ public class PlayerBlock : MonoBehaviour
     [Tooltip("Hvor hardt angriperen dyttes tilbake ved blokk.")]
     [SerializeField] private float parryKnockback = 8f;
 
+    [Header("Parry")]
+    [Tooltip("Hvor lenge etter knappetrykket et treff teller som parry.")]
+    [SerializeField] private float parryWindow = 0.5f;
+    private float blockPressedTime = -999f;
+
     private PlayerControls controls;
     private Camera cam;
     private bool holdingBlock;
@@ -60,6 +65,7 @@ public class PlayerBlock : MonoBehaviour
     public float DamageMultiplier => damageThrough;
     public float KnockbackMultiplier => knockbackThrough;
     public float ParryKnockback => parryKnockback;
+    public bool IsInParryWindow => Time.time <= blockPressedTime + parryWindow;
 
     void Awake()
     {
@@ -72,6 +78,12 @@ public class PlayerBlock : MonoBehaviour
 
         if (shieldVisual != null)
             shieldVisual.SetActive(false);
+
+        controls.Player.Block.performed += ctx =>
+        {
+            holdingBlock = true;
+            blockPressedTime = Time.time;    // starter parry-vinduet
+        };
     }
 
     void OnEnable() => controls.Player.Enable();

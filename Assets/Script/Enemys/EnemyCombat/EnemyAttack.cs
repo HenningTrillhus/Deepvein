@@ -32,6 +32,7 @@ public class EnemyAttack : MonoBehaviour
     private bool isAttacking;
     private float lastAttackEnd = -999f;
     private EnemyBlock block;
+    private EnemyStateMachine states;
 
     public bool IsAttacking => isAttacking;
 
@@ -39,6 +40,7 @@ public class EnemyAttack : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         block = GetComponent<EnemyBlock>();
+        states = GetComponent<EnemyStateMachine>();
 
         GameObject found = GameObject.FindGameObjectWithTag("Player");
         if (found != null) player = found.transform;
@@ -53,8 +55,8 @@ public class EnemyAttack : MonoBehaviour
 
         AimAtPlayer();
 
+        if (states != null && !states.CanAct) return;
         if (isAttacking) return;
-        if (block != null && block.IsBlocking) return;    // <- ny linje
         if (Time.time < lastAttackEnd + recoveryTime) return;
 
         if (Vector2.Distance(transform.position, player.position) <= triggerRange)
@@ -74,9 +76,12 @@ public class EnemyAttack : MonoBehaviour
 
     private IEnumerator AttackRoutine()
     {
-        isAttacking = true;
+       isAttacking = true;
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
 
+        // Animasjonen starter samtidig som windupen, ikke etterpå
+        if (states != null)
+            states.EnterAttack(windupTime + activeTime);
         // Windup: står stille, boksen er ikke aktiv enda
         yield return new WaitForSeconds(windupTime);
 

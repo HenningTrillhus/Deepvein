@@ -32,6 +32,8 @@ public class EnemyBlock : MonoBehaviour
     private EnemyAI ai;
     private EnemyAttack attack;
     private Transform player;
+    private EnemyAnimator enemyAnimator;
+    private EnemyStateMachine states;
 
     private bool isBlocking;
     private float blockEndTime;
@@ -46,6 +48,8 @@ public class EnemyBlock : MonoBehaviour
     {
         ai = GetComponent<EnemyAI>();
         attack = GetComponent<EnemyAttack>();
+        enemyAnimator = GetComponent<EnemyAnimator>();
+        states = GetComponent<EnemyStateMachine>();
 
         GameObject found = GameObject.FindGameObjectWithTag("Player");
         if (found != null) player = found.transform;
@@ -69,6 +73,7 @@ public class EnemyBlock : MonoBehaviour
 
     private void TryStartBlocking()
     {
+        if (states != null && !states.CanAct) return;
         if (player == null) return;
         if (Time.time < cooldownUntil) return;
         if (Time.time < nextDecision) return;
@@ -88,18 +93,14 @@ public class EnemyBlock : MonoBehaviour
     {
         isBlocking = true;
         blockEndTime = Time.time + blockDuration;
-
-        if (shieldVisual != null)
-            shieldVisual.SetActive(true);
+        if (states != null) states.EnterBlock();
     }
 
     private void StopBlocking()
     {
         isBlocking = false;
         cooldownUntil = Time.time + blockCooldown;
-
-        if (shieldVisual != null)
-            shieldVisual.SetActive(false);
+        if (states != null) states.ExitBlock();
     }
 
     /// <summary>Kan vi blokkere et slag som kommer fra denne retningen?</summary>
@@ -116,8 +117,8 @@ public class EnemyBlock : MonoBehaviour
     /// <summary>Kalles når et slag faktisk ble blokkert.</summary>
     public void RegisterBlockedHit()
     {
-        // Avslutter blokken litt tidlig, så den ikke står evig
         blockEndTime = Mathf.Min(blockEndTime, Time.time + 0.2f);
+        if (states != null) states.EnterParry();
     }
 
     private void OnDrawGizmosSelected()

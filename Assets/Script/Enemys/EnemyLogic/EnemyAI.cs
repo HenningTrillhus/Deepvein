@@ -141,6 +141,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Patrol()
     {
+        //Debug.Log($"ledge={AtLedge()}, wall={AtWall()}, pause={pauseTimer:F2}, state={state}");
         if (pauseTimer > 0f)
         {
             pauseTimer -= Time.fixedDeltaTime;
