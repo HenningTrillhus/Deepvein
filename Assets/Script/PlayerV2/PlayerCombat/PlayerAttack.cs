@@ -11,6 +11,11 @@ public class PlayerAttack : MonoBehaviour
     [Tooltip("Sverd-objektet, barn av pivoten.")]
     [SerializeField] private Transform sword;
     [SerializeField] private SpriteRenderer swordRenderer;
+    [Tooltip("Sverdet sitter i spillerens hånd (HandSocket) og følger animasjonen. Da roteres/vises det ikke av denne scriptet.")]
+    [SerializeField] private bool swordFollowsHand = true;
+    [Tooltip("Hvor lenge sverdet blir synlig etter at svingen (hitboxen) er ferdig, så animasjonen får gjøre seg ferdig.")]
+    [SerializeField] private float swordLinger = 0.15f;
+    private Coroutine hideRoutine;
 
     [Header("Sving")]
     [Tooltip("Hvor stor buen er i grader. 120 = fra godt over til godt under.")]
@@ -53,7 +58,7 @@ public class PlayerAttack : MonoBehaviour
         controls.Player.Attack.performed += ctx => TryAttack();
 
         if (sword != null)
-            sword.gameObject.SetActive(false);
+            ShowSword(false);
     }
 
     void OnEnable() => controls.Player.Enable();
@@ -92,8 +97,9 @@ public class PlayerAttack : MonoBehaviour
         float start = aim + swingArc * 0.5f;    // over siktelinjen
         float end = aim - swingArc * 0.5f;      // under siktelinjen
 
+        if (hideRoutine != null) { StopCoroutine(hideRoutine); hideRoutine = null; }
         if (sword != null)
-            sword.gameObject.SetActive(true);
+            ShowSword(true);
 
         float t = 0f;
         while (t < swingDuration)
@@ -107,10 +113,28 @@ public class PlayerAttack : MonoBehaviour
             yield return null;
         }
 
-        if (sword != null)
-            sword.gameObject.SetActive(false);
-
         isAttacking = false;
+        if (swordFollowsHand) hideRoutine = StartCoroutine(HideSwordAfter(swordLinger));
+        else ShowSword(false);
+    }
+
+    private void ShowSword(bool on)
+    {
+        if (sword == null) return;
+        if (swordFollowsHand)
+        {
+            // sverdet er barn av HandSocket: skru bare tegningen av og på
+            if (swordRenderer != null) swordRenderer.enabled = on;
+            return;
+        }
+        sword.gameObject.SetActive(on);
+    }
+
+    private IEnumerator HideSwordAfter(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        ShowSword(false);
+        hideRoutine = null;
     }
 
     private float GetAimAngle()
@@ -133,7 +157,7 @@ public class PlayerAttack : MonoBehaviour
 
         attackPivot.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        if (swordRenderer != null)
+        if (swordRenderer != null && !swordFollowsHand)
         {
             // Peker vi mot venstre halvdel, snu spriten vertikalt
             float normalized = Mathf.Repeat(angle, 360f);

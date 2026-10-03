@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DeepVain.Player;
 
 public class PlayerBlock : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayerBlock : MonoBehaviour
     [SerializeField] private Transform blockPivot;
     [Tooltip("Skjold-sprite som vises mens du blokkerer.")]
     [SerializeField] private GameObject shieldVisual;
+    [Tooltip("Skjoldet sitter i spillerens hånd (HandSocket) og vises mens skjold-animasjonene spilles.")]
+    [SerializeField] private bool shieldFollowsHand = true;
 
     [Header("Blokk-sone")]
     [Tooltip("Hvor langt fra spilleren skjoldet står.")]
@@ -50,6 +53,8 @@ public class PlayerBlock : MonoBehaviour
     private PlayerControls controls;
     private Camera cam;
     private PlayerAnimator anim;
+    private PlayerLayerSync layerSync;
+    private SpriteRenderer[] shieldRenderers;
     private bool holdingBlock;
     private float cooldownUntil;
 
@@ -73,13 +78,14 @@ public class PlayerBlock : MonoBehaviour
         cam = Camera.main;
         stamina = maxStamina;
         anim = GetComponent<PlayerAnimator>();
+        layerSync = GetComponentInChildren<PlayerLayerSync>();
+        if (shieldVisual != null) shieldRenderers = shieldVisual.GetComponentsInChildren<SpriteRenderer>(true);
 
         controls = new PlayerControls();
         controls.Player.Block.performed += ctx => holdingBlock = true;
         controls.Player.Block.canceled += ctx => holdingBlock = false;
 
-        if (shieldVisual != null)
-            shieldVisual.SetActive(false);
+        SetShield(false);
 
         controls.Player.Block.performed += ctx =>
         {
@@ -95,7 +101,7 @@ public class PlayerBlock : MonoBehaviour
         controls.Player.Disable();
         holdingBlock = false;
         if (anim != null) anim.SetBlocking(false);
-        if (shieldVisual != null) shieldVisual.SetActive(false);
+        SetShield(false);
     }
 
     void Update()
@@ -115,8 +121,26 @@ public class PlayerBlock : MonoBehaviour
         // spilleren løfter skjoldet (ShieldRaise -> ShieldHold) så lenge du blokkerer
         if (anim != null) anim.SetBlocking(active);
 
-        if (shieldVisual != null && shieldVisual.activeSelf != active)
-            shieldVisual.SetActive(active);
+        bool show = active;
+        if (shieldFollowsHand && layerSync != null)
+        {
+            // synlig akkurat mens spillerens skjold-animasjon går
+            string a = layerSync.CurrentAnimation;
+            show = a == "ShieldRaise" || a == "ShieldHold" || a == "ShieldHit";
+        }
+        SetShield(show);
+    }
+
+    private void SetShield(bool on)
+    {
+        if (shieldVisual == null) return;
+        if (shieldFollowsHand && shieldRenderers != null)
+        {
+            // skjoldet er barn av HandSocket: skru bare tegningen av og på
+            foreach (var r in shieldRenderers) if (r != null) r.enabled = on;
+            return;
+        }
+        if (shieldVisual.activeSelf != on) shieldVisual.SetActive(on);
     }
 
     private void DrainStamina(float amount)

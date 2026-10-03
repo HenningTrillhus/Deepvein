@@ -40,8 +40,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: Sky
+    uniqueID: 51332857
+    locked: 0
+  - name: Mautains
+    uniqueID: 2411841273
+    locked: 0
+  - name: FarForest
+    uniqueID: 2407719783
+    locked: 0
+  - name: MeadowLake
+    uniqueID: 1866126933
     locked: 0
   - name: Ladder
     uniqueID: 3276613139
@@ -64,20 +73,11 @@ TagManager:
   - name: Enemys
     uniqueID: 1484230849
     locked: 0
-  - name: PlayerBack
+  - name: Player
     uniqueID: 2500465957
     locked: 0
-  - name: PlayerHead
-    uniqueID: 1409425863
-    locked: 0
-  - name: PlayerTorso
-    uniqueID: 1262814933
-    locked: 0
-  - name: PlayerFront
-    uniqueID: 2192420221
-    locked: 0
-  - name: PlayerArmFront
-    uniqueID: 2817945935
+  - name: Default
+    uniqueID: 0
     locked: 0
   m_RenderingLayers:
   - Default
