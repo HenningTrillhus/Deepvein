@@ -1,0 +1,327 @@
+fileFormatVersion: 2
+guid: df3bb930f638ad54f961e5ab207a3f89
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1188435371230469275
+    second: Hair_M_Death_0
+  - first:
+      213: -2173536593756968726
+    second: Hair_M_Death_1
+  - first:
+      213: 1082644485638429829
+    second: Hair_M_Death_2
+  - first:
+      213: 2534960414322832088
+    second: Hair_M_Death_3
+  - first:
+      213: -3832758313965859426
+    second: Hair_M_Death_4
+  - first:
+      213: -7415916925604200386
+    second: Hair_M_Death_5
+  - first:
+      213: 959162570078806009
+    second: Hair_M_Death_6
+  - first:
+      213: -4272547116748026220
+    second: Hair_M_Death_00
+  - first:
+      213: 4575662531681675878
+    second: Hair_M_Death_01
+  - first:
+      213: 5263448945002839405
+    second: Hair_M_Death_02
+  - first:
+      213: -6841632662062578386
+    second: Hair_M_Death_03
+  - first:
+      213: -8163269155318744687
+    second: Hair_M_Death_04
+  - first:
+      213: -1482902568122683502
+    second: Hair_M_Death_05
+  - first:
+      213: 5542049319435890366
+    second: Hair_M_Death_06
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 33
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Hair_M_Death_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 44
+        height: 40
+      alignment: 9
+      pivot: {x: 0.6363636, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49e4d14c80dd4b4c0800000000000000
+      internalID: -4272547116748026220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair_M_Death_01
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 0
+        width: 44
+        height: 40
+      alignment: 9
+      pivot: {x: 0.6363636, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66a63f464d4008f30800000000000000
+      internalID: 4575662531681675878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair_M_Death_02
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 0
+        width: 44
+        height: 40
+      alignment: 9
+      pivot: {x: 0.6363636, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6d7c44bde68b0940800000000000000
+      internalID: 5263448945002839405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair_M_Death_03
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 0
+        width: 44
+        height: 40
+      alignment: 9
+      pivot: {x: 0.6363636, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e25cc06a753ad01a0800000000000000
+      internalID: -6841632662062578386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair_M_Death_04
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 0
+        width: 44
+        height: 40
+      alignment: 9
+      pivot: {x: 0.6363636, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 199b25f34fd36be80800000000000000
+      internalID: -8163269155318744687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair_M_Death_05
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 0
+        width: 44
+        height: 40
+      alignment: 9
+      pivot: {x: 0.6363636, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29f688698fbab6be0800000000000000
+      internalID: -1482902568122683502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair_M_Death_06
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 0
+        width: 44
+        height: 40
+      alignment: 9
+      pivot: {x: 0.6363636, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebeeba43e7059ec40800000000000000
+      internalID: 5542049319435890366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Hair_M_Death_0: 1188435371230469275
+      Hair_M_Death_00: -4272547116748026220
+      Hair_M_Death_01: 4575662531681675878
+      Hair_M_Death_02: 5263448945002839405
+      Hair_M_Death_03: -6841632662062578386
+      Hair_M_Death_04: -8163269155318744687
+      Hair_M_Death_05: -1482902568122683502
+      Hair_M_Death_06: 5542049319435890366
+      Hair_M_Death_1: -2173536593756968726
+      Hair_M_Death_2: 1082644485638429829
+      Hair_M_Death_3: 2534960414322832088
+      Hair_M_Death_4: -3832758313965859426
+      Hair_M_Death_5: -7415916925604200386
+      Hair_M_Death_6: 959162570078806009
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

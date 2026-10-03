@@ -1,0 +1,351 @@
+fileFormatVersion: 2
+guid: fb6926a2fae52c14c926e008a88e24ac
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3655798697222391356
+    second: Layer1b_Clouds_Far_0
+  - first:
+      213: -5822558244561124144
+    second: Layer1b_Clouds_Far_1
+  - first:
+      213: 7839952529237036130
+    second: Layer1b_Clouds_Far_2
+  - first:
+      213: -864767512901821721
+    second: Layer1b_Clouds_Far_3
+  - first:
+      213: -4130909093466504794
+    second: Layer1b_Clouds_Far_4
+  - first:
+      213: -2329049419857766206
+    second: Layer1b_Clouds_Far_5
+  - first:
+      213: -48669914957478873
+    second: Layer1b_Clouds_Far_6
+  - first:
+      213: -3702060509422620720
+    second: Layer1b_Clouds_Far_7
+  - first:
+      213: -8875059731461854641
+    second: Layer1b_Clouds_Far_8
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Layer1b_Clouds_Far_0
+      rect:
+        serializedVersion: 2
+        x: 475
+        y: 689
+        width: 164
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c36c64ebb810cb230800000000000000
+      internalID: 3655798697222391356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Layer1b_Clouds_Far_1
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 701
+        width: 202
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d489e4302e123fa0800000000000000
+      internalID: -5822558244561124144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Layer1b_Clouds_Far_2
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 613
+        width: 122
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26c4919994b1dcc60800000000000000
+      internalID: 7839952529237036130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Layer1b_Clouds_Far_3
+      rect:
+        serializedVersion: 2
+        x: 893
+        y: 569
+        width: 238
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ea503c578abff3f0800000000000000
+      internalID: -864767512901821721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Layer1b_Clouds_Far_4
+      rect:
+        serializedVersion: 2
+        x: 1139
+        y: 583
+        width: 128
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a18f74e0101ca6c0800000000000000
+      internalID: -4130909093466504794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Layer1b_Clouds_Far_5
+      rect:
+        serializedVersion: 2
+        x: 1499
+        y: 579
+        width: 222
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c85c0974ed8dafd0800000000000000
+      internalID: -2329049419857766206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Layer1b_Clouds_Far_6
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 563
+        width: 100
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72406bf58f6135ff0800000000000000
+      internalID: -48669914957478873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Layer1b_Clouds_Far_7
+      rect:
+        serializedVersion: 2
+        x: 867
+        y: 551
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0dfecdeb493af9cc0800000000000000
+      internalID: -3702060509422620720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Layer1b_Clouds_Far_8
+      rect:
+        serializedVersion: 2
+        x: 1203
+        y: 545
+        width: 234
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4aa7d1423475d480800000000000000
+      internalID: -8875059731461854641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Layer1b_Clouds_Far_0: 3655798697222391356
+      Layer1b_Clouds_Far_1: -5822558244561124144
+      Layer1b_Clouds_Far_2: 7839952529237036130
+      Layer1b_Clouds_Far_3: -864767512901821721
+      Layer1b_Clouds_Far_4: -4130909093466504794
+      Layer1b_Clouds_Far_5: -2329049419857766206
+      Layer1b_Clouds_Far_6: -48669914957478873
+      Layer1b_Clouds_Far_7: -3702060509422620720
+      Layer1b_Clouds_Far_8: -8875059731461854641
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

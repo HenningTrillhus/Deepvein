@@ -1,0 +1,373 @@
+fileFormatVersion: 2
+guid: 0f45cc38743d327428c7281b2784d53b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8720973813631975429
+    second: StarsFront_StunLoop_0
+  - first:
+      213: -4243121617192554117
+    second: StarsFront_StunLoop_1
+  - first:
+      213: 3808202781848734076
+    second: StarsFront_StunLoop_2
+  - first:
+      213: 3005230993087561721
+    second: StarsFront_StunLoop_3
+  - first:
+      213: -96553002599585503
+    second: StarsFront_StunLoop_4
+  - first:
+      213: 8337015932312916512
+    second: StarsFront_StunLoop_5
+  - first:
+      213: 3504416785539319165
+    second: StarsFront_StunLoop_6
+  - first:
+      213: -7995039156145747413
+    second: StarsFront_StunLoop_7
+  - first:
+      213: -1769004291485580549
+    second: StarsFront_StunLoop_8
+  - first:
+      213: 6090442712754042096
+    second: StarsFront_StunLoop_9
+  - first:
+      213: -6794072151143472065
+    second: StarsFront_StunLoop_10
+  - first:
+      213: -6435349659600586759
+    second: StarsFront_StunLoop_11
+  - first:
+      213: -1901516403877830561
+    second: StarsFront_StunLoop_00
+  - first:
+      213: 8394760280142181373
+    second: StarsFront_StunLoop_01
+  - first:
+      213: 4334392666062992260
+    second: StarsFront_StunLoop_02
+  - first:
+      213: 4931529848106837572
+    second: StarsFront_StunLoop_03
+  - first:
+      213: 6999502014755615931
+    second: StarsFront_StunLoop_04
+  - first:
+      213: 9160157833191344614
+    second: StarsFront_StunLoop_05
+  - first:
+      213: 1967381137344300685
+    second: StarsFront_StunLoop_06
+  - first:
+      213: -5696924017146299516
+    second: StarsFront_StunLoop_07
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 33
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: StarsFront_StunLoop_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f50a844c7e47c95e0800000000000000
+      internalID: -1901516403877830561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarsFront_StunLoop_01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df3fe685ffd208470800000000000000
+      internalID: 8394760280142181373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarsFront_StunLoop_02
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4833eb94a2bd62c30800000000000000
+      internalID: 4334392666062992260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarsFront_StunLoop_03
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 446e4abb440507440800000000000000
+      internalID: 4931529848106837572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarsFront_StunLoop_04
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb4b32a5ff9332160800000000000000
+      internalID: 6999502014755615931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarsFront_StunLoop_05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e9c1e5440b6f1f70800000000000000
+      internalID: 9160157833191344614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarsFront_StunLoop_06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d86063588ba8d4b10800000000000000
+      internalID: 1967381137344300685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarsFront_StunLoop_07
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48b7a9d3ac570f0b0800000000000000
+      internalID: -5696924017146299516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      StarsFront_StunLoop_0: -8720973813631975429
+      StarsFront_StunLoop_00: -1901516403877830561
+      StarsFront_StunLoop_01: 8394760280142181373
+      StarsFront_StunLoop_02: 4334392666062992260
+      StarsFront_StunLoop_03: 4931529848106837572
+      StarsFront_StunLoop_04: 6999502014755615931
+      StarsFront_StunLoop_05: 9160157833191344614
+      StarsFront_StunLoop_06: 1967381137344300685
+      StarsFront_StunLoop_07: -5696924017146299516
+      StarsFront_StunLoop_1: -4243121617192554117
+      StarsFront_StunLoop_10: -6794072151143472065
+      StarsFront_StunLoop_11: -6435349659600586759
+      StarsFront_StunLoop_2: 3808202781848734076
+      StarsFront_StunLoop_3: 3005230993087561721
+      StarsFront_StunLoop_4: -96553002599585503
+      StarsFront_StunLoop_5: 8337015932312916512
+      StarsFront_StunLoop_6: 3504416785539319165
+      StarsFront_StunLoop_7: -7995039156145747413
+      StarsFront_StunLoop_8: -1769004291485580549
+      StarsFront_StunLoop_9: 6090442712754042096
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

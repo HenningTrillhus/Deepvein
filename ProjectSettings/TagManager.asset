@@ -49,6 +49,9 @@ TagManager:
   - name: Ground
     uniqueID: 4012343483
     locked: 0
+  - name: NaturAsset
+    uniqueID: 1901756629
+    locked: 0
   - name: Grass
     uniqueID: 3356547259
     locked: 0
@@ -61,8 +64,20 @@ TagManager:
   - name: Enemys
     uniqueID: 1484230849
     locked: 0
-  - name: Player
+  - name: PlayerBack
     uniqueID: 2500465957
+    locked: 0
+  - name: PlayerHead
+    uniqueID: 1409425863
+    locked: 0
+  - name: PlayerTorso
+    uniqueID: 1262814933
+    locked: 0
+  - name: PlayerFront
+    uniqueID: 2192420221
+    locked: 0
+  - name: PlayerArmFront
+    uniqueID: 2817945935
     locked: 0
   m_RenderingLayers:
   - Default

@@ -1,0 +1,6 @@
+Key colours used in the layers (swap these in the shader / a palette-swap script). Order: lime, hi, base, shade, deep
+skin: #fbe2c0 #f0c096 #d49a70 #a8685a #6e4054
+hair: #e0aa5c #c07e40 #8c5430 #603420 #3c2018
+shirt: #e4dcc4 #c8bea0 #a49878 #7c7058 #524838
+shorts: #a08068 #826450 #654a3c #483232 #2c2028
+eye: #3a7ac8   pupil: #24162a   mouth: #8a4a50   lips(F): #d8707e   tongue: #d8707e   teeth: #fff4e0
