@@ -1,37 +1,23 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class PlayerHealthUI : MonoBehaviour
 {
-    public System.Action<int, int> OnHealthChanged;
-
     [Header("Referanser")]
     [SerializeField] private PlayerHealth playerHealth;
-    [Tooltip("Image med Type = Filled, Fill Method = Horizontal, Origin = Left.")]
-    [SerializeField] private Image fillImage;
-    [Tooltip("Valgfritt: hvit/gul bar bak som henger etter. Gir 'damage flash'.")]
-    [SerializeField] private Image delayedFillImage;
-    [Tooltip("Valgfritt: tekst som viser 8 / 10.")]
-    [SerializeField] private TextMeshProUGUI healthText;
+    [Tooltip("Selve livbaren.")]
+    [SerializeField] private RectTransform fillRect;
+    [Tooltip("Stripen som viser tapt liv. Legg den OVER Fill i Hierarchy.")]
+    [SerializeField] private RectTransform lostRect;
 
     [Header("Animasjon")]
-    [SerializeField] private float fillSpeed = 10f;
-    [Tooltip("Hvor lenge den etterslepende baren venter før den tar igjen.")]
-    [SerializeField] private float delayBeforeCatchUp = 0.4f;
-    [SerializeField] private float delayedFillSpeed = 3f;
+    [Tooltip("Pause før den tapte stripen begynner å krympe.")]
+    [SerializeField] private float lostDelay = 0.4f;
+    [Tooltip("Hvor fort den tapte stripen forsvinner. 0.5 = hele baren på 2 sek.")]
+    [SerializeField] private float lostSpeed = 0.5f;
 
-    [Header("Farge")]
-    [SerializeField] private bool colorByHealth = true;
-    [SerializeField] private Color fullColor = new Color(0.3f, 0.85f, 0.3f);
-    [SerializeField] private Color lowColor = new Color(0.85f, 0.2f, 0.2f);
-    
-
-    private float targetPercent = 1f;
-    private float currentPercent = 1f;
-    private float delayedPercent = 1f;
-    private float catchUpTimer;
+    private float currentPercent = 1f;   // følger livet direkte
+    private float lostPercent = 1f;      // høyre kant av den tapte stripen
+    private float delayTimer;
 
     void Awake()
     {
@@ -42,62 +28,46 @@ public class PlayerHealthUI : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        if (playerHealth != null)
-        {
-            targetPercent = currentPercent = delayedPercent =
-                (float)playerHealth.Health / playerHealth.MaxHealth;
-            ApplyImmediate();
-        }
-    }
-
     void Update()
     {
         if (playerHealth == null) return;
 
-        OnHealthChanged?.Invoke(playerHealth.Health, playerHealth.MaxHealth);
-
-        float newTarget = playerHealth.MaxHealth > 0
+        float target = playerHealth.MaxHealth > 0
             ? (float)playerHealth.Health / playerHealth.MaxHealth
             : 0f;
 
-        // Tok vi skade? Start nedtelling for den etterslepende baren
-        if (newTarget < targetPercent)
-            catchUpTimer = delayBeforeCatchUp;
+        // Tok vi skade? Frys stripen der den er og start nedtellingen på nytt.
+        // Blir vi truffet igjen mens den krymper, blir den stående og dekker
+        // begge tapene samlet.
+        if (target < currentPercent - 0.0001f)
+            delayTimer = lostDelay;
 
-        targetPercent = newTarget;
+        // Baren hopper rett dit livet er - ingen smoothing
+        currentPercent = target;
 
-        // Hovedbaren følger raskt
-        currentPercent = Mathf.MoveTowards(currentPercent, targetPercent, fillSpeed * Time.deltaTime);
-
-        // Den bak venter litt, så glir ned
-        if (catchUpTimer > 0f)
-            catchUpTimer -= Time.deltaTime;
+        if (delayTimer > 0f)
+            delayTimer -= Time.deltaTime;
         else
-            delayedPercent = Mathf.MoveTowards(delayedPercent, currentPercent, delayedFillSpeed * Time.deltaTime);
+            lostPercent = Mathf.MoveTowards(lostPercent, currentPercent, lostSpeed * Time.deltaTime);
 
-        // Heling: la den bakre følge med med en gang
-        if (delayedPercent < currentPercent)
-            delayedPercent = currentPercent;
+        // Heling: stripen skal aldri ligge bak baren
+        if (lostPercent < currentPercent)
+            lostPercent = currentPercent;
 
-        ApplyImmediate();
+        SetAnchors(fillRect, 0f, currentPercent);
+        SetAnchors(lostRect, currentPercent, lostPercent);
+
+        if (lostRect != null)
+            lostRect.gameObject.SetActive(lostPercent > currentPercent + 0.001f);
     }
 
-    private void ApplyImmediate()
+    private void SetAnchors(RectTransform rect, float left, float right)
     {
-        if (fillImage != null)
-        {
-            fillImage.fillAmount = currentPercent;
+        if (rect == null) return;
 
-            if (colorByHealth)
-                fillImage.color = Color.Lerp(lowColor, fullColor, currentPercent);
-        }
-
-        if (delayedFillImage != null)
-            delayedFillImage.fillAmount = delayedPercent;
-
-        if (healthText != null && playerHealth != null)
-            healthText.text = $"{playerHealth.Health}";
+        rect.anchorMin = new Vector2(left, rect.anchorMin.y);
+        rect.anchorMax = new Vector2(right, rect.anchorMax.y);
+        rect.offsetMin = new Vector2(0f, rect.offsetMin.y);
+        rect.offsetMax = new Vector2(0f, rect.offsetMax.y);
     }
 }

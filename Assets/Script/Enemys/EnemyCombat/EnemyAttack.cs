@@ -59,7 +59,11 @@ public class EnemyAttack : MonoBehaviour
         if (isAttacking) return;
         if (Time.time < lastAttackEnd + recoveryTime) return;
 
-        if (Vector2.Distance(transform.position, player.position) <= triggerRange)
+        float dist = Vector2.Distance(transform.position, player.position);
+        Debug.Log($"dist={dist:F2}, pivotAngle={attackPivot.eulerAngles.z:F0}, hitbox={GetHitboxCenter()}, rootScaleX={transform.localScale.x}");
+        Debug.Log($"player={player.name}, playerPos={player.position}, myPos={transform.position}");
+
+        if (dist <= triggerRange)
             StartCoroutine(AttackRoutine());
     }
 

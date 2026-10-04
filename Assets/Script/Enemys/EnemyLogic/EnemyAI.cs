@@ -30,28 +30,24 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private LayerMask sightBlockers;
     [Tooltip("Stop this close to the player so it doesn't shove into you.")]
     [SerializeField] private float stopDistance = 0.8f;
+    [Tooltip("Senses the player within this radius even when facing away.")]
+    [SerializeField] private float senseRange = 1.5f;
 
     [Header("Ground checks")]
+    [Tooltip("Plasser denne på HØYRE side av fienden - retningen regnes ut derfra.")]
     [SerializeField] private Transform groundCheck;
+    [Tooltip("Plasser denne på HØYRE side av fienden.")]
     [SerializeField] private Transform wallCheck;
     [SerializeField] private float checkRadius = 0.15f;
     [SerializeField] private LayerMask groundLayer;
 
     [Header("Visuals")]
-    [Tooltip("The sprite child, flipped when turning. Leave empty to flip the whole object.")]
-    [SerializeField] private Transform spriteToFlip;
-
-    [Tooltip("Senses the player within this radius even when facing away.")]
-    [SerializeField] private float senseRange = 1.5f;
-
     [SerializeField] private NoticedWarning noticedWarning;
 
     private enum State { Patrol, Chase }
     private State state = State.Patrol;
 
     private EnemyAttack attack;
-    public int FacingDirection => direction;
-
     private Rigidbody2D rb;
     private Vector2 startPos;
     private int direction = 1;
@@ -59,12 +55,21 @@ public class EnemyAI : MonoBehaviour
     private float memoryTimer;
     private float knockbackTimer;
 
+    // Startposisjonene til sjekkene, så speilvendingen alltid regnes fra samme punkt
+    private Vector3 groundCheckStart;
+    private Vector3 wallCheckStart;
+
+    public int FacingDirection => direction;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        attack = GetComponent<EnemyAttack>();     // <- ny linje
+        attack = GetComponent<EnemyAttack>();
         rb.freezeRotation = true;
         startPos = transform.position;
+
+        if (groundCheck != null) groundCheckStart = groundCheck.localPosition;
+        if (wallCheck != null) wallCheckStart = wallCheck.localPosition;
 
         if (player == null)
         {
@@ -88,7 +93,6 @@ public class EnemyAI : MonoBehaviour
         if (state == State.Chase) Chase();
         else Patrol();
     }
-    
 
     // ---------- State ----------
 
@@ -110,7 +114,6 @@ public class EnemyAI : MonoBehaviour
         {
             memoryTimer -= Time.fixedDeltaTime;
 
-            // Give up if we ran out of memory or the player got far away
             float dist = player != null ? Vector2.Distance(transform.position, player.position) : 999f;
             if (memoryTimer <= 0f || dist > loseRange)
                 state = State.Patrol;
@@ -126,14 +129,11 @@ public class EnemyAI : MonoBehaviour
 
         if (dist > sightRange) return false;
 
-        // Something solid in between blocks both sight and sense
         if (Physics2D.Raycast(transform.position, toPlayer.normalized, dist, sightBlockers))
             return false;
 
-        // Close enough to notice regardless of which way we're facing
         if (dist <= senseRange) return true;
 
-        // Otherwise only sees what's in front
         return Mathf.Sign(toPlayer.x) == direction || Mathf.Abs(toPlayer.x) <= 0.3f;
     }
 
@@ -141,7 +141,6 @@ public class EnemyAI : MonoBehaviour
 
     private void Patrol()
     {
-        //Debug.Log($"ledge={AtLedge()}, wall={AtWall()}, pause={pauseTimer:F2}, state={state}");
         if (pauseTimer > 0f)
         {
             pauseTimer -= Time.fixedDeltaTime;
@@ -165,11 +164,9 @@ public class EnemyAI : MonoBehaviour
     {
         float dx = player.position.x - transform.position.x;
 
-        // Face the player
         if (Mathf.Abs(dx) > 0.1f)
             SetDirection(dx > 0 ? 1 : -1);
 
-        // Close enough, or about to walk off an edge
         if (Mathf.Abs(dx) <= stopDistance || (useEdgeDetection && AtLedge()))
         {
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
@@ -205,22 +202,26 @@ public class EnemyAI : MonoBehaviour
         if (dir == direction) return;
         direction = dir;
 
-        Transform t = spriteToFlip != null ? spriteToFlip : transform;
-        Vector3 s = t.localScale;
-        s.x = Mathf.Abs(s.x) * direction;
-        t.localScale = s;
-
-        // The checks sit on the sprite's side, so mirror them too
-        MirrorCheck(groundCheck);
-        MirrorCheck(wallCheck);
+        // Ingen localScale her - EnemyAnimator styrer flipX alene,
+        // så attackPivot aldri blir speilvendt.
+        MirrorCheck(groundCheck, groundCheckStart);
+        MirrorCheck(wallCheck, wallCheckStart);
     }
 
-    private void MirrorCheck(Transform check)
+    private void MirrorCheck(Transform check, Vector3 startLocal)
     {
-        if (check == null || check.IsChildOf(spriteToFlip != null ? spriteToFlip : transform)) return;
-        Vector3 p = check.localPosition;
-        p.x = Mathf.Abs(p.x) * direction;
+        if (check == null) return;
+
+        Vector3 p = startLocal;
+        p.x = Mathf.Abs(startLocal.x) * direction;
         check.localPosition = p;
+    }
+
+    public void ApplyKnockback(Vector2 force, float stunDuration = 0.3f)
+    {
+        knockbackTimer = stunDuration;
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForce(force, ForceMode2D.Impulse);
     }
 
     private void OnDrawGizmosSelected()
@@ -229,6 +230,8 @@ public class EnemyAI : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sightRange);
         Gizmos.color = new Color(1f, 0.5f, 0f, 0.4f);
         Gizmos.DrawWireSphere(transform.position, loseRange);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, senseRange);
 
         Vector3 origin = Application.isPlaying ? (Vector3)startPos : transform.position;
         Gizmos.color = Color.cyan;
@@ -237,19 +240,5 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.green;
         if (groundCheck != null) Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
         if (wallCheck != null) Gizmos.DrawWireSphere(wallCheck.position, checkRadius);
-    }
-
-    public void ApplyKnockback(Vector2 force, float stunDuration = 0.3f)
-    {
-        rb.linearVelocity = Vector2.zero;
-        rb.AddForce(force, ForceMode2D.Impulse);
-        StartCoroutine(KnockbackStun(stunDuration));
-    }
-
-    private IEnumerator KnockbackStun(float duration)
-    {
-        knockbackTimer = duration;
-        yield return new WaitForSeconds(duration);
-        knockbackTimer = 0f;
     }
 }
