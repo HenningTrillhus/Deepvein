@@ -25,6 +25,8 @@ public class PlayerAnimator : MonoBehaviour
     static readonly int pStun = Animator.StringToHash("Stun");
     static readonly int pShieldHit = Animator.StringToHash("ShieldHit");
     static readonly int pPickUp = Animator.StringToHash("PickUp");
+    static readonly int pLedgeClimbing = Animator.StringToHash("LedgeHang");
+    static readonly int pLedgeClimb = Animator.StringToHash("LedgeClimb");
 
     void Awake()
     {
@@ -51,6 +53,12 @@ public class PlayerAnimator : MonoBehaviour
     public void SetBlocking(bool on) { if (animator != null) animator.SetBool(pBlocking, on); }
     public void SetChopping(bool on) { if (animator != null) animator.SetBool(pChopping, on); }
     public void SetMining(bool on)   { if (animator != null) animator.SetBool(pMining, on); }
+    public void LedgeClimb(bool on)
+    {
+        if (animator == null) return;
+        animator.SetBool(pLedgeClimbing, on);
+        if (on) animator.SetTrigger(pLedgeClimb);
+    }
 
     /// <summary>Start the stun (intro + loop). Call EndStun() when it is over.</summary>
     public void StartStun()

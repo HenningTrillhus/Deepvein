@@ -18,7 +18,7 @@ namespace DeepVain.Player.EditorTools
     {
         class AnimDef
         {
-            public string name; public int w, ox, h = 40; public float speed = 1f; public int[] ms; public bool loop;
+            public string name; public int w, ox, h = 40, pivotBottom = 1; public float speed = 1f; public int[] ms; public bool loop;
             public AnimDef(string n, int w, int ox, bool loop, params int[] ms) { name = n; this.w = w; this.ox = ox; this.loop = loop; this.ms = ms; }
         }
 
@@ -46,6 +46,9 @@ namespace DeepVain.Player.EditorTools
             new AnimDef("Chop",        32, 4, true,  90, 60, 50, 90, 80, 100),
             new AnimDef("Mine",        32, 4, true,  100, 70, 60, 100, 90, 110),
             new AnimDef("DeathFade",   44, 16, false, 90, 90, 90, 90, 90, 90, 90),
+            // ledge: 56 x 80 frames, the pivot is on the ledge top where the player ends up standing (38 px above the bottom)
+            new AnimDef("LedgeHang",   56, 30, true,  300, 300) { h = 80, pivotBottom = 38 },
+            new AnimDef("LedgeClimb",  56, 30, false, 100, 90, 90, 100, 100, 90, 110) { h = 80, pivotBottom = 38 },
         };
 
         // back to front
@@ -113,7 +116,7 @@ namespace DeepVain.Player.EditorTools
                                 name = $"{layer}_{a.name}_{i:00}",
                                 rect = new Rect(i * a.w, 0, a.w, a.h),
                                 alignment = (int)SpriteAlignment.Custom,
-                                pivot = new Vector2((StandX + a.ox) / a.w, 1f / a.h)
+                                pivot = new Vector2((StandX + a.ox) / a.w, (float)a.pivotBottom / a.h)
                             };
                         imp.spritesheet = metas;
                         EditorUtility.SetDirty(imp);
@@ -196,6 +199,8 @@ namespace DeepVain.Player.EditorTools
             ctrl.AddParameter("PickUp", AnimatorControllerParameterType.Trigger);
             ctrl.AddParameter("Chopping", AnimatorControllerParameterType.Bool);
             ctrl.AddParameter("Mining", AnimatorControllerParameterType.Bool);
+            ctrl.AddParameter("LedgeHang", AnimatorControllerParameterType.Bool);
+            ctrl.AddParameter("LedgeClimb", AnimatorControllerParameterType.Trigger);
             var sm = ctrl.layers[0].stateMachine;
             var st = new Dictionary<string, AnimatorState>();
             foreach (var a in Anims) { var s = sm.AddState(a.name); s.motion = clips[a.name]; s.speed = a.speed; st[a.name] = s; }
@@ -216,7 +221,7 @@ namespace DeepVain.Player.EditorTools
             var t2 = Any("Hit"); t2.AddCondition(AnimatorConditionMode.If, 0, "Hit"); t2.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t2.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned");
             var t3 = Any("Attack"); t3.AddCondition(AnimatorConditionMode.If, 0, "Attack"); t3.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t3.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); t3.AddCondition(AnimatorConditionMode.IfNot, 0, "Blocking");
             var t4 = Any("Jump"); t4.AddCondition(AnimatorConditionMode.If, 0, "Jump"); t4.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t4.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); t4.AddCondition(AnimatorConditionMode.IfNot, 0, "Blocking");
-            var t5 = Any("Fall"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Grounded"); t5.AddCondition(AnimatorConditionMode.Less, -0.1f, "VelY"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Climbing"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned");
+            var t5 = Any("Fall"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Grounded"); t5.AddCondition(AnimatorConditionMode.Less, -0.1f, "VelY"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Climbing"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "LedgeHang");
             var t7 = Any("PickUp"); t7.AddCondition(AnimatorConditionMode.If, 0, "PickUp"); t7.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t7.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned");
 
             // ladder: only entered from the normal states (so ClimbIdle does not get kicked back into Climb)
@@ -243,6 +248,12 @@ namespace DeepVain.Player.EditorTools
             var tm = Go("Idle", "Mine"); tm.AddCondition(AnimatorConditionMode.If, 0, "Mining"); tm.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned");
             Go("Chop", "Idle").AddCondition(AnimatorConditionMode.IfNot, 0, "Chopping");
             Go("Mine", "Idle").AddCondition(AnimatorConditionMode.IfNot, 0, "Mining");
+
+            // ledge: LedgeHang = true grabs the ledge (from the normal states), trigger LedgeClimb pulls up, LedgeHang = false lets go
+            foreach (var f in new[] { "Idle", "Walk", "Run", "Jump", "Fall", "Land" }) { var tl = Go(f, "LedgeHang"); tl.AddCondition(AnimatorConditionMode.If, 0, "LedgeHang"); tl.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); }
+            Go("LedgeHang", "LedgeClimb").AddCondition(AnimatorConditionMode.If, 0, "LedgeClimb");
+            Go("LedgeHang", "Fall").AddCondition(AnimatorConditionMode.IfNot, 0, "LedgeHang");
+            Go("LedgeClimb", "Idle", true);
 
             // after Death the body fades away (and stays gone)
             Go("Death", "DeathFade", true);

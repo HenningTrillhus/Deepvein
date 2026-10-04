@@ -159,3 +159,16 @@ MonoBehaviour:
     - {fileID: 1446080590498336600, guid: fb55644f102619449850b53904226777, type: 3}
     - {fileID: -2309947983012997965, guid: fb55644f102619449850b53904226777, type: 3}
     - {fileID: -16558308378104206, guid: fb55644f102619449850b53904226777, type: 3}
+  - anim: LedgeHang
+    frames:
+    - {fileID: 8013351180548876643, guid: 1c5fa74f67827af48a93de0b60649f03, type: 3}
+    - {fileID: -5025146378525361491, guid: 1c5fa74f67827af48a93de0b60649f03, type: 3}
+  - anim: LedgeClimb
+    frames:
+    - {fileID: -6530919207794747701, guid: 48cad4ca85d4fb4498dd67c5dc0f1261, type: 3}
+    - {fileID: -7316571424994587169, guid: 48cad4ca85d4fb4498dd67c5dc0f1261, type: 3}
+    - {fileID: 799955533484037233, guid: 48cad4ca85d4fb4498dd67c5dc0f1261, type: 3}
+    - {fileID: -1869724474521972723, guid: 48cad4ca85d4fb4498dd67c5dc0f1261, type: 3}
+    - {fileID: -2647259276049928213, guid: 48cad4ca85d4fb4498dd67c5dc0f1261, type: 3}
+    - {fileID: 9192382217861317073, guid: 48cad4ca85d4fb4498dd67c5dc0f1261, type: 3}
+    - {fileID: -1097626159019667917, guid: 48cad4ca85d4fb4498dd67c5dc0f1261, type: 3}

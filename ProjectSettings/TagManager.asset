@@ -58,6 +58,9 @@ TagManager:
   - name: Ground
     uniqueID: 4012343483
     locked: 0
+  - name: AssetsBackGround
+    uniqueID: 1085312073
+    locked: 0
   - name: NaturAsset
     uniqueID: 1901756629
     locked: 0

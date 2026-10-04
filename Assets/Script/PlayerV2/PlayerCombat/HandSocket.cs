@@ -27,6 +27,8 @@ public class HandSocket : MonoBehaviour
     public float standX = 12f;
 
     [Header("Fine tuning")]
+    [Tooltip("ON (sverd): gjenstanden roterer med underarmen. OFF (skjold): den står alltid oppreist, uansett armen.")]
+    public bool followForearmRotation = true;
     [Tooltip("Rotate the held item relative to the forearm (degrees). Try 0, 90, -90, 45 until the sword points the right way.")]
     public float rotationOffset = 0f;
     [Tooltip("Move the grip a little (units), in the unflipped player space.")]
@@ -34,7 +36,7 @@ public class HandSocket : MonoBehaviour
     [Tooltip("Hide the children (the sword) in animations without a hand position (DeathFade).")]
     [SerializeField] private bool hideWhenNoAnchor = true;
 
-    struct Anchor { public float x, y, angle; public int xOffset, canvasH; }
+    struct Anchor { public float x, y, angle; public int xOffset, canvasH, pivotRow; }
     readonly Dictionary<string, Anchor> table = new Dictionary<string, Anchor>();
     bool childrenShown = true;
 
@@ -58,7 +60,8 @@ public class HandSocket : MonoBehaviour
             var a = new Anchor
             {
                 x = float.Parse(f[3], inv), y = float.Parse(f[4], inv), angle = float.Parse(f[5], inv),
-                xOffset = int.Parse(f[7], inv), canvasH = int.Parse(f[8], inv)
+                xOffset = int.Parse(f[7], inv), canvasH = int.Parse(f[8], inv),
+                pivotRow = f.Length > 9 ? int.Parse(f[9], inv) : int.Parse(f[8], inv) - 1
             };
             table[f[0] + "|" + f[1] + "|" + f[2]] = a;
         }
@@ -78,13 +81,13 @@ public class HandSocket : MonoBehaviour
 
         // pixel (x right, y down, origin top-left of the frame) -> unit offset from the feet pivot
         float px = (a.x - (standX + a.xOffset)) / pixelsPerUnit;
-        float py = ((a.canvasH - 1) - a.y) / pixelsPerUnit;
+        float py = (a.pivotRow - a.y) / pixelsPerUnit;
         transform.localPosition = new Vector3(px + localOffset.x, py + localOffset.y, transform.localPosition.z);
 
         // forearm angle (0 = pointing down, 90 = pointing forward) -> direction in unflipped player space
         float rad = a.angle * Mathf.Deg2Rad;
         float deg = Mathf.Atan2(-Mathf.Cos(rad), Mathf.Sin(rad)) * Mathf.Rad2Deg;
-        transform.localRotation = Quaternion.Euler(0f, 0f, deg + rotationOffset);
+        transform.localRotation = Quaternion.Euler(0f, 0f, (followForearmRotation ? deg : 0f) + rotationOffset);
     }
 
     void ShowChildren(bool on)
