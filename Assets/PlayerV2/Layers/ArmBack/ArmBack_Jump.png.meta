@@ -9,6 +9,9 @@ TextureImporter:
       213: -7121695876492408563
     second: ArmBack_Jump_1
   - first:
+      213: 3548475517560000908
+    second: ArmBack_Jump_2
+  - first:
       213: 859274944189089903
     second: ArmBack_Jump_00
   - first:
@@ -196,6 +199,7 @@ TextureImporter:
       ArmBack_Jump_01: 8978702365055772768
       ArmBack_Jump_02: 8887419467108729836
       ArmBack_Jump_1: -7121695876492408563
+      ArmBack_Jump_2: 3548475517560000908
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

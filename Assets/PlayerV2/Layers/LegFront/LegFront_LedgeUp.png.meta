@@ -1,0 +1,755 @@
+fileFormatVersion: 2
+guid: d56649b01e5abef48a18805991dd9c34
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3584362780372074380
+    second: LegFront_LedgeUp_0
+  - first:
+      213: 964165493766033033
+    second: LegFront_LedgeUp_1
+  - first:
+      213: -1640181247252659166
+    second: LegFront_LedgeUp_2
+  - first:
+      213: 9093526032199789973
+    second: LegFront_LedgeUp_3
+  - first:
+      213: -3864280156197475692
+    second: LegFront_LedgeUp_4
+  - first:
+      213: -3498214183334494581
+    second: LegFront_LedgeUp_5
+  - first:
+      213: 5714544255606439500
+    second: LegFront_LedgeUp_6
+  - first:
+      213: 4081380696715647777
+    second: LegFront_LedgeUp_7
+  - first:
+      213: 1887266654830350977
+    second: LegFront_LedgeUp_8
+  - first:
+      213: 5606818900438130884
+    second: LegFront_LedgeUp_9
+  - first:
+      213: 1700443278317413896
+    second: LegFront_LedgeUp_10
+  - first:
+      213: -7795289046943616354
+    second: LegFront_LedgeUp_11
+  - first:
+      213: -8224230870413939310
+    second: LegFront_LedgeUp_12
+  - first:
+      213: 2135412261283048107
+    second: LegFront_LedgeUp_13
+  - first:
+      213: -786144815865383980
+    second: LegFront_LedgeUp_14
+  - first:
+      213: 527400134527573843
+    second: LegFront_LedgeUp_15
+  - first:
+      213: -6393669965912114376
+    second: LegFront_LedgeUp_16
+  - first:
+      213: -1149971227344203540
+    second: LegFront_LedgeUp_17
+  - first:
+      213: -6039304059787224687
+    second: LegFront_LedgeUp_18
+  - first:
+      213: 1537699302801510012
+    second: LegFront_LedgeUp_19
+  - first:
+      213: -3229688473456979171
+    second: LegFront_LedgeUp_20
+  - first:
+      213: 4166240455708595056
+    second: LegFront_LedgeUp_21
+  - first:
+      213: -4997085154463825620
+    second: LegFront_LedgeUp_22
+  - first:
+      213: -8672004128544827730
+    second: LegFront_LedgeUp_00
+  - first:
+      213: 4707273793150754140
+    second: LegFront_LedgeUp_01
+  - first:
+      213: 466490694888288455
+    second: LegFront_LedgeUp_02
+  - first:
+      213: -2226190316846490789
+    second: LegFront_LedgeUp_03
+  - first:
+      213: 8757304508086712283
+    second: LegFront_LedgeUp_04
+  - first:
+      213: 2713231009384328775
+    second: LegFront_LedgeUp_05
+  - first:
+      213: 4294580214114122627
+    second: LegFront_LedgeUp_06
+  - first:
+      213: 2234819397999390133
+    second: LegFront_LedgeUp_07
+  - first:
+      213: 7439377285367782624
+    second: LegFront_LedgeUp_08
+  - first:
+      213: 2280365209824239034
+    second: LegFront_LedgeUp_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 33
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea65d5bf03ad6a780800000000000000
+      internalID: -8672004128544827730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_01
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5d914d1398935140800000000000000
+      internalID: 4707273793150754140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_02
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c077dfb0de497600800000000000000
+      internalID: 466490694888288455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_03
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5b53f1a3bbfa11e0800000000000000
+      internalID: -2226190316846490789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_04
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd77f6a4d02388970800000000000000
+      internalID: 8757304508086712283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_05
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74e6deb4a3557a520800000000000000
+      internalID: 2713231009384328775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_06
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38b71b973f9699b30800000000000000
+      internalID: 4294580214114122627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_07
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bde7e2e66ca30f10800000000000000
+      internalID: 2234819397999390133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_08
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ecd47cb93afd3760800000000000000
+      internalID: 7439377285367782624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_09
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abd9bb1931c75af10800000000000000
+      internalID: 2280365209824239034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_10
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8066fccf620399710800000000000000
+      internalID: 1700443278317413896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_11
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e92be6bb9e191d390800000000000000
+      internalID: -7795289046943616354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_12
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29dec22e899addd80800000000000000
+      internalID: -8224230870413939310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_13
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: baa2ac2432282ad10800000000000000
+      internalID: 2135412261283048107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_14
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d33454847d0715f0800000000000000
+      internalID: -786144815865383980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_15
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35f5209c0a3b15700800000000000000
+      internalID: 527400134527573843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_16
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83b79b68a0f1547a0800000000000000
+      internalID: -6393669965912114376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_17
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce09a34f24b7a00f0800000000000000
+      internalID: -1149971227344203540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_18
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 199dec984f4103ca0800000000000000
+      internalID: -6039304059787224687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_19
+      rect:
+        serializedVersion: 2
+        x: 1064
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7e89da6e51075510800000000000000
+      internalID: 1537699302801510012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_20
+      rect:
+        serializedVersion: 2
+        x: 1120
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d135c6ce177dd23d0800000000000000
+      internalID: -3229688473456979171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_21
+      rect:
+        serializedVersion: 2
+        x: 1176
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0735f5bee9571d930800000000000000
+      internalID: 4166240455708595056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_LedgeUp_22
+      rect:
+        serializedVersion: 2
+        x: 1232
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c214ec71789c6aab0800000000000000
+      internalID: -4997085154463825620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      LegFront_LedgeUp_0: 3584362780372074380
+      LegFront_LedgeUp_00: -8672004128544827730
+      LegFront_LedgeUp_01: 4707273793150754140
+      LegFront_LedgeUp_02: 466490694888288455
+      LegFront_LedgeUp_03: -2226190316846490789
+      LegFront_LedgeUp_04: 8757304508086712283
+      LegFront_LedgeUp_05: 2713231009384328775
+      LegFront_LedgeUp_06: 4294580214114122627
+      LegFront_LedgeUp_07: 2234819397999390133
+      LegFront_LedgeUp_08: 7439377285367782624
+      LegFront_LedgeUp_09: 2280365209824239034
+      LegFront_LedgeUp_1: 964165493766033033
+      LegFront_LedgeUp_10: 1700443278317413896
+      LegFront_LedgeUp_11: -7795289046943616354
+      LegFront_LedgeUp_12: -8224230870413939310
+      LegFront_LedgeUp_13: 2135412261283048107
+      LegFront_LedgeUp_14: -786144815865383980
+      LegFront_LedgeUp_15: 527400134527573843
+      LegFront_LedgeUp_16: -6393669965912114376
+      LegFront_LedgeUp_17: -1149971227344203540
+      LegFront_LedgeUp_18: -6039304059787224687
+      LegFront_LedgeUp_19: 1537699302801510012
+      LegFront_LedgeUp_2: -1640181247252659166
+      LegFront_LedgeUp_20: -3229688473456979171
+      LegFront_LedgeUp_21: 4166240455708595056
+      LegFront_LedgeUp_22: -4997085154463825620
+      LegFront_LedgeUp_3: 9093526032199789973
+      LegFront_LedgeUp_4: -3864280156197475692
+      LegFront_LedgeUp_5: -3498214183334494581
+      LegFront_LedgeUp_6: 5714544255606439500
+      LegFront_LedgeUp_7: 4081380696715647777
+      LegFront_LedgeUp_8: 1887266654830350977
+      LegFront_LedgeUp_9: 5606818900438130884
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -21,9 +21,6 @@ TextureImporter:
       213: 2088217169302520935
     second: LegBack_DeathFade_5
   - first:
-      213: -2589335644318303798
-    second: LegBack_DeathFade_6
-  - first:
       213: -3145048580305813504
     second: LegBack_DeathFade_00
   - first:
@@ -319,7 +316,6 @@ TextureImporter:
       LegBack_DeathFade_3: 1521724635329961366
       LegBack_DeathFade_4: -3808680403541995237
       LegBack_DeathFade_5: 2088217169302520935
-      LegBack_DeathFade_6: -2589335644318303798
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

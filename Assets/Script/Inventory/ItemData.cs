@@ -2,8 +2,10 @@ using UnityEngine;
 
 namespace DeepVain.Items
 {
-    public enum ItemType { Weapon, Shield, Consumable, Material, Quest }
+    // Nye verdier er lagt til på slutten, så gamle items beholder riktig type.
+    public enum ItemType { Weapon, Shield, Consumable, Material, Quest, Armor, Talisman }
     public enum ItemRarity { Common, Uncommon, Rare, Epic, Legendary }
+    public enum EquipSlot { None, Helmet, Chest, Pants, Boots, Gloves, Weapon, Shield, Talisman }
 
     [CreateAssetMenu(menuName = "DeepVain/Item", fileName = "NewItem")]
     public class ItemData : ScriptableObject
@@ -26,8 +28,15 @@ namespace DeepVain.Items
         public float attackSpeed = 1f;
         public float blockAmount;
 
+        [Header("Utstyr")]
+        [Tooltip("Hvor den kan tas på. None = kan ikke utstyres.")]
+        public EquipSlot equipSlot = EquipSlot.None;
+        public int defence;
+
         [Header("Forbruk")]
         public int healAmount;
         public float useTime = 0.8f;
+
+        public bool IsEquippable { get { return equipSlot != EquipSlot.None; } }
     }
 }

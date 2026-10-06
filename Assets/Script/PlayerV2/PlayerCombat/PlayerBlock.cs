@@ -32,6 +32,11 @@ public class PlayerBlock : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float exhaustedRecovery = 0.3f;
 
+    [Header("Skjold-timer")]
+    [Tooltip("Hvor lenge du må vente etter at du senket skjoldet før du kan løfte det igjen.")]
+    [SerializeField] private float raiseCooldown = 1f;
+    private float raiseReadyTime;
+
     [Header("Kostnad ved treff")]
     [Tooltip("Hvor lenge du ikke kan blokkere etter at et slag ble blokkert.")]
     [SerializeField] private float blockCooldown = 0.3f;
@@ -53,6 +58,7 @@ public class PlayerBlock : MonoBehaviour
     private PlayerControls controls;
     private Camera cam;
     private PlayerAnimator anim;
+    private PlayerAttack attack;
     private PlayerLayerSync layerSync;
     private SpriteRenderer[] shieldRenderers;
     private bool holdingBlock;
@@ -63,7 +69,8 @@ public class PlayerBlock : MonoBehaviour
     private bool exhausted;
 
     // Lesbart utenfra
-    public bool IsBlocking => holdingBlock && !exhausted && stamina > 0f && Time.time >= cooldownUntil;
+    public bool IsBlocking => holdingBlock && !exhausted && stamina > 0f && Time.time >= cooldownUntil
+                              && !(attack != null && attack.IsAttacking);   // skjoldet er nede mens du slår
     public float Stamina => stamina;
     public float MaxStamina => maxStamina;
     public float StaminaPercent => maxStamina > 0f ? stamina / maxStamina : 0f;
@@ -78,20 +85,24 @@ public class PlayerBlock : MonoBehaviour
         cam = Camera.main;
         stamina = maxStamina;
         anim = GetComponent<PlayerAnimator>();
+        attack = GetComponent<PlayerAttack>();
         layerSync = GetComponentInChildren<PlayerLayerSync>();
         if (shieldVisual != null) shieldRenderers = shieldVisual.GetComponentsInChildren<SpriteRenderer>(true);
 
         controls = new PlayerControls();
-        controls.Player.Block.performed += ctx => holdingBlock = true;
-        controls.Player.Block.canceled += ctx => holdingBlock = false;
-
-        SetShield(false);
-
         controls.Player.Block.performed += ctx =>
         {
+            if (Time.time < raiseReadyTime) return;    // skjoldet er ikke klart ennå
             holdingBlock = true;
-            blockPressedTime = Time.time;    // starter parry-vinduet
+            blockPressedTime = Time.time;              // starter parry-vinduet
         };
+        controls.Player.Block.canceled += ctx =>
+        {
+            if (holdingBlock) raiseReadyTime = Time.time + raiseCooldown;   // timeren starter når du slipper
+            holdingBlock = false;
+        };
+
+        SetShield(false);
     }
 
     void OnEnable() => controls.Player.Enable();

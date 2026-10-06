@@ -1,0 +1,755 @@
+fileFormatVersion: 2
+guid: fe3459605aca261429ae5d43412d6f01
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4773543551642104587
+    second: HairBack_F_LedgeUp_0
+  - first:
+      213: 7657118563917962533
+    second: HairBack_F_LedgeUp_1
+  - first:
+      213: -6074284280855336824
+    second: HairBack_F_LedgeUp_2
+  - first:
+      213: 2157207436677424002
+    second: HairBack_F_LedgeUp_3
+  - first:
+      213: 7518088987146848316
+    second: HairBack_F_LedgeUp_4
+  - first:
+      213: -33927592415878489
+    second: HairBack_F_LedgeUp_5
+  - first:
+      213: 6181064734521287765
+    second: HairBack_F_LedgeUp_6
+  - first:
+      213: -5046866800736710473
+    second: HairBack_F_LedgeUp_7
+  - first:
+      213: -8085169867789898497
+    second: HairBack_F_LedgeUp_8
+  - first:
+      213: 5612866558254278119
+    second: HairBack_F_LedgeUp_9
+  - first:
+      213: -3289976532865586047
+    second: HairBack_F_LedgeUp_10
+  - first:
+      213: -2313460194608907908
+    second: HairBack_F_LedgeUp_11
+  - first:
+      213: -2613833148969195786
+    second: HairBack_F_LedgeUp_12
+  - first:
+      213: -5145052142385040560
+    second: HairBack_F_LedgeUp_13
+  - first:
+      213: 7945944781271044145
+    second: HairBack_F_LedgeUp_14
+  - first:
+      213: -4203153253776698254
+    second: HairBack_F_LedgeUp_15
+  - first:
+      213: -4957630196943459126
+    second: HairBack_F_LedgeUp_16
+  - first:
+      213: 8187231461630341525
+    second: HairBack_F_LedgeUp_17
+  - first:
+      213: 7698044623231276464
+    second: HairBack_F_LedgeUp_18
+  - first:
+      213: -3987504074260544751
+    second: HairBack_F_LedgeUp_19
+  - first:
+      213: 4650374020873777243
+    second: HairBack_F_LedgeUp_20
+  - first:
+      213: -7022173239328284672
+    second: HairBack_F_LedgeUp_21
+  - first:
+      213: -3167546717460669321
+    second: HairBack_F_LedgeUp_22
+  - first:
+      213: 6890576220013753187
+    second: HairBack_F_LedgeUp_00
+  - first:
+      213: 82396822002517085
+    second: HairBack_F_LedgeUp_01
+  - first:
+      213: -5498270457389306177
+    second: HairBack_F_LedgeUp_02
+  - first:
+      213: 6026473095172062730
+    second: HairBack_F_LedgeUp_03
+  - first:
+      213: 2617222186663139887
+    second: HairBack_F_LedgeUp_04
+  - first:
+      213: -2822007399691909069
+    second: HairBack_F_LedgeUp_05
+  - first:
+      213: 7619275728602191994
+    second: HairBack_F_LedgeUp_06
+  - first:
+      213: 7342615522325574400
+    second: HairBack_F_LedgeUp_07
+  - first:
+      213: -2155085892599830071
+    second: HairBack_F_LedgeUp_08
+  - first:
+      213: 8571822744545633948
+    second: HairBack_F_LedgeUp_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 33
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3637ca3709e30af50800000000000000
+      internalID: 6890576220013753187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_01
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d54c41a197bb42100800000000000000
+      internalID: 82396822002517085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_02
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbe294c662832b3b0800000000000000
+      internalID: -5498270457389306177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_03
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0efd26b95552a350800000000000000
+      internalID: 6026473095172062730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_04
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2ad35e46bd325420800000000000000
+      internalID: 2617222186663139887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_05
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33807dbb83736d8d0800000000000000
+      internalID: -2822007399691909069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_06
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a78d61118ea1db960800000000000000
+      internalID: 7619275728602191994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_07
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0033c7a2ae536e560800000000000000
+      internalID: 7342615522325574400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_08
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c9a12f7cc89712e0800000000000000
+      internalID: -2155085892599830071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_09
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c96a146ee5b35f670800000000000000
+      internalID: 8571822744545633948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_10
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18cec2f36c7a752d0800000000000000
+      internalID: -3289976532865586047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_11
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c797452d530f4efd0800000000000000
+      internalID: -2313460194608907908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_12
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f6ec85899cc9bbd0800000000000000
+      internalID: -2613833148969195786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_13
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 053f64e065a1998b0800000000000000
+      internalID: -5145052142385040560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_14
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 130978cddaaa54e60800000000000000
+      internalID: 7945944781271044145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_15
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 274dc1c82666ba5c0800000000000000
+      internalID: -4203153253776698254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_16
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acc6f6f3a95f23bb0800000000000000
+      internalID: -4957630196943459126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_17
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 591f064f2a3ee9170800000000000000
+      internalID: 8187231461630341525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_18
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b55ec08cc2f4da60800000000000000
+      internalID: 7698044623231276464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_19
+      rect:
+        serializedVersion: 2
+        x: 1064
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1130741db2a89a8c0800000000000000
+      internalID: -3987504074260544751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_20
+      rect:
+        serializedVersion: 2
+        x: 1120
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b50f2e28882798040800000000000000
+      internalID: 4650374020873777243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_21
+      rect:
+        serializedVersion: 2
+        x: 1176
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0006596d4aa3c8e90800000000000000
+      internalID: -7022173239328284672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HairBack_F_LedgeUp_22
+      rect:
+        serializedVersion: 2
+        x: 1232
+        y: 0
+        width: 56
+        height: 80
+      alignment: 9
+      pivot: {x: 0.75, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77c5d48fa0d9a04d0800000000000000
+      internalID: -3167546717460669321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      HairBack_F_LedgeUp_0: 4773543551642104587
+      HairBack_F_LedgeUp_00: 6890576220013753187
+      HairBack_F_LedgeUp_01: 82396822002517085
+      HairBack_F_LedgeUp_02: -5498270457389306177
+      HairBack_F_LedgeUp_03: 6026473095172062730
+      HairBack_F_LedgeUp_04: 2617222186663139887
+      HairBack_F_LedgeUp_05: -2822007399691909069
+      HairBack_F_LedgeUp_06: 7619275728602191994
+      HairBack_F_LedgeUp_07: 7342615522325574400
+      HairBack_F_LedgeUp_08: -2155085892599830071
+      HairBack_F_LedgeUp_09: 8571822744545633948
+      HairBack_F_LedgeUp_1: 7657118563917962533
+      HairBack_F_LedgeUp_10: -3289976532865586047
+      HairBack_F_LedgeUp_11: -2313460194608907908
+      HairBack_F_LedgeUp_12: -2613833148969195786
+      HairBack_F_LedgeUp_13: -5145052142385040560
+      HairBack_F_LedgeUp_14: 7945944781271044145
+      HairBack_F_LedgeUp_15: -4203153253776698254
+      HairBack_F_LedgeUp_16: -4957630196943459126
+      HairBack_F_LedgeUp_17: 8187231461630341525
+      HairBack_F_LedgeUp_18: 7698044623231276464
+      HairBack_F_LedgeUp_19: -3987504074260544751
+      HairBack_F_LedgeUp_2: -6074284280855336824
+      HairBack_F_LedgeUp_20: 4650374020873777243
+      HairBack_F_LedgeUp_21: -7022173239328284672
+      HairBack_F_LedgeUp_22: -3167546717460669321
+      HairBack_F_LedgeUp_3: 2157207436677424002
+      HairBack_F_LedgeUp_4: 7518088987146848316
+      HairBack_F_LedgeUp_5: -33927592415878489
+      HairBack_F_LedgeUp_6: 6181064734521287765
+      HairBack_F_LedgeUp_7: -5046866800736710473
+      HairBack_F_LedgeUp_8: -8085169867789898497
+      HairBack_F_LedgeUp_9: 5612866558254278119
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

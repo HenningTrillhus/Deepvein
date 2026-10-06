@@ -6,7 +6,10 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed = 5f;
+    [Tooltip("Fart når du bare går.")]
+    public float walkSpeed = 3f;
+    [Tooltip("Fart når du holder Shift. Må være over 4, ellers blir det ikke løpe-animasjon.")]
+    public float sprintSpeed = 5.5f;
     public float jumpForce = 7f;
 
     [Header("Ground check")]
@@ -60,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Collider2D col;
+    private LedgeClimbDriver ledgeDriver;
     private PlayerControls controls;
 
     private float moveInput;
@@ -83,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
         cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        ledgeDriver = GetComponent<LedgeClimbDriver>();
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         defaultGravity = rb.gravityScale;
@@ -156,14 +161,17 @@ public class PlayerMovement : MonoBehaviour
         // Prøv kantklatring før vanlig bevegelse
         if (TryStartLedgeClimb()) return;
 
-        float h = moveInput;
+        // Skjoldet oppe: du står stille (og kan ikke hoppe), men kan fortsatt snu deg mot musa
+        bool shieldUp = block != null && block.IsBlocking;
+
+        float h = shieldUp ? 0f : moveInput;
         if (IsBlocked(h)) h = 0f;
 
-        rb.linearVelocity = new Vector2(h * moveSpeed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(h * CurrentSpeed(), rb.linearVelocity.y);
 
         if (jumpPressed)
         {
-            if (isGrounded)
+            if (isGrounded && !shieldUp)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 if (anim != null) anim.Jump();
@@ -172,7 +180,13 @@ public class PlayerMovement : MonoBehaviour
             jumpPressed = false;
         }
 
-        HandleStep();
+        if (!shieldUp) HandleStep();
+    }
+
+    /// <summary>Gå = walkSpeed. Hold Shift = sprintSpeed (ikke mens du blokkerer eller slår).</summary>
+    private float CurrentSpeed()
+    {
+        return IsSprinting ? sprintSpeed : walkSpeed;
     }
 
     // ---------- Kantklatring ----------
@@ -180,6 +194,7 @@ public class PlayerMovement : MonoBehaviour
     private bool TryStartLedgeClimb()
     {
         if (!enableLedgeClimb || isLedgeClimbing) return false;
+        if (block != null && block.IsBlocking) return false;   // ikke klatre med skjoldet oppe
         if (!isGrounded) return false;
         if (Mathf.Abs(moveInput) < 0.01f) return false;
 
@@ -198,10 +213,14 @@ public class PlayerMovement : MonoBehaviour
         if (Physics2D.Raycast(highOrigin, dir, rayLength, groundLayer).collider != null)
             return false;
 
+        // Finn selve toppflaten på kanten i stedet for å anta at den er nøyaktig én tile opp
+        float standX = b.center.x + dir.x * (b.extents.x + climbForwardOffset);
+        float ledgeTop = b.min.y + climbLedgeHeight;                 // reserve hvis strålen ikke treffer noe
+        RaycastHit2D topHit = Physics2D.Raycast(new Vector2(standX, b.min.y + climbLedgeHeight + 0.5f), Vector2.down, climbLedgeHeight + 0.5f, groundLayer);
+        if (topHit.collider != null) ledgeTop = topHit.point.y;
+
         // Hvor spilleren skal ende opp, målt i collider-senter
-        Vector2 standCenter = new Vector2(
-            b.center.x + dir.x * (b.extents.x + climbForwardOffset),
-            b.min.y + climbLedgeHeight + b.extents.y + skin);
+        Vector2 standCenter = new Vector2(standX, ledgeTop + b.extents.y + skin);
 
         // Forbudt sone?
         if (Physics2D.OverlapCircle(standCenter, b.extents.x, noClimbLayer))
@@ -224,36 +243,41 @@ public class PlayerMovement : MonoBehaviour
 
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0f;
-
-        if (anim != null) anim.LedgeClimb(true);
+        col.enabled = false;                 // ingen kollisjon mens han klatrer
 
         Vector2 start = rb.position;
-        float t = 0f;
 
-        while (t < climbDuration)
+        if (ledgeDriver != null && ledgeDriver.Ready)
         {
-            t += Time.fixedDeltaTime;
-            float p = Mathf.Clamp01(t / climbDuration);
-
-            if (!animationDrivesClimb)
+            // LedgeClimbDriver velger bildene og flytter spilleren jevnt
+            var steps = ledgeDriver.Play(rb, start, target, climbLedgeHeight);
+            while (steps.MoveNext()) yield return steps.Current;
+        }
+        else
+        {
+            // Reserve: den gamle måten
+            if (anim != null) anim.LedgeClimb(true);
+            float t = 0f;
+            while (t < climbDuration)
             {
-                // Opp først, så inn - ellers ser det ut som han går gjennom veggen
+                t += Time.fixedDeltaTime;
+                float p = Mathf.Clamp01(t / climbDuration);
                 float x = Mathf.Lerp(start.x, target.x, Mathf.Clamp01(climbCurveX.Evaluate(p)));
                 float y = Mathf.Lerp(start.y, target.y, Mathf.Clamp01(climbCurveY.Evaluate(p)));
                 rb.MovePosition(new Vector2(x, y));
+                yield return new WaitForFixedUpdate();
             }
-
-            yield return new WaitForFixedUpdate();
         }
 
-        if (!animationDrivesClimb)
-            rb.position = target;
-
+        rb.position = target;
         FinishLedgeClimb();
     }
 
     private void FinishLedgeClimb()
     {
+        col.enabled = true;
+        if (ledgeDriver != null) ledgeDriver.Stop();
+
         isLedgeClimbing = false;
         ledgeRoutine = null;
         rb.gravityScale = defaultGravity;
@@ -297,7 +321,7 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpPressed = false;
             StopClimbing();
-            rb.linearVelocity = new Vector2(moveInput * moveSpeed, jumpForce);
+            rb.linearVelocity = new Vector2(moveInput * walkSpeed, jumpForce);
             if (anim != null) anim.Jump();
             return;
         }
@@ -313,7 +337,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed * climbSideControl, vertical);
+        rb.linearVelocity = new Vector2(moveInput * walkSpeed * climbSideControl, vertical);
     }
 
     private void StopClimbing()
@@ -389,4 +413,9 @@ public class PlayerMovement : MonoBehaviour
     public bool IsLedgeClimbing => isLedgeClimbing;
     public float HorizontalInput => moveInput;
     public int Facing => facing;
+
+    /// <summary>True når du holder Shift og går (ikke mens du blokkerer eller slår).</summary>
+    public bool IsSprinting =>
+        Keyboard.current != null && Keyboard.current.leftShiftKey.isPressed && Mathf.Abs(moveInput) > 0.01f
+        && !(block != null && block.IsBlocking) && !(attack != null && attack.IsAttacking);
 }

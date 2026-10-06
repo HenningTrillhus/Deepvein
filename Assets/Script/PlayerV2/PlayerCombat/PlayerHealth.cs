@@ -160,4 +160,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(hideAfterDeath);
         if (layers != null) layers.gameObject.SetActive(false);
     }
+
+    public void Heal(int amount)
+    {
+        if (IsDead || amount <= 0) return;
+        health = Mathf.Min(maxHealth, health + amount);
+    }
 }

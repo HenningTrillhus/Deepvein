@@ -15,9 +15,6 @@ TextureImporter:
       213: 3895119506551350589
     second: ArmBack_DeathFade_3
   - first:
-      213: -6066873364221909126
-    second: ArmBack_DeathFade_4
-  - first:
       213: 7778796293980127152
     second: ArmBack_DeathFade_00
   - first:
@@ -311,7 +308,6 @@ TextureImporter:
       ArmBack_DeathFade_1: 7271570121523352233
       ArmBack_DeathFade_2: -646339056376373179
       ArmBack_DeathFade_3: 3895119506551350589
-      ArmBack_DeathFade_4: -6066873364221909126
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

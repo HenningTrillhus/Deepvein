@@ -37,6 +37,8 @@ public class PlayerAttack : MonoBehaviour
     private PlayerControls controls;
     private Camera cam;
     private PlayerAnimator anim;
+    private PlayerMovement movement;
+    private PlayerBlock block;
     private bool isAttacking;
     private float lastAttackTime = -999f;
     private float currentAngle;
@@ -50,6 +52,8 @@ public class PlayerAttack : MonoBehaviour
     {
         cam = Camera.main;
         anim = GetComponent<PlayerAnimator>();
+        movement = GetComponent<PlayerMovement>();
+        block = GetComponent<PlayerBlock>();
 
         if (swordRenderer == null && sword != null)
             swordRenderer = sword.GetComponent<SpriteRenderer>();
@@ -80,6 +84,15 @@ public class PlayerAttack : MonoBehaviour
     {
         if (isAttacking) return;
         if (Time.time < lastAttackTime + attackCooldown) return;
+        if (block != null && block.IsBlocking) return;   // ikke slå mens skjoldet er oppe
+
+        // Mens du spurter kan du slå fremover, men ikke bakover - da må du stoppe opp først
+        if (movement != null && movement.IsSprinting)
+        {
+            bool aimRight = Mathf.Cos(GetAimAngle() * Mathf.Deg2Rad) > 0f;
+            bool moveRight = movement.HorizontalInput > 0f;
+            if (aimRight != moveRight) return;
+        }
 
         StartCoroutine(SwingRoutine());
     }

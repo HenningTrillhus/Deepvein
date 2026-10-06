@@ -172,3 +172,28 @@ MonoBehaviour:
     - {fileID: 7834404661680592694, guid: 00f78d47f7978934a9dfc29a795e18ed, type: 3}
     - {fileID: 887795855503320728, guid: 00f78d47f7978934a9dfc29a795e18ed, type: 3}
     - {fileID: 1381236319981826575, guid: 00f78d47f7978934a9dfc29a795e18ed, type: 3}
+  - anim: LedgeUp
+    frames:
+    - {fileID: -6812540098029558312, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -5012303177392958346, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 6887543892699674735, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 4444971928596330695, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -2777992232851636013, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 264238007427198283, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -6323695591521561160, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 6916249060335365323, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -1719026992960066301, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -3469476469417072954, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -7266567737359074005, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -7007319445560526920, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 4081853920436900218, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 5020830940140656380, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -5370278363206364223, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 6118645363757794194, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -8150866597815840867, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 4964437004709098676, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -3739887644392014443, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -4817985918173148502, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: -6534128439967051301, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 5101311284406696919, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}
+    - {fileID: 736729505089472053, guid: bb81ffaafcbc5b743ac87ac2c2902208, type: 3}

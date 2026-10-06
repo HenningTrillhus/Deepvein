@@ -14,14 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeepVain.Items.ItemData
   id: potion_heal
   displayName: Healing Potion
-  icon: {fileID: 21300000, guid: f9e01856e3446794987e930d6c3e784a, type: 3}
+  icon: {fileID: 21300000, guid: b359522fbe6ccdf42ba98f4cbeb6252f, type: 3}
   type: 2
   rarity: 0
-  description: TestTestTestTest
+  description: A small red brew. Closes minor wounds.
   maxStack: 10
   sellValue: 12
   damage: 0
   attackSpeed: 0
   blockAmount: 0
-  healAmount: 40
+  equipSlot: 0
+  defence: 0
+  healAmount: 3
   useTime: 0.8

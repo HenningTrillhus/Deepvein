@@ -15,11 +15,15 @@ namespace DeepVain.Items
     public class Inventory : MonoBehaviour
     {
         [Header("Størrelse")]
-        [SerializeField] int maxSlots = 40;      // største mulige antall
-        [SerializeField] int unlockedSlots = 16; // så mange er åpne nå
+        [SerializeField] int maxSlots = 35;      // største mulige antall (boka har 7 x 5)
+        [SerializeField] int unlockedSlots = 24; // så mange er åpne nå
+
+        [Header("Penger")]
+        [SerializeField] int gold = 1284;
 
         public InventorySlot[] Slots { get; private set; }
         public int UnlockedSlots => unlockedSlots;
+        public int Gold => gold;
         public event Action OnChanged;
 
         void Awake()
@@ -63,6 +67,32 @@ namespace DeepVain.Items
             return true;
         }
 
+        /// <summary>Hvor mange av dette itemet ligger i sekken totalt.</summary>
+        public int Count(ItemData item)
+        {
+            if (item == null) return 0;
+            int n = 0;
+            for (int i = 0; i < unlockedSlots; i++)
+                if (!Slots[i].IsEmpty && Slots[i].item == item) n += Slots[i].count;
+            return n;
+        }
+
+        /// <summary>Tar bort et antall av et item (fra de bakerste stackene først).</summary>
+        public bool RemoveItem(ItemData item, int amount = 1)
+        {
+            if (item == null || Count(item) < amount) return false;
+            for (int i = unlockedSlots - 1; i >= 0 && amount > 0; i--)
+            {
+                var s = Slots[i];
+                if (s.IsEmpty || s.item != item) continue;
+                int take = Mathf.Min(amount, s.count);
+                s.count -= take; amount -= take;
+                if (s.count <= 0) s.Clear();
+            }
+            OnChanged?.Invoke();
+            return true;
+        }
+
         public void Swap(int a, int b)
         {
             if (a >= unlockedSlots || b >= unlockedSlots) return;
@@ -80,6 +110,12 @@ namespace DeepVain.Items
         public void UnlockSlots(int extra)
         {
             unlockedSlots = Mathf.Min(maxSlots, unlockedSlots + extra);
+            OnChanged?.Invoke();
+        }
+
+        public void AddGold(int amount)
+        {
+            gold = Mathf.Max(0, gold + amount);
             OnChanged?.Invoke();
         }
     }

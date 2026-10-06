@@ -1,16 +1,20 @@
 using UnityEngine;
 using DeepVain.Items;
 
+/// <summary>Only for testing: gives the player some items when the game starts. Delete it when you have real pickups.</summary>
 public class InventoryTest : MonoBehaviour
 {
-    public ItemData testItem;
-    public int amount = 12;
+    public ItemData[] items;
+    public int[] amounts;
 
     void Start()
     {
         var inv = GetComponent<Inventory>();
-        int left = inv.Add(testItem, amount);
-        Debug.Log($"La til {amount} x {testItem.displayName}, {left} fikk ikke plass");
-        for (int i = 0; i < 3; i++) Debug.Log($"Slot {i}: {inv.Slots[i].item?.displayName} x{inv.Slots[i].count}");
+        if (inv == null || items == null) return;
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] == null) continue;
+            inv.Add(items[i], amounts != null && i < amounts.Length ? amounts[i] : 1);
+        }
     }
 }

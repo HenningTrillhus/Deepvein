@@ -49,12 +49,14 @@ namespace DeepVain.Player.EditorTools
             // ledge: 56 x 80 frames, the pivot is on the ledge top where the player ends up standing (38 px above the bottom)
             new AnimDef("LedgeHang",   56, 30, true,  300, 300) { h = 80, pivotBottom = 38 },
             new AnimDef("LedgeClimb",  56, 30, false, 100, 90, 90, 100, 100, 90, 110) { h = 80, pivotBottom = 38 },
+            // LedgeUp: the same climb drawn in place (pelvis fixed, pivot 16 px below it); LedgeClimbDriver moves the player
+            new AnimDef("LedgeUp",     56, 30, false, 35, 35, 40, 40, 40, 40, 35, 35, 55, 55, 50, 50, 45, 45, 45, 45, 50, 50, 50, 50, 45, 45, 110) { h = 80, pivotBottom = 24 },
         };
 
         // back to front
         static readonly string[] DrawOrder =
         {
-            "ArmBack", "LegBack", "StarsBack", "HairBack_F", "Torso", "LegFront", "Head", "Face_M", "Face_F", "Hair_M", "Hair_F", "ArmFront", "StarsFront"
+            "ArmBack", "HandBack", "LegBack", "FootBack", "StarsBack", "HairBack_F", "Torso", "LegFront", "FootFront", "Head", "Face_M", "Face_F", "Hair_M", "Hair_F", "ArmFront", "HandFront", "StarsFront"
         };
 
         const int FrameH = 40;
