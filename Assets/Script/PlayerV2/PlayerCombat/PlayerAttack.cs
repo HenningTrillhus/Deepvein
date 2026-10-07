@@ -85,6 +85,7 @@ public class PlayerAttack : MonoBehaviour
         if (isAttacking) return;
         if (Time.time < lastAttackTime + attackCooldown) return;
         if (block != null && block.IsBlocking) return;   // ikke slå mens skjoldet er oppe
+        if (movement != null && (movement.IsCrouching || movement.IsRolling)) return;
 
         // Mens du spurter kan du slå fremover, men ikke bakover - da må du stoppe opp først
         if (movement != null && movement.IsSprinting)

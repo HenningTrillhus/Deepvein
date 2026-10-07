@@ -1,0 +1,357 @@
+fileFormatVersion: 2
+guid: 5c5bf4cb3dd445343adbbe0e4ed5619a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4415756050346888792
+    second: FootFront_CrouchWalk_0
+  - first:
+      213: 7922875356622951935
+    second: FootFront_CrouchWalk_1
+  - first:
+      213: 4323906995474075134
+    second: FootFront_CrouchWalk_2
+  - first:
+      213: -8094300820881934331
+    second: FootFront_CrouchWalk_3
+  - first:
+      213: 3249152075006905753
+    second: FootFront_CrouchWalk_4
+  - first:
+      213: 217950782767366422
+    second: FootFront_CrouchWalk_5
+  - first:
+      213: 2714260789657924410
+    second: FootFront_CrouchWalk_6
+  - first:
+      213: -2584942634944652758
+    second: FootFront_CrouchWalk_7
+  - first:
+      213: 2940719663309104785
+    second: FootFront_CrouchWalk_00
+  - first:
+      213: -894730725264689962
+    second: FootFront_CrouchWalk_01
+  - first:
+      213: -12794191704496762
+    second: FootFront_CrouchWalk_02
+  - first:
+      213: 7936751929732213958
+    second: FootFront_CrouchWalk_03
+  - first:
+      213: -8063066486455609601
+    second: FootFront_CrouchWalk_04
+  - first:
+      213: -5210648558478273535
+    second: FootFront_CrouchWalk_05
+  - first:
+      213: -3814803290780534701
+    second: FootFront_CrouchWalk_06
+  - first:
+      213: -8461319132728441421
+    second: FootFront_CrouchWalk_07
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 33
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FootFront_CrouchWalk_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 196ab8304f88fc820800000000000000
+      internalID: 2940719663309104785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FootFront_CrouchWalk_01
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d478f655274593f0800000000000000
+      internalID: -894730725264689962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FootFront_CrouchWalk_02
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 685e34c10cb82dff0800000000000000
+      internalID: -12794191704496762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FootFront_CrouchWalk_03
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cca51254d1052e60800000000000000
+      internalID: 7936751929732213958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FootFront_CrouchWalk_04
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff6d47220cb3a1090800000000000000
+      internalID: -8063066486455609601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FootFront_CrouchWalk_05
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10450864ebe00b7b0800000000000000
+      internalID: -5210648558478273535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FootFront_CrouchWalk_06
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 358f8056e981f0bc0800000000000000
+      internalID: -3814803290780534701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FootFront_CrouchWalk_07
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b5418a241b539a80800000000000000
+      internalID: -8461319132728441421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FootFront_CrouchWalk_0: -4415756050346888792
+      FootFront_CrouchWalk_00: 2940719663309104785
+      FootFront_CrouchWalk_01: -894730725264689962
+      FootFront_CrouchWalk_02: -12794191704496762
+      FootFront_CrouchWalk_03: 7936751929732213958
+      FootFront_CrouchWalk_04: -8063066486455609601
+      FootFront_CrouchWalk_05: -5210648558478273535
+      FootFront_CrouchWalk_06: -3814803290780534701
+      FootFront_CrouchWalk_07: -8461319132728441421
+      FootFront_CrouchWalk_1: 7922875356622951935
+      FootFront_CrouchWalk_2: 4323906995474075134
+      FootFront_CrouchWalk_3: -8094300820881934331
+      FootFront_CrouchWalk_4: 3249152075006905753
+      FootFront_CrouchWalk_5: 217950782767366422
+      FootFront_CrouchWalk_6: 2714260789657924410
+      FootFront_CrouchWalk_7: -2584942634944652758
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

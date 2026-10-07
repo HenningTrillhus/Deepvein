@@ -197,3 +197,55 @@ MonoBehaviour:
     - {fileID: 3150616921881645870, guid: 58cbfbf7adc574f40b3a50a11482ad96, type: 3}
     - {fileID: -1639086236424536447, guid: 58cbfbf7adc574f40b3a50a11482ad96, type: 3}
     - {fileID: -2632558060021563819, guid: 58cbfbf7adc574f40b3a50a11482ad96, type: 3}
+  - anim: Crouch
+    frames:
+    - {fileID: -6092612079082551193, guid: 95cb81efeb3201b4eb05ce3edcdd51b4, type: 3}
+    - {fileID: 6460869260419117819, guid: 95cb81efeb3201b4eb05ce3edcdd51b4, type: 3}
+    - {fileID: -5275908415318637850, guid: 95cb81efeb3201b4eb05ce3edcdd51b4, type: 3}
+    - {fileID: -772296077331858126, guid: 95cb81efeb3201b4eb05ce3edcdd51b4, type: 3}
+    - {fileID: -1694014524585303682, guid: 95cb81efeb3201b4eb05ce3edcdd51b4, type: 3}
+    - {fileID: 9012510672256699998, guid: 95cb81efeb3201b4eb05ce3edcdd51b4, type: 3}
+  - anim: CrouchWalk
+    frames:
+    - {fileID: 5384949915736914914, guid: 70c5a8a5a47921b4f8c8e118fda37ac2, type: 3}
+    - {fileID: 2349939540202744049, guid: 70c5a8a5a47921b4f8c8e118fda37ac2, type: 3}
+    - {fileID: 7932141649022054008, guid: 70c5a8a5a47921b4f8c8e118fda37ac2, type: 3}
+    - {fileID: 7100471166216468136, guid: 70c5a8a5a47921b4f8c8e118fda37ac2, type: 3}
+    - {fileID: 4839201453478561936, guid: 70c5a8a5a47921b4f8c8e118fda37ac2, type: 3}
+    - {fileID: -2165333936522589016, guid: 70c5a8a5a47921b4f8c8e118fda37ac2, type: 3}
+    - {fileID: 1679464347000152706, guid: 70c5a8a5a47921b4f8c8e118fda37ac2, type: 3}
+    - {fileID: -7001511641329242014, guid: 70c5a8a5a47921b4f8c8e118fda37ac2, type: 3}
+  - anim: Roll
+    frames:
+    - {fileID: 8630101261178444913, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: 999234580822312678, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: 2245275079850544069, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: 4713899021096569165, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: -6087214535065283408, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: 985033404852623763, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: 2983287491693228887, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: 456186687734630301, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: 9157405117228110557, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: -8853902071685937766, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+    - {fileID: 6387210775081909422, guid: 39098c8e54cf71340ba73d6bfa646323, type: 3}
+  - anim: Drink
+    frames:
+    - {fileID: 8029914212874566562, guid: 6d291ce87b8227d4597005c15d341463, type: 3}
+    - {fileID: -6648561625445915645, guid: 6d291ce87b8227d4597005c15d341463, type: 3}
+    - {fileID: -6438767365955579337, guid: 6d291ce87b8227d4597005c15d341463, type: 3}
+    - {fileID: -5846032170769635080, guid: 6d291ce87b8227d4597005c15d341463, type: 3}
+    - {fileID: 1618743324620776887, guid: 6d291ce87b8227d4597005c15d341463, type: 3}
+    - {fileID: 6379585408288663747, guid: 6d291ce87b8227d4597005c15d341463, type: 3}
+    - {fileID: 8717701369830298155, guid: 6d291ce87b8227d4597005c15d341463, type: 3}
+    - {fileID: -8208210908221363837, guid: 6d291ce87b8227d4597005c15d341463, type: 3}
+    - {fileID: -4034673641403756250, guid: 6d291ce87b8227d4597005c15d341463, type: 3}
+  - anim: EnterDoor
+    frames:
+    - {fileID: 1679733799688322818, guid: d70b20a990a7a244981dde67d102c3c7, type: 3}
+    - {fileID: -1147293195580134182, guid: d70b20a990a7a244981dde67d102c3c7, type: 3}
+    - {fileID: -1685326409860954263, guid: d70b20a990a7a244981dde67d102c3c7, type: 3}
+    - {fileID: -5191464449653683236, guid: d70b20a990a7a244981dde67d102c3c7, type: 3}
+    - {fileID: 1385485918930168579, guid: d70b20a990a7a244981dde67d102c3c7, type: 3}
+    - {fileID: -3486292897574789119, guid: d70b20a990a7a244981dde67d102c3c7, type: 3}
+    - {fileID: 7404138591846003634, guid: d70b20a990a7a244981dde67d102c3c7, type: 3}
+    - {fileID: 2580897369518653471, guid: d70b20a990a7a244981dde67d102c3c7, type: 3}

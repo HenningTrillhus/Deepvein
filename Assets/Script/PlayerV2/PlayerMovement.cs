@@ -12,6 +12,25 @@ public class PlayerMovement : MonoBehaviour
     public float sprintSpeed = 5.5f;
     public float jumpForce = 7f;
 
+    [Header("Crouch (hold Ctrl)")]
+    [Tooltip("Fart når du går bøyd.")]
+    public float crouchSpeed = 1.6f;
+    [Tooltip("Hvor høy collideren er når du er bøyd (1 = vanlig). Bunnen blir stående på bakken.")]
+    [Range(0.3f, 1f)] public float crouchColliderHeight = 0.65f;
+
+    [Header("Roll (Alt)")]
+    public bool enableRoll = true;
+    [Tooltip("Hvor langt rullen går, i units (tiles).")]
+    public float rollDistance = 2.6f;
+    [Tooltip("Lengden på rulle-animasjonen. Match klippet (ca. 0.555 s).")]
+    public float rollDuration = 0.555f;
+    [Tooltip("Pause etter en rull før du kan rulle igjen.")]
+    public float rollCooldown = 0.6f;
+    [Range(0.3f, 1f)] public float rollColliderHeight = 0.5f;
+    [Tooltip("Uskadelig fra og til dette tidspunktet i rullen (sekunder). Passer bildene 3-9.")]
+    public float invulnerableFrom = 0.105f;
+    public float invulnerableTo = 0.425f;
+
     [Header("Ground check")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.15f;
@@ -59,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerAnimator anim;
     private PlayerAttack attack;
     private PlayerBlock block;
+    private PlayerStamina stamina;
     private Camera cam;
 
     private Rigidbody2D rb;
@@ -78,12 +98,28 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 visualBaseScale = Vector3.one;
     private int facing = 1;
 
+    // crouch / roll
+    private PlayerHealth health_;
+    private bool isCrouching;
+    private bool isRolling;
+    private Coroutine rollRoutine;
+    private float rollCooldownUntil;
+    private float rollPressTime = -10f;
+    private float colFactor = 1f;
+    private Vector2 colSize0, colOffset0;
+    private bool colSized;
+
+    /// <summary>Called when a roll starts (direction -1 / +1) and when it ends. Hook the wind and dust effects here.</summary>
+    public event System.Action<int> RollStarted;
+    public event System.Action RollEnded;
+
     void Awake()
     {
         playerHealth = GetComponent<PlayerHealth>();
         anim = GetComponent<PlayerAnimator>();
         attack = GetComponent<PlayerAttack>();
         block = GetComponent<PlayerBlock>();
+        stamina = GetComponent<PlayerStamina>();
         cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
@@ -91,6 +127,8 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         defaultGravity = rb.gravityScale;
+        health_ = playerHealth;
+        CacheCollider();
 
         if (visual == null)
         {
@@ -109,12 +147,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void OnEnable() => controls.Player.Enable();
-    void OnDisable() => controls.Player.Disable();
+    void OnDisable()
+    {
+        controls.Player.Disable();
+        CancelRoll();
+    }
 
     void Update()
     {
-        // Under en kantklatring er retningen låst - ikke snu midt i animasjonen
-        if (!isLedgeClimbing)
+        var kb = Keyboard.current;
+        if (kb != null && kb.leftAltKey.wasPressedThisFrame) rollPressTime = Time.time;        // Alt = rull (lagres et øyeblikk så det ikke mistes)
+
+        // Under en kantklatring / rull er retningen låst - ikke snu midt i animasjonen
+        if (!isLedgeClimbing && !isRolling)
         {
             bool aiming = (attack != null && attack.IsAttacking) || (block != null && block.IsBlocking);
             if (aiming && cam != null && Mouse.current != null)
@@ -141,11 +186,15 @@ public class PlayerMovement : MonoBehaviour
         if (playerHealth != null && (playerHealth.IsStunned || playerHealth.IsDead))
         {
             CancelLedgeClimb();
+            CancelRoll();
             return;
         }
 
         // Kantklatringen styrer posisjonen selv
         if (isLedgeClimbing) return;
+
+        // Rullen styrer farten selv (coroutine)
+        if (isRolling) return;
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         onLadder = Physics2D.OverlapCircle(transform.position, ladderCheckRadius, ladderLayer);
@@ -158,11 +207,24 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // Prøv kantklatring før vanlig bevegelse
-        if (TryStartLedgeClimb()) return;
-
         // Skjoldet oppe: du står stille (og kan ikke hoppe), men kan fortsatt snu deg mot musa
         bool shieldUp = block != null && block.IsBlocking;
+
+        UpdateCrouch(shieldUp);
+
+        // Alt: rull (på bakken, ikke med skjoldet oppe, ikke midt i et slag)
+        if (enableRoll && Time.time - rollPressTime <= 0.12f && Time.time >= rollCooldownUntil && isGrounded && !shieldUp
+            && !(attack != null && attack.IsAttacking) && (stamina == null || stamina.CanRoll))
+        {
+            rollPressTime = -10f;
+            if (stamina != null) stamina.SpendRoll();
+            int dir = Mathf.Abs(moveInput) > 0.01f ? (int)Mathf.Sign(moveInput) : facing;
+            rollRoutine = StartCoroutine(RollRoutine(dir));
+            return;
+        }
+
+        // Prøv kantklatring før vanlig bevegelse
+        if (TryStartLedgeClimb()) return;
 
         float h = shieldUp ? 0f : moveInput;
         if (IsBlocked(h)) h = 0f;
@@ -171,10 +233,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (jumpPressed)
         {
-            if (isGrounded && !shieldUp)
+            if (isGrounded && !shieldUp && !isCrouching)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 if (anim != null) anim.Jump();
+                if (stamina != null) stamina.SpendJump();     // et hopp koster stamina, men blir aldri stoppet
             }
 
             jumpPressed = false;
@@ -186,14 +249,110 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>Gå = walkSpeed. Hold Shift = sprintSpeed (ikke mens du blokkerer eller slår).</summary>
     private float CurrentSpeed()
     {
+        if (isCrouching) return crouchSpeed;
         return IsSprinting ? sprintSpeed : walkSpeed;
+    }
+
+    // ---------- Bøy deg (Ctrl) ----------
+
+    private void CacheCollider()
+    {
+        if (col is BoxCollider2D b) { colSize0 = b.size; colOffset0 = b.offset; colSized = true; }
+        else if (col is CapsuleCollider2D c) { colSize0 = c.size; colOffset0 = c.offset; colSized = true; }
+        else Debug.LogWarning("[PlayerMovement] Bøy deg / rull kan bare gjøre collideren lavere hvis den er en Box eller Capsule Collider 2D.");
+    }
+
+    /// <summary>1 = vanlig høyde. Bunnen av collideren blir stående på samme sted.</summary>
+    private void SetColliderHeight(float f)
+    {
+        colFactor = f;
+        if (!colSized) return;
+        Vector2 size = new Vector2(colSize0.x, colSize0.y * f);
+        Vector2 offset = new Vector2(colOffset0.x, colOffset0.y - colSize0.y * (1f - f) * 0.5f);
+        if (col is BoxCollider2D b) { b.size = size; b.offset = offset; }
+        else if (col is CapsuleCollider2D c) { c.size = size; c.offset = offset; }
+    }
+
+    /// <summary>Er det plass over hodet til å reise seg?</summary>
+    private bool CanStandUp()
+    {
+        if (!colSized || colFactor >= 0.999f) return true;
+        Bounds b = col.bounds;
+        float fullH = colSize0.y * Mathf.Abs(col.transform.lossyScale.y);
+        Vector2 centre = new Vector2(b.center.x, b.min.y + fullH * 0.5f + 0.02f);
+        Vector2 size = new Vector2(b.size.x * 0.9f, Mathf.Max(0.1f, fullH - 0.06f));
+        return Physics2D.OverlapBox(centre, size, 0f, groundLayer) == null;
+    }
+
+    private void UpdateCrouch(bool shieldUp)
+    {
+        var kb = Keyboard.current;
+        bool ctrl = kb != null && kb.leftCtrlKey.isPressed;
+        bool want = ctrl && isGrounded && !isClimbing && !shieldUp;
+        bool stuckLow = colFactor < 0.999f && !CanStandUp();          // under et lavt tak: blir bøyd til det er plass
+        bool crouch = want || stuckLow;
+
+        if (crouch != isCrouching || (!crouch && colFactor < 0.999f) || (crouch && colFactor > crouchColliderHeight + 0.001f))
+        {
+            isCrouching = crouch;
+            SetColliderHeight(crouch ? crouchColliderHeight : 1f);
+            if (anim != null) anim.SetCrouching(crouch);
+        }
+    }
+
+    // ---------- Rull (Alt) ----------
+
+    private IEnumerator RollRoutine(int dir)
+    {
+        isRolling = true;
+        facing = dir;
+        rollCooldownUntil = Time.time + rollDuration + rollCooldown;
+        if (anim != null) anim.Roll();
+        SetColliderHeight(rollColliderHeight);
+        if (RollStarted != null) RollStarted(dir);
+
+        // farten starter høyt og bremser (integralet = rollDistance)
+        const float k = 0.7f;
+        float v0 = rollDistance / Mathf.Max(0.05f, rollDuration) / (1f - k * 0.5f);
+        float t = 0f;
+        while (t < rollDuration)
+        {
+            if (playerHealth != null && (playerHealth.IsStunned || playerHealth.IsDead)) break;
+            float u = t / rollDuration;
+            float vx = IsBlocked(dir) ? 0f : dir * v0 * (1f - k * u);
+            rb.linearVelocity = new Vector2(vx, rb.linearVelocity.y);
+            if (health_ != null) health_.SetDodging(t >= invulnerableFrom && t <= invulnerableTo);
+            t += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+        EndRoll();
+    }
+
+    private void EndRoll()
+    {
+        if (health_ != null) health_.SetDodging(false);
+        bool wasRolling = isRolling;
+        isRolling = false;
+        rollRoutine = null;
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+        // reis deg hvis det er plass, ellers bli bøyd (UpdateCrouch tar seg av resten)
+        SetColliderHeight(isCrouching ? crouchColliderHeight : colFactor < 0.999f ? rollColliderHeight : 1f);
+        if (wasRolling && RollEnded != null) RollEnded();
+    }
+
+    /// <summary>Avbryter rullen, f.eks. når spilleren blir truffet eller dør.</summary>
+    public void CancelRoll()
+    {
+        if (!isRolling) return;
+        if (rollRoutine != null) StopCoroutine(rollRoutine);
+        EndRoll();
     }
 
     // ---------- Kantklatring ----------
 
     private bool TryStartLedgeClimb()
     {
-        if (!enableLedgeClimb || isLedgeClimbing) return false;
+        if (!enableLedgeClimb || isLedgeClimbing || isCrouching) return false;
         if (block != null && block.IsBlocking) return false;   // ikke klatre med skjoldet oppe
         if (!isGrounded) return false;
         if (Mathf.Abs(moveInput) < 0.01f) return false;
@@ -411,11 +570,15 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsClimbing => isClimbing;
     public bool IsLedgeClimbing => isLedgeClimbing;
+    public bool IsCrouching => isCrouching;
+    public bool IsRolling => isRolling;
     public float HorizontalInput => moveInput;
     public int Facing => facing;
 
-    /// <summary>True når du holder Shift og går (ikke mens du blokkerer eller slår).</summary>
+    /// <summary>True når du holder Shift og går (ikke mens du blokkerer, slår, er bøyd eller ruller).</summary>
     public bool IsSprinting =>
         Keyboard.current != null && Keyboard.current.leftShiftKey.isPressed && Mathf.Abs(moveInput) > 0.01f
-        && !(block != null && block.IsBlocking) && !(attack != null && attack.IsAttacking);
+        && !(block != null && block.IsBlocking) && !(attack != null && attack.IsAttacking)
+        && !isCrouching && !isRolling      // ingen spurt mens du er bøyd eller ruller
+        && (stamina == null || stamina.CanSprint);   // og ikke når du er tom for stamina
 }

@@ -27,6 +27,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private int health;
     private bool invincible;
+    public void SetDodging(bool on) { dodging = on && !IsDead; }
+    private bool dodging;
     private Rigidbody2D rb;
     private PlayerBlock block;
     private PlayerAnimator anim;

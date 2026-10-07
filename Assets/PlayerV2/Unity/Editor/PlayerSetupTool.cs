@@ -51,6 +51,12 @@ namespace DeepVain.Player.EditorTools
             new AnimDef("LedgeClimb",  56, 30, false, 100, 90, 90, 100, 100, 90, 110) { h = 80, pivotBottom = 38 },
             // LedgeUp: the same climb drawn in place (pelvis fixed, pivot 16 px below it); LedgeClimbDriver moves the player
             new AnimDef("LedgeUp",     56, 30, false, 35, 35, 40, 40, 40, 40, 35, 35, 55, 55, 50, 50, 45, 45, 45, 45, 50, 50, 50, 50, 45, 45, 110) { h = 80, pivotBottom = 24 },
+            // new: crouch, crouch walk, roll (drawn in place on a 40 x 40 canvas), drink, and the back view walk through doors
+            new AnimDef("Crouch",      24, 0, true,  170, 170, 170, 170, 170, 170),
+            new AnimDef("CrouchWalk",  24, 0, true,  110, 110, 110, 110, 110, 110, 110, 110),
+            new AnimDef("Roll",        40, 8, false, 55, 50, 45, 45, 45, 45, 45, 45, 50, 60, 70),
+            new AnimDef("Drink",       24, 0, false, 70, 70, 80, 110, 130, 110, 90, 80, 60),
+            new AnimDef("EnterDoor",   24, 0, false, 90, 90, 90, 90, 90, 90, 90, 90),
         };
 
         // back to front
@@ -203,6 +209,9 @@ namespace DeepVain.Player.EditorTools
             ctrl.AddParameter("Mining", AnimatorControllerParameterType.Bool);
             ctrl.AddParameter("LedgeHang", AnimatorControllerParameterType.Bool);
             ctrl.AddParameter("LedgeClimb", AnimatorControllerParameterType.Trigger);
+            ctrl.AddParameter("Crouching", AnimatorControllerParameterType.Bool);
+            ctrl.AddParameter("Roll", AnimatorControllerParameterType.Trigger);
+            ctrl.AddParameter("Drink", AnimatorControllerParameterType.Trigger);
             var sm = ctrl.layers[0].stateMachine;
             var st = new Dictionary<string, AnimatorState>();
             foreach (var a in Anims) { var s = sm.AddState(a.name); s.motion = clips[a.name]; s.speed = a.speed; st[a.name] = s; }
@@ -233,7 +242,7 @@ namespace DeepVain.Player.EditorTools
             Go("Climb", "ClimbIdle").AddCondition(AnimatorConditionMode.Less, 0.1f, "ClimbSpeed");
             Go("ClimbIdle", "Climb").AddCondition(AnimatorConditionMode.Greater, 0.1f, "ClimbSpeed");
 
-            Go("Idle", "Walk").AddCondition(AnimatorConditionMode.Greater, 0.1f, "Speed");
+            var tIW = Go("Idle", "Walk"); tIW.AddCondition(AnimatorConditionMode.Greater, 0.1f, "Speed"); tIW.AddCondition(AnimatorConditionMode.IfNot, 0, "Crouching");
             Go("Walk", "Idle").AddCondition(AnimatorConditionMode.Less, 0.1f, "Speed");
             Go("Walk", "Run").AddCondition(AnimatorConditionMode.Greater, 4f, "Speed");
             Go("Run", "Walk").AddCondition(AnimatorConditionMode.Less, 4f, "Speed");
@@ -256,6 +265,26 @@ namespace DeepVain.Player.EditorTools
             Go("LedgeHang", "LedgeClimb").AddCondition(AnimatorConditionMode.If, 0, "LedgeClimb");
             Go("LedgeHang", "Fall").AddCondition(AnimatorConditionMode.IfNot, 0, "LedgeHang");
             Go("LedgeClimb", "Idle", true);
+
+            // crouch: Crouching (bool) = held Ctrl on the ground. Still = Crouch, moving = CrouchWalk
+            var tIC = Go("Idle", "Crouch"); tIC.AddCondition(AnimatorConditionMode.If, 0, "Crouching"); tIC.AddCondition(AnimatorConditionMode.Less, 0.1f, "Speed"); tIC.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned");
+            var tICW = Go("Idle", "CrouchWalk"); tICW.AddCondition(AnimatorConditionMode.If, 0, "Crouching"); tICW.AddCondition(AnimatorConditionMode.Greater, 0.1f, "Speed"); tICW.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned");
+            foreach (var f in new[] { "Walk", "Run" }) { var tw = Go(f, "CrouchWalk"); tw.AddCondition(AnimatorConditionMode.If, 0, "Crouching"); tw.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); }
+            Go("Crouch", "CrouchWalk").AddCondition(AnimatorConditionMode.Greater, 0.1f, "Speed");
+            Go("CrouchWalk", "Crouch").AddCondition(AnimatorConditionMode.Less, 0.1f, "Speed");
+            Go("Crouch", "Idle").AddCondition(AnimatorConditionMode.IfNot, 0, "Crouching");
+            var tCWw = Go("CrouchWalk", "Walk"); tCWw.AddCondition(AnimatorConditionMode.IfNot, 0, "Crouching"); tCWw.AddCondition(AnimatorConditionMode.Greater, 0.1f, "Speed");
+            var tCWi = Go("CrouchWalk", "Idle"); tCWi.AddCondition(AnimatorConditionMode.IfNot, 0, "Crouching"); tCWi.AddCondition(AnimatorConditionMode.Less, 0.1f, "Speed");
+
+            // roll: trigger Roll (Alt). Afterwards back to Crouch if Ctrl is held or there is no room to stand up, else Idle
+            var tR = Any("Roll"); tR.AddCondition(AnimatorConditionMode.If, 0, "Roll"); tR.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); tR.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned");
+            Go("Roll", "Crouch", true).AddCondition(AnimatorConditionMode.If, 0, "Crouching");
+            Go("Roll", "Idle", true);
+
+            // drink: trigger Drink (potion). Plays once, then Idle
+            var tD = Any("Drink"); tD.AddCondition(AnimatorConditionMode.If, 0, "Drink"); tD.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); tD.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); tD.AddCondition(AnimatorConditionMode.IfNot, 0, "Blocking");
+            Go("Drink", "Idle", true);
+            // EnterDoor has no transitions: DoorEnterDriver plays it by hand (turns the Animator off while it runs)
 
             // after Death the body fades away (and stays gone)
             Go("Death", "DeathFade", true);

@@ -1180,6 +1180,11 @@ MonoBehaviour:
   - LedgeHang
   - LedgeClimb
   - LedgeUp
+  - Crouch
+  - CrouchWalk
+  - Roll
+  - Drink
+  - EnterDoor
   female: 0
   blinkHidden: 0
   sortingLayer: Default

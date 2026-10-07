@@ -25,8 +25,12 @@ public class PlayerAnimator : MonoBehaviour
     static readonly int pStun = Animator.StringToHash("Stun");
     static readonly int pShieldHit = Animator.StringToHash("ShieldHit");
     static readonly int pPickUp = Animator.StringToHash("PickUp");
+    static readonly int pCrouching = Animator.StringToHash("Crouching");
+    static readonly int pRoll = Animator.StringToHash("Roll");
+    static readonly int pDrink = Animator.StringToHash("Drink");
     static readonly int pLedgeClimbing = Animator.StringToHash("LedgeHang");
     static readonly int pLedgeClimb = Animator.StringToHash("LedgeClimb");
+
 
     void Awake()
     {
@@ -53,6 +57,9 @@ public class PlayerAnimator : MonoBehaviour
     public void SetBlocking(bool on) { if (animator != null) animator.SetBool(pBlocking, on); }
     public void SetChopping(bool on) { if (animator != null) animator.SetBool(pChopping, on); }
     public void SetMining(bool on)   { if (animator != null) animator.SetBool(pMining, on); }
+    public void Roll()  { if (animator != null) animator.SetTrigger(pRoll); }
+    public void Drink() { if (animator != null) animator.SetTrigger(pDrink); }
+    public void SetCrouching(bool on) { if (animator != null) animator.SetBool(pCrouching, on); }
     public void LedgeClimb(bool on)
     {
         if (animator == null) return;
