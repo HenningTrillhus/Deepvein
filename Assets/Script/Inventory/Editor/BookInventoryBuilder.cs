@@ -12,7 +12,7 @@ using UnityEngine.UI;
 namespace DeepVain.Items.EditorTools
 {
     /// <summary>
-    /// Menu: DeepVain > Inventory > ...
+    /// Menu: DeepVain > Inventory > ...   (equipment page: layout 5, 15 slots incl. rings, axe, pickaxe, bow and arrows)
     ///  1  Prepare sprites      sets the import settings (Sprite, Point, PPU 1) and the 9-slice borders of every picture in Assets/Inventory/BookUI
     ///  2  Create starter items potions, materials, starter sword and shield (+ puts them in the test script on the Player)
     ///  3  Build book UI        creates the whole book (canvas, slots, hotkeys, popup, texts) in the open scene and wires it up
@@ -105,6 +105,10 @@ namespace DeepVain.Items.EditorTools
             var bone = MakeItem("Bone", "bone", "Bone", ItemType.Material, ItemRarity.Common, "Bone", 50, 1, "Left behind by something unlucky.", null);
             var sword = MakeItem("Sword_Starter", "sword_starter", "Starter Sword", ItemType.Weapon, ItemRarity.Common, "Sword_Starter", 1, 18, "A plain iron blade, sharp enough for goblins. Fast to swing, light in the hand.",
                 it => { it.damage = 12; it.attackSpeed = 1.2f; it.equipSlot = EquipSlot.Weapon; });
+            var axeItem = MakeItem("Axe_Starter", "axe_starter", "Starter Axe", ItemType.Tool, ItemRarity.Common, "Axe_Starter", 1, 10, "A plain iron axe. Fells small trees in a few swings.",
+                it => { it.toolPower = 5; it.equipSlot = EquipSlot.Axe; });
+            var pickItem = MakeItem("Pickaxe_Starter", "pickaxe_starter", "Starter Pickaxe", ItemType.Tool, ItemRarity.Common, "Pickaxe_Starter", 1, 10, "A plain iron pickaxe. Good for stone and ore.",
+                it => { it.toolPower = 5; it.equipSlot = EquipSlot.Pickaxe; });
             var shield = MakeItem("Shield_Starter", "shield_starter", "Starter Shield", ItemType.Shield, ItemRarity.Common, "Shield_Starter", 1, 14, "Wood and iron. It has stopped a few arrows.",
                 it => { it.blockAmount = 40f; it.defence = 3; it.equipSlot = EquipSlot.Shield; });
             AssetDatabase.SaveAssets();
@@ -116,8 +120,8 @@ namespace DeepVain.Items.EditorTools
                 var test = inv.GetComponent<InventoryTest>();
                 if (test == null) test = Undo.AddComponent<InventoryTest>(inv.gameObject);
                 Undo.RecordObject(test, "Starter items");
-                test.items = new[] { sword, shield, potion, big, wood, stone, iron, bone };
-                test.amounts = new[] { 1, 1, 7, 3, 100, 50, 23, 12 };
+                test.items = new[] { sword, shield, axeItem, pickItem, potion, big, wood, stone, iron, bone };
+                test.amounts = new[] { 1, 1, 1, 1, 7, 3, 100, 50, 23, 12 };
                 EditorUtility.SetDirty(test);
                 EditorSceneManager.MarkSceneDirty(inv.gameObject.scene);
             }
@@ -234,17 +238,28 @@ namespace DeepVain.Items.EditorTools
             ui.backgroundClick = baseImg.gameObject.AddComponent<BookBackgroundClick>();
 
             // ---- figure (front view, 8 frames)
-            var fig = NewImage("Figure", root, Sp("Portrait/Front_Idle_Sword_01.png"), 112f, 117f, 108f, 156f);
+            var fig = NewImage("Figure", root, Sp("Portrait/Front_Idle_Sword_01.png"), 112f, 96f, 108f, 156f);
             ui.figureImage = fig;
             ui.figureFrames = new Sprite[8];
             for (int i = 0; i < 8; i++) ui.figureFrames[i] = Sp("Portrait/Front_Idle_Sword_0" + (i + 1) + ".png");
 
-            // ---- equipment slots (index = PlayerEquipment index)
-            string[] eqNames = { "Helmet", "Chest", "Pants", "Boots", "Gloves", "Weapon", "Shield", "TalismanA", "TalismanB" };
-            string[] eqGlyph = { "Helmet", "Chest", "Pants", "Boots", "Gloves", "Sword", "Shield", "Talisman", "Talisman" };
-            Vector2[] eqPos = { new Vector2(148, 60), new Vector2(28, 164), new Vector2(28, 208), new Vector2(148, 260), new Vector2(268, 252), new Vector2(268, 164), new Vector2(268, 208), new Vector2(28, 120), new Vector2(268, 120) };
-            ui.equipViews = new InventorySlotView[9];
-            for (int i = 0; i < 9; i++) ui.equipViews[i] = NewSlot("Equip_" + eqNames[i], root, eqPos[i].x, eqPos[i].y, Sp("Glyphs/Glyph_" + eqGlyph[i] + ".png"));
+            // ---- equipment slots (index = PlayerEquipment index). Layout: figure in the middle, two lanes of slots on each side, tools on a shelf below
+            NewImage("ToolsPanel", root, Sp("Panels/Panel_Inset.png"), 112f, 262f, 108f, 46f, false, true);
+            NewTextC("Label_Tools", root, "TOOLS", 166f, 259f, 60f, 10f, Dim, false);
+            string[] eqNames = { "Helmet", "Chest", "Pants", "Boots", "Gloves", "Weapon", "Shield", "TalismanA", "TalismanB", "RingA", "RingB", "Axe", "Pickaxe", "Bow", "Arrows" };
+            string[] eqGlyph = { "Helmet", "Chest", "Pants", "Boots", "Gloves", "Sword", "Shield", "Talisman", "Talisman", "Ring", "Ring", "Axe", "Pickaxe", "Bow", "Arrows" };
+            Vector2[] eqPos =
+            {
+                new Vector2(148, 50),                                                                          // helmet
+                new Vector2(72, 142), new Vector2(72, 186), new Vector2(28, 208), new Vector2(28, 164),        // chest, pants, boots, gloves
+                new Vector2(224, 142), new Vector2(224, 186),                                                  // weapon, shield
+                new Vector2(72, 98), new Vector2(224, 98),                                                     // talismans
+                new Vector2(28, 120), new Vector2(268, 120),                                                   // rings
+                new Vector2(120, 267), new Vector2(164, 267),                                                  // axe, pickaxe
+                new Vector2(268, 164), new Vector2(268, 208)                                                   // bow, arrows
+            };
+            ui.equipViews = new InventorySlotView[eqNames.Length];
+            for (int i = 0; i < eqNames.Length; i++) ui.equipViews[i] = NewSlot("Equip_" + eqNames[i], root, eqPos[i].x, eqPos[i].y, Sp("Glyphs/Glyph_" + eqGlyph[i] + ".png"));
 
             // ---- backpack grid 7 x 5
             ui.gridViews = new InventorySlotView[35];
@@ -270,12 +285,12 @@ namespace DeepVain.Items.EditorTools
             NewText("Label_Hotkeys", root, "HOTKEYS", 348f, 266f, 50f, 12f, TextAlignmentOptions.MidlineLeft, Cream, 8f, false);
             ui.goldText = NewText("Gold", root, "1 284", 358f, 321f, 80f, 12f, TextAlignmentOptions.MidlineRight, Ink, 8f, true);
             ui.slotsText = NewText("SlotsCount", root, "0 / 24", 526f, 321f, 80f, 12f, TextAlignmentOptions.MidlineRight, Dim);
-            NewImage("Icon_Defence", root, Sp("StatIcons/Stat_Block.png"), 32f, 309f, 11f, 11f);
-            NewText("Label_Defence", root, "Defence", 48f, 308f, 120f, 12f, TextAlignmentOptions.MidlineLeft, Ink);
-            ui.defenceText = NewText("Value_Defence", root, "0", 224f, 308f, 80f, 12f, TextAlignmentOptions.MidlineRight, Ink, 8f, true);
-            NewImage("Icon_Attack", root, Sp("StatIcons/Stat_Damage.png"), 32f, 323f, 11f, 11f);
-            NewText("Label_Attack", root, "Attack", 48f, 322f, 120f, 12f, TextAlignmentOptions.MidlineLeft, Ink);
-            ui.attackText = NewText("Value_Attack", root, "0", 224f, 322f, 80f, 12f, TextAlignmentOptions.MidlineRight, Ink, 8f, true);
+            NewImage("Icon_Defence", root, Sp("StatIcons/Stat_Block.png"), 32f, 316f, 11f, 11f);
+            NewText("Label_Defence", root, "Defence", 48f, 315f, 70f, 12f, TextAlignmentOptions.MidlineLeft, Ink);
+            ui.defenceText = NewText("Value_Defence", root, "0", 80f, 315f, 50f, 12f, TextAlignmentOptions.MidlineRight, Ink, 8f, true);
+            NewImage("Icon_Attack", root, Sp("StatIcons/Stat_Damage.png"), 170f, 316f, 11f, 11f);
+            NewText("Label_Attack", root, "Attack", 186f, 315f, 60f, 12f, TextAlignmentOptions.MidlineLeft, Ink);
+            ui.attackText = NewText("Value_Attack", root, "0", 254f, 315f, 50f, 12f, TextAlignmentOptions.MidlineRight, Ink, 8f, true);
 
             // ---- popup (last, so it is drawn on top)
             var pop = NewImage("InspectPopup", root, Sp("Panels/Popup_Frame.png"), 0f, 0f, InspectPopup.Width, 160f, true, true);

@@ -75,6 +75,13 @@ namespace DeepVain.Items
                     if (item.blockAmount > 0f) rows.Add(R(blockIcon, "Block", item.blockAmount.ToString("0.#", CultureInfo.InvariantCulture)));
                     if (item.defence > 0) rows.Add(R(blockIcon, "Defence", item.defence.ToString()));
                     break;
+                case ItemType.Tool:
+                    if (item.toolPower > 0) rows.Add(R(damageIcon, item.equipSlot == EquipSlot.Pickaxe ? "Mining power" : "Chop power", item.toolPower.ToString()));
+                    break;
+                case ItemType.Ammo:
+                    if (item.damage > 0) rows.Add(R(damageIcon, "Damage", "+" + item.damage));
+                    break;
+                case ItemType.Ring:
                 case ItemType.Armor:
                 case ItemType.Talisman:
                     if (item.defence > 0) rows.Add(R(blockIcon, "Defence", item.defence.ToString()));

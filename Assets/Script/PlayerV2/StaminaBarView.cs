@@ -19,6 +19,8 @@ public class StaminaBarView : MonoBehaviour
     public float hideAfter = 3f;
     public float fadeIn = 0.15f;
     public float fadeOut = 0.5f;
+    [Tooltip("Hvor mykt baren glir når stamina endrer seg (sekunder). 0 = hopper rett til verdien.")]
+    public float smoothTime = 0.15f;
     [Tooltip("Under denne andelen blir baren rød. Er du utmattet blinker den.")]
     [Range(0f, 1f)] public float redBelow = 0.26f;
 
@@ -33,6 +35,7 @@ public class StaminaBarView : MonoBehaviour
     Collider2D col;
     SpriteRenderer sr;
     float alpha;
+    float shown = -1f, shownVel;     // the amount that is drawn (follows the real amount smoothly)
     Vector2 feetOffset;           // where the feet are, relative to the player's transform (measured once, standing)
 
     void Awake()
@@ -81,7 +84,9 @@ public class StaminaBarView : MonoBehaviour
         sr.enabled = alpha > 0.01f;
         if (!sr.enabled) return;
 
-        int n = Mathf.Clamp(Mathf.RoundToInt(stamina.Percent * 28f), 0, 28);
+        if (shown < 0f) shown = stamina.Percent;
+        shown = smoothTime <= 0.001f ? stamina.Percent : Mathf.SmoothDamp(shown, stamina.Percent, ref shownVel, smoothTime);
+        int n = Mathf.Clamp(Mathf.RoundToInt(shown * 28f), 0, 28);
         if (stamina.Current > 0f && n == 0) n = 1;
         bool isRed = stamina.Percent < redBelow || stamina.IsExhausted;
         var set = isRed ? red : amber;

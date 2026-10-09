@@ -3,9 +3,9 @@ using UnityEngine;
 namespace DeepVain.Items
 {
     // Nye verdier er lagt til på slutten, så gamle items beholder riktig type.
-    public enum ItemType { Weapon, Shield, Consumable, Material, Quest, Armor, Talisman }
+    public enum ItemType { Weapon, Shield, Consumable, Material, Quest, Armor, Talisman, Tool, Ring, Ammo }
     public enum ItemRarity { Common, Uncommon, Rare, Epic, Legendary }
-    public enum EquipSlot { None, Helmet, Chest, Pants, Boots, Gloves, Weapon, Shield, Talisman }
+    public enum EquipSlot { None, Helmet, Chest, Pants, Boots, Gloves, Weapon, Shield, Talisman, Ring, Axe, Pickaxe, Bow, Arrows }
 
     [CreateAssetMenu(menuName = "DeepVain/Item", fileName = "NewItem")]
     public class ItemData : ScriptableObject
@@ -32,6 +32,10 @@ namespace DeepVain.Items
         [Tooltip("Hvor den kan tas på. None = kan ikke utstyres.")]
         public EquipSlot equipSlot = EquipSlot.None;
         public int defence;
+
+        [Header("Verktøy (øks og hakke)")]
+        [Tooltip("Hvor mye skade ett hogg gjør på trær (øks) eller stein (hakke).")]
+        public int toolPower;
 
         [Header("Forbruk")]
         public int healAmount;

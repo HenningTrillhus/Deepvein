@@ -37737,6 +37737,15 @@ MonoBehaviour:
   stepSmooth: 8
   enableLedgeClimb: 1
   climbLedgeHeight: 1
+  maxLedgeHeight: 1
+  autoClimbWalls: 0
+  jumpToLedge: 1
+  jumpGrabReach: 0.6
+  minJumpLedgeHeight: 0.5
+  airGrab: 1
+  airGrabReach: 0.3
+  airGrabMinHeight: 0.3
+  removeWallFriction: 1
   climbCheckDistance: 0.1
   climbDuration: 0.5
   climbForwardOffset: 0.4
@@ -37924,11 +37933,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1234074402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a1531b6007952c4d9e5a701740d86f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e318e12ef3a81b438ce9d9900a0f742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LedgeClimbDriver
   playbackSpeed: 1
   logScale: 1
+  riseFrame: 6
+  riseBaseTime: 0.16
+  risePerUnit: 0.14
 --- !u!114 &1234074428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38069,6 +38081,7 @@ MonoBehaviour:
   hideAfter: 3
   fadeIn: 0.15
   fadeOut: 0.5
+  smoothTime: 0.15
   redBelow: 0.26
   pixelsBelowFeet: 2
   fallbackUnitsPerPixel: 0.025
@@ -38088,9 +38101,12 @@ MonoBehaviour:
   sprintCostPerSecond: 5
   rollCost: 30
   jumpCost: 15
+  climbCost: 30
   regenDelay: 1
-  regenPerSecond: 10
+  regenPerSecond: 15
+  regenRampTime: 0.6
   exhaustedUntil: 15
+  settingsVersion: 2
 --- !u!1 &1236153709
 GameObject:
   m_ObjectHideFlags: 0

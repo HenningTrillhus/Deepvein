@@ -118,7 +118,7 @@ namespace DeepVain.Items
                     item = s.item; amount = s.count; view = gridViews[index]; return true;
                 case Area.Equip:
                     if (equipment == null || index < 0 || index >= equipViews.Length) return false;
-                    item = equipment.Get(index); amount = 1; view = equipViews[index]; return item != null;
+                    item = equipment.Get(index); amount = equipment.GetCount(index); view = equipViews[index]; return item != null;
                 case Area.Hot:
                     if (quick == null || index < 0 || index >= hotViews.Length) return false;
                     item = quick.Get(index); amount = quick.CountOf(index); view = hotViews[index]; return item != null;
@@ -208,7 +208,7 @@ namespace DeepVain.Items
                 gridViews[i].Show(slot, locked, selArea == Area.Grid && selIndex == i);
             }
             if (equipment != null)
-                for (int i = 0; i < equipViews.Length; i++) equipViews[i].ShowItem(equipment.Get(i), 1, selArea == Area.Equip && selIndex == i);
+                for (int i = 0; i < equipViews.Length; i++) equipViews[i].ShowItem(equipment.Get(i), equipment.GetCount(i), selArea == Area.Equip && selIndex == i);
             if (quick != null)
                 for (int i = 0; i < hotViews.Length; i++)
                 {

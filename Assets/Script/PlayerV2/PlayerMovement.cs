@@ -41,10 +41,28 @@ public class PlayerMovement : MonoBehaviour
     public float stepCheckDistance = 0.08f;
     public float stepSmooth = 8f;
 
-    [Header("Ledge climb (1 tile)")]
+    [Header("Ledge climb")]
     public bool enableLedgeClimb = true;
-    [Tooltip("Høyden på kanten som kan klatres. 1 tile.")]
+    [Tooltip("Høyden klatre-animasjonen er tegnet for (1 tile). Høyere kanter får et hopp opp først.")]
     public float climbLedgeHeight = 1f;
+    [Tooltip("Høyeste kant spilleren kan klatre opp på, i enheter (1 tile = 1). 1 = som før, 2 = to tiles.")]
+    public float maxLedgeHeight = 2.2f;
+    [Tooltip("På: går du mot en vegg/hindring som er lavere enn Max Ledge Height, hopper og klatrer du opp.")]
+    public bool autoClimbWalls = true;
+    [Tooltip("På: trykk hopp ved en kant (også en svevende plattform) innen rekkevidde, så hopper du opp på den.")]
+    public bool jumpToLedge = true;
+    [Tooltip("Hvor langt fra kroppen kanten kan være ved hopp-klatring.")]
+    public float jumpGrabReach = 0.6f;
+    [Tooltip("Kanter lavere enn dette tas av vanlig steg og hopp.")]
+    public float minJumpLedgeHeight = 0.5f;
+    [Tooltip("På: er du i lufta (etter et hopp) rett ved en kant og holder mot den, tar han tak og klatrer opp.")]
+    public bool airGrab = true;
+    [Tooltip("Hvor langt fra kroppen kanten kan være for å ta tak i lufta.")]
+    public float airGrabReach = 0.3f;
+    [Tooltip("Kanter lavere enn dette (over føttene) tas ikke i lufta.")]
+    public float airGrabMinHeight = 0.3f;
+    [Tooltip("På: ingen friksjon mot vegger, så han ikke fester seg og rister mot en vegg i lufta.")]
+    public bool removeWallFriction = true;
     [Tooltip("Hvor langt foran seg den ser etter kanten.")]
     public float climbCheckDistance = 0.1f;
     [Tooltip("Lengden på klatre-animasjonen. Match klippet.")]
@@ -124,6 +142,8 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         ledgeDriver = GetComponent<LedgeClimbDriver>();
+        if (removeWallFriction && col != null && col.sharedMaterial == null && rb.sharedMaterial == null)
+            col.sharedMaterial = new PhysicsMaterial2D("PlayerNoFriction") { friction = 0f, bounciness = 0f };   // ellers fester han seg på vegger i lufta
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         defaultGravity = rb.gravityScale;
@@ -191,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Kantklatringen styrer posisjonen selv
-        if (isLedgeClimbing) return;
+        if (isLedgeClimbing) { jumpPressed = false; return; }
 
         // Rullen styrer farten selv (coroutine)
         if (isRolling) return;
@@ -223,8 +243,17 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        // I lufta rett ved en kant: ta tak og klatre opp
+        if (!isGrounded && airGrab && TryAirGrab()) return;
+
         // Prøv kantklatring før vanlig bevegelse
         if (TryStartLedgeClimb()) return;
+
+        // Hopp-tasten ved en kant (vegg eller svevende plattform): hopp opp og klatre
+        if (jumpPressed && jumpToLedge && isGrounded && !shieldUp && !isCrouching && !(attack != null && attack.IsAttacking))
+        {
+            if (TryStartLedgeClimb(true)) { jumpPressed = false; return; }
+        }
 
         float h = shieldUp ? 0f : moveInput;
         if (IsBlocked(h)) h = 0f;
@@ -350,54 +379,119 @@ public class PlayerMovement : MonoBehaviour
 
     // ---------- Kantklatring ----------
 
-    private bool TryStartLedgeClimb()
+    /// <summary>
+    /// Finner en kant spilleren kan klatre opp på, foran seg. byJump = false: han går mot en vegg (veggen må gå helt ned til føttene).
+    /// byJump = true: han trykket hopp, og kanten kan være en svevende plattform innen jumpGrabReach.
+    /// </summary>
+    private bool TryStartLedgeClimb(bool byJump = false)
     {
         if (!enableLedgeClimb || isLedgeClimbing || isCrouching) return false;
         if (block != null && block.IsBlocking) return false;   // ikke klatre med skjoldet oppe
         if (!isGrounded) return false;
-        if (Mathf.Abs(moveInput) < 0.01f) return false;
+        if (stamina != null && !stamina.CanClimb) return false;     // tom for stamina: for sliten til å klatre
 
-        Vector2 dir = new Vector2(Mathf.Sign(moveInput), 0f);
+        int dirX;
+        if (Mathf.Abs(moveInput) > 0.01f) dirX = moveInput < 0f ? -1 : 1;
+        else if (byJump) dirX = facing;
+        else return false;
+
         Bounds b = col.bounds;
-        float rayLength = b.extents.x + climbCheckDistance;
-        const float skin = 0.02f;
+        float reach = byJump ? jumpGrabReach : climbCheckDistance;
+        float minHeight = byJump ? minJumpLedgeHeight : stepHeight + 0.06f;   // lavere kanter tar HandleStep
 
-        // Noe i veien over steghøyde? (lavere kanter tar HandleStep)
-        Vector2 lowOrigin = new Vector2(b.center.x, b.min.y + stepHeight + skin * 2f);
-        if (Physics2D.Raycast(lowOrigin, dir, rayLength, groundLayer).collider == null)
-            return false;
-
-        // ... men fritt rett over én tile?
-        Vector2 highOrigin = new Vector2(b.center.x, b.min.y + climbLedgeHeight + skin);
-        if (Physics2D.Raycast(highOrigin, dir, rayLength, groundLayer).collider != null)
-            return false;
-
-        // Finn selve toppflaten på kanten i stedet for å anta at den er nøyaktig én tile opp
-        float standX = b.center.x + dir.x * (b.extents.x + climbForwardOffset);
-        float ledgeTop = b.min.y + climbLedgeHeight;                 // reserve hvis strålen ikke treffer noe
-        RaycastHit2D topHit = Physics2D.Raycast(new Vector2(standX, b.min.y + climbLedgeHeight + 0.5f), Vector2.down, climbLedgeHeight + 0.5f, groundLayer);
-        if (topHit.collider != null) ledgeTop = topHit.point.y;
-
-        // Hvor spilleren skal ende opp, målt i collider-senter
-        Vector2 standCenter = new Vector2(standX, ledgeTop + b.extents.y + skin);
-
-        // Forbudt sone?
-        if (Physics2D.OverlapCircle(standCenter, b.extents.x, noClimbLayer))
-            return false;
-
-        // Er det faktisk plass å stå der oppe?
-        if (Physics2D.OverlapBox(standCenter, b.size * 0.85f, 0f, groundLayer))
+        if (!FindLedge(dirX, reach, !byJump, minHeight, byJump, false, out Vector2 standCenter, out float height))
             return false;
 
         // rb.position er ikke nødvendigvis collider-senteret
         Vector2 colOffset = (Vector2)b.center - rb.position;
-        ledgeRoutine = StartCoroutine(LedgeClimbRoutine(standCenter - colOffset));
+        ledgeRoutine = StartCoroutine(LedgeClimbRoutine(standCenter - colOffset, false));
         return true;
     }
 
-    private IEnumerator LedgeClimbRoutine(Vector2 target)
+    /// <summary>I lufta (etter et hopp) rett ved en kant: holder du mot den, tar han tak og klatrer opp derfra.</summary>
+    private bool TryAirGrab()
+    {
+        if (!enableLedgeClimb || isLedgeClimbing || isCrouching || isRolling) return false;
+        if (block != null && block.IsBlocking) return false;
+        if (stamina != null && !stamina.CanClimb) return false;
+        if (Mathf.Abs(moveInput) < 0.01f) return false;
+        if (rb.linearVelocity.y > 1.5f) return false;                  // ikke mens han suser oppover
+        int dirX = moveInput < 0f ? -1 : 1;
+        Bounds b = col.bounds;
+        if (!FindLedge(dirX, airGrabReach, false, airGrabMinHeight, true, true, out Vector2 standCenter, out float height))
+            return false;
+        Vector2 colOffset = (Vector2)b.center - rb.position;
+        ledgeRoutine = StartCoroutine(LedgeClimbRoutine(standCenter - colOffset, true));
+        return true;
+    }
+
+    private bool FindLedge(int dirX, float reach, bool needWall, float minHeight, bool byJump, bool fromAir, out Vector2 standCenter, out float height)
+    {
+        standCenter = Vector2.zero; height = 0f;
+        Bounds b = col.bounds;
+        Vector2 dir = new Vector2(dirX, 0f);
+        float rayLength = b.extents.x + reach;
+        const float skin = 0.02f;
+        float feet = b.min.y;
+        float limit = Mathf.Max(maxLedgeHeight, climbLedgeHeight);
+        if (fromAir) limit = Mathf.Min(limit, b.size.y + 0.45f);          // hendene rekker ca. hodet + en armlengde
+        float maxTop = feet + limit;
+
+        // Er hindringen høyere enn det han kan klatre?
+        if (Physics2D.Raycast(new Vector2(b.center.x, maxTop + 0.15f), dir, rayLength, groundLayer).collider != null)
+            return false;
+
+        // Finn toppflaten på kanten (rett ned fra over maks-høyden der han vil stå)
+        float standX = b.center.x + dirX * (b.extents.x + climbForwardOffset);
+        RaycastHit2D topHit = Physics2D.Raycast(new Vector2(standX, maxTop + 0.3f), Vector2.down, maxTop + 0.3f - feet, groundLayer);
+        if (topHit.collider == null || topHit.distance < 0.001f) return false;
+        float ledgeTop = topHit.point.y;
+        height = ledgeTop - feet;
+        if (height < minHeight || height > limit + 0.05f) return false;
+
+        // Høyere enn én tile klatrer han bare automatisk hvis autoClimbWalls er på
+        if (!byJump && height > climbLedgeHeight + 0.05f && !autoClimbWalls) return false;
+
+        // Selve kantflaten må være innen rekkevidde, rett under toppen
+        if (Physics2D.Raycast(new Vector2(b.center.x, ledgeTop - 0.1f), dir, rayLength, groundLayer).collider == null)
+            return false;
+
+        // Fritt rett over kanten, helt inn til der han skal stå
+        float over = (standX - b.center.x) * dirX;
+        if (Physics2D.Raycast(new Vector2(b.center.x, ledgeTop + 0.08f), dir, over, groundLayer).collider != null)
+            return false;
+
+        // Gå mot hindringen: den må stoppe kroppen hans (ved føttene, midt på eller i hodehøyde).
+        // En plattform høyt nok til å gå under (over hodet hans) starter ingen klatring av seg selv; bruk hopp-tasten.
+        if (needWall)
+        {
+            bool blocked = false;
+            float[] ys = { feet + stepHeight + skin * 2f, b.center.y, b.max.y - 0.05f };
+            for (int i = 0; i < ys.Length && !blocked; i++)
+                blocked = Physics2D.Raycast(new Vector2(b.center.x, ys[i]), dir, rayLength, groundLayer).collider != null;
+            if (!blocked) return false;
+        }
+
+        // Hvor spilleren skal ende opp, målt i collider-senter
+        standCenter = new Vector2(standX, ledgeTop + b.extents.y + skin);
+
+        // Forbudt sone?
+        if (Physics2D.OverlapCircle(standCenter, b.extents.x, noClimbLayer)) return false;
+
+        // Er det faktisk plass å stå der oppe?
+        if (Physics2D.OverlapBox(standCenter, b.size * 0.85f, 0f, groundLayer)) return false;
+
+        // Tak rett over hodet på veien opp?
+        if (Physics2D.BoxCast(b.center, new Vector2(b.size.x * 0.8f, b.size.y * 0.9f), 0f, Vector2.up, height + skin, groundLayer).collider != null)
+            return false;
+
+        return true;
+    }
+
+    private IEnumerator LedgeClimbRoutine(Vector2 target, bool fromAir = false)
     {
         isLedgeClimbing = true;
+        if (stamina != null) stamina.SpendClimb();          // klatring koster stamina (30)
         facing = (target.x > rb.position.x) ? 1 : -1;
 
         rb.linearVelocity = Vector2.zero;
@@ -409,7 +503,7 @@ public class PlayerMovement : MonoBehaviour
         if (ledgeDriver != null && ledgeDriver.Ready)
         {
             // LedgeClimbDriver velger bildene og flytter spilleren jevnt
-            var steps = ledgeDriver.Play(rb, start, target, climbLedgeHeight);
+            var steps = ledgeDriver.Play(rb, start, target, climbLedgeHeight, fromAir);
             while (steps.MoveNext()) yield return steps.Current;
         }
         else
@@ -434,6 +528,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FinishLedgeClimb()
     {
+        jumpPressed = false;                 // et hopp trykket under klatringen skal ikke sende ham opp i lufta etterpå
         col.enabled = true;
         if (ledgeDriver != null) ledgeDriver.Stop();
 
@@ -565,6 +660,10 @@ public class PlayerMovement : MonoBehaviour
             Gizmos.DrawLine(
                 new Vector3(b.center.x, b.min.y + climbLedgeHeight, 0f),
                 new Vector3(b.center.x + facing * (b.extents.x + climbCheckDistance), b.min.y + climbLedgeHeight, 0f));
+            Gizmos.color = new Color(1f, 0.5f, 0f);
+            Gizmos.DrawLine(
+                new Vector3(b.center.x, b.min.y + maxLedgeHeight, 0f),
+                new Vector3(b.center.x + facing * (b.extents.x + jumpGrabReach), b.min.y + maxLedgeHeight, 0f));
         }
     }
 

@@ -25,5 +25,6 @@ MonoBehaviour:
   blockAmount: 40
   equipSlot: 7
   defence: 3
+  toolPower: 0
   healAmount: 0
   useTime: 0.8
