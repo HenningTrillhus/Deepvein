@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Puts a random tree at every TreeSlot inside the chunks. Lives on the same object as WorldBuilder (which calls Populate after the world
 /// is made), or call Populate yourself. The same world seed always gives the same trees.
+/// v2: trees made without a prefab get TreeSway automatically (so they sway and can be highlighted by TreeHover).
 /// Right-click the script header: "Populate all slots in scene" / "Clear trees" to see it without playing.
 /// </summary>
 public class TreeSpawner : MonoBehaviour
@@ -30,6 +31,14 @@ public class TreeSpawner : MonoBehaviour
     public int sortingOrder = -4;
     [Tooltip("Hvert tre får en tilfeldig verdi fra Sorting Order til Sorting Order + dette, så trærne som overlapper blander seg pent.")]
     [Min(0)] public int orderSpread = 2;
+
+    [Header("Vind og valg (TreeSway)")]
+    [Tooltip("Legg TreeSway på hvert tre som lages, så de svaier og kan få kontur når musa er over. Trær fra en prefab som allerede har TreeSway røres ikke.")]
+    public bool addSway = true;
+    [Tooltip("Materialet 'Sprite Sway' (Assets/TreeSway/TreeSway.mat). Tomt = lager ett felles materiale av shaderen selv.")]
+    public Material swayMaterial;
+    [Tooltip("Hvor langt toppen flytter seg sideveis (units).")]
+    public float swayAmount = 0.08f;
 
     [Header("Variasjon")]
     [Tooltip("Unngå at samme tre kommer rett etter hverandre: hvor mange av de siste som hoppes over hvis mulig.")]
@@ -94,9 +103,25 @@ public class TreeSpawner : MonoBehaviour
             sr.sortingOrder = sortingOrder + (orderSpread > 0 ? rng.Next(0, orderSpread + 1) : 0);
             if (slot.randomFlip) sr.flipX = rng.Next(2) == 0;
         }
+        if (addSway && sr != null && go.GetComponent<TreeSway>() == null) AddSway(go);
 #if UNITY_EDITOR
         if (!Application.isPlaying) go.hideFlags = HideFlags.DontSaveInEditor;                     // an editor preview must not be saved into the scene
 #endif
+    }
+
+    void AddSway(GameObject go)
+    {
+        if (swayMaterial == null)
+        {
+            var shader = Shader.Find("DeepVain/Sprite Sway");
+            if (shader != null) swayMaterial = new Material(shader) { name = "Sprite Sway (spawner)" };      // one shared material for every tree
+        }
+        bool wasActive = go.activeSelf;
+        go.SetActive(false);                                                  // so the material is in place before TreeSway starts
+        var sway = go.AddComponent<TreeSway>();
+        sway.swayMaterial = swayMaterial;
+        sway.amount = swayAmount;
+        go.SetActive(wasActive);
     }
 
     static int Hash(int a, int b, int c)

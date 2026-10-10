@@ -159,11 +159,11 @@ public class PlayerMovement : MonoBehaviour
             visualBaseScale = new Vector3(Mathf.Abs(visual.localScale.x), visual.localScale.y, visual.localScale.z);
 
         controls = new PlayerControls();
-        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<float>();
+        controls.Player.Move.performed += ctx => { moveInput = ctx.ReadValue<float>(); if (Mathf.Abs(moveInput) > 0.01f && PlayerInput != null) PlayerInput(); };
         controls.Player.Move.canceled += ctx => moveInput = 0f;
         controls.Player.Climb.performed += ctx => climbInput = ctx.ReadValue<float>();
         controls.Player.Climb.canceled += ctx => climbInput = 0f;
-        controls.Player.Jump.performed += ctx => jumpPressed = true;
+        controls.Player.Jump.performed += ctx => { jumpPressed = true; if (PlayerInput != null) PlayerInput(); };
     }
 
     void OnEnable() => controls.Player.Enable();
@@ -181,6 +181,8 @@ public class PlayerMovement : MonoBehaviour
         // Under en kantklatring / rull er retningen låst - ikke snu midt i animasjonen
         if (!isLedgeClimbing && !isRolling)
         {
+            if (forcedFacing != 0) facing = forcedFacing;      // TreeChopper: snu mot treet
+            else {
             bool aiming = (attack != null && attack.IsAttacking) || (block != null && block.IsBlocking);
             if (aiming && cam != null && Mouse.current != null)
             {
@@ -191,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
             else if (moveInput != 0)
             {
                 facing = moveInput < 0 ? -1 : 1;
+            }
             }
         }
 
@@ -255,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
             if (TryStartLedgeClimb(true)) { jumpPressed = false; return; }
         }
 
-        float h = shieldUp ? 0f : moveInput;
+        float h = shieldUp ? 0f : (forcedMoveOn ? forcedMove : moveInput);      // forcedMove: TreeChopper flytter deg litt inntil treet
         if (IsBlocked(h)) h = 0f;
 
         rb.linearVelocity = new Vector2(h * CurrentSpeed(), rb.linearVelocity.y);
@@ -666,6 +669,20 @@ public class PlayerMovement : MonoBehaviour
                 new Vector3(b.center.x + facing * (b.extents.x + jumpGrabReach), b.min.y + maxLedgeHeight, 0f));
         }
     }
+
+    // ---------- Styring utenfra (TreeChopper) ----------
+    private float forcedMove;
+    private bool forcedMoveOn;
+    private int forcedFacing;
+
+    /// <summary>Kommer når spilleren selv trykker gå eller hopp. TreeChopper bruker den til å avbryte hogging.</summary>
+    public event System.Action PlayerInput;
+
+    /// <summary>-1 / +1 = gå i den retningen uten tastetrykk, 0 = vanlig styring igjen.</summary>
+    public void SetForcedMove(float dir) { forcedMove = Mathf.Clamp(dir, -1f, 1f); forcedMoveOn = Mathf.Abs(dir) > 0.001f; }
+    /// <summary>-1 / +1 = hold blikket den veien, 0 = vanlig styring igjen.</summary>
+    public void SetForcedFacing(int dir) { forcedFacing = dir; }
+    public bool IsGrounded => isGrounded;
 
     public bool IsClimbing => isClimbing;
     public bool IsLedgeClimbing => isLedgeClimbing;

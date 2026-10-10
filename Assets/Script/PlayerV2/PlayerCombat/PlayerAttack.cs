@@ -39,6 +39,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerAnimator anim;
     private PlayerMovement movement;
     private PlayerBlock block;
+    private TreeChopper chopper;
     private bool isAttacking;
     private float lastAttackTime = -999f;
     private float currentAngle;
@@ -54,6 +55,7 @@ public class PlayerAttack : MonoBehaviour
         anim = GetComponent<PlayerAnimator>();
         movement = GetComponent<PlayerMovement>();
         block = GetComponent<PlayerBlock>();
+        chopper = GetComponent<TreeChopper>();
 
         if (swordRenderer == null && sword != null)
             swordRenderer = sword.GetComponent<SpriteRenderer>();
@@ -80,8 +82,13 @@ public class PlayerAttack : MonoBehaviour
             CheckHits();
     }
 
+    /// <summary>Hvilke lag fiendene ligger på (TreeChopper bruker den til å se om det er fiender i nærheten).</summary>
+    public LayerMask EnemyLayer => enemyLayer;
+
     private void TryAttack()
     {
+        // klikk på et tre med øks i hånden = hugge, ikke slå (TreeChopper bestemmer, og slår aldri til når en fiende er nær)
+        if (chopper != null && chopper.OnAttackClick()) return;
         if (isAttacking) return;
         if (Time.time < lastAttackTime + attackCooldown) return;
         if (block != null && block.IsBlocking) return;   // ikke slå mens skjoldet er oppe

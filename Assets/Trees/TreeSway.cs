@@ -5,6 +5,7 @@ using UnityEngine;
 ///   Bend:   a shader bends the picture sideways, nothing at the foot and more and more towards the top, in whole sprite pixels.
 ///           Needs the "DeepVain/Sprite Sway" material (made by the menu DeepVain > Trees > 1 - Create sway material).
 ///   Rotate: no shader needed. The whole object rocks around its pivot (the feet) a few degrees. Stiffer, but works everywhere.
+/// v2: also knows "selected" (SetHighlighted): the shader draws a white outline and brightens the picture. Used by TreeHover.
 /// Put it on the object with the SpriteRenderer. Every tree gets its own random phase, so a forest never sways in step.
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
@@ -15,6 +16,11 @@ public class TreeSway : MonoBehaviour
 
     /// <summary>One knob for all trees at once: 0 = dead calm, 1 = normal, 2 = storm. Can be changed from anywhere.</summary>
     public static float WindScale = 1f;
+
+    [Header("Valgt (musa over treet)")]
+    public Color outlineColor = Color.white;
+    [Tooltip("Hvor mye lysere treet blir når det er valgt (0-1).")]
+    [Range(0f, 1f)] public float highlightBrighten = 0.22f;
 
     public Style style = Style.Bend;
     [Tooltip("Bend: the Sprite Sway material. Tomt = finner shaderen selv (virker i editor og i bygg hvis den er brukt av et material).")]
@@ -45,12 +51,49 @@ public class TreeSway : MonoBehaviour
 
     static readonly int pAmount = Shader.PropertyToID("_SwayAmount"), pSpeed = Shader.PropertyToID("_SwaySpeed"), pPhase = Shader.PropertyToID("_SwayPhase"),
         pWind = Shader.PropertyToID("_Wind"), pBaseY = Shader.PropertyToID("_BaseY"), pHeight = Shader.PropertyToID("_Height"), pCenterX = Shader.PropertyToID("_CenterX"),
-        pUVPerUnit = Shader.PropertyToID("_UVPerUnit"), pUVMinMax = Shader.PropertyToID("_UVMinMaxX"), pPPU = Shader.PropertyToID("_PPU"), pSnap = Shader.PropertyToID("_Snap");
+        pUVPerUnit = Shader.PropertyToID("_UVPerUnit"), pUVMinMax = Shader.PropertyToID("_UVMinMaxX"), pPPU = Shader.PropertyToID("_PPU"), pSnap = Shader.PropertyToID("_Snap"),
+        pUVPerUnitY = Shader.PropertyToID("_UVPerUnitY"), pUVMinMaxY = Shader.PropertyToID("_UVMinMaxY"), pOutline = Shader.PropertyToID("_Outline"),
+        pOutlineColor = Shader.PropertyToID("_OutlineColor"), pBrighten = Shader.PropertyToID("_Brighten");
+
+    bool highlighted;
+    Color baseColor = Color.white;
+
+    // shake (a hit with the axe) and still (a tree that is falling)
+    float shakeStart = -100f, shakeDuration = 0.5f, shakeStrength = 1f;
+    bool shakingLastFrame, still;
+
+    /// <summary>The tree shudders: the crown whips back and forth and settles. Used when the axe hits.</summary>
+    public void Shake(float strength = 1f, float duration = 0.45f)
+    {
+        shakeStart = Time.time; shakeDuration = Mathf.Max(0.05f, duration); shakeStrength = strength;
+    }
+    public bool IsShaking { get { return Time.time < shakeStart + shakeDuration; } }
+    float ShakeK()
+    {
+        float t = (Time.time - shakeStart) / shakeDuration;
+        if (t < 0f || t > 1f) return 0f;
+        return (1f - t) * (1f - t) * shakeStrength;                      // starts hard, dies out
+    }
+    /// <summary>On = no wind sway at all (the tree is falling and is moved by script instead).</summary>
+    public void Still(bool on) { still = on; if (style == Style.Bend && mpb != null) ApplySprite(); }
+
+    public bool Highlighted { get { return highlighted; } }
+
+    /// <summary>Selected look on/off. Bend: outline + brighter through the shader. Rotate (no shader): only a brighter tint.</summary>
+    public void SetHighlighted(bool on)
+    {
+        if (highlighted == on) return;
+        highlighted = on;
+        if (sr == null) sr = GetComponent<SpriteRenderer>();
+        if (style == Style.Bend && mpb != null) ApplySprite();
+        else if (sr != null) sr.color = on ? Color.Lerp(baseColor, Color.white, 0.35f) : baseColor;
+    }
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         baseRotation = transform.localRotation;
+        baseColor = sr.color;
 
         // a stable random per tree (from where it stands), so the same tree always starts in the same place in the sway
         Vector3 p = transform.position;
@@ -103,14 +146,21 @@ public class TreeSway : MonoBehaviour
         mpb.SetFloat(pBaseY, b.min.y);
         mpb.SetFloat(pHeight, b.size.y);
         mpb.SetFloat(pCenterX, b.center.x);
+        float vMin = r.yMin / tex.height, vMax = r.yMax / tex.height;
         mpb.SetFloat(pUVPerUnit, (uMax - uMin) / Mathf.Max(0.0001f, b.size.x));
+        mpb.SetFloat(pUVPerUnitY, (vMax - vMin) / Mathf.Max(0.0001f, b.size.y));
         mpb.SetVector(pUVMinMax, new Vector4(uMin, uMax, 0f, 0f));
+        mpb.SetVector(pUVMinMaxY, new Vector4(vMin, vMax, 0f, 0f));
+        mpb.SetFloat(pOutline, highlighted ? 1f : 0f);
+        mpb.SetColor(pOutlineColor, outlineColor);
+        mpb.SetFloat(pBrighten, highlightBrighten);
         mpb.SetFloat(pPPU, sprite.pixelsPerUnit);
         mpb.SetFloat(pSnap, snapToPixels ? 1f : 0f);
-        mpb.SetFloat(pAmount, amount);
-        mpb.SetFloat(pSpeed, speed * speedMul);
+        float k = ShakeK();
+        mpb.SetFloat(pAmount, still ? 0f : amount);
+        mpb.SetFloat(pSpeed, speed * speedMul * (1f + 2.5f * k));
         mpb.SetFloat(pPhase, phase);
-        mpb.SetFloat(pWind, WindScale);
+        mpb.SetFloat(pWind, still ? 0f : WindScale + 3.5f * k);           // a shake works even in dead calm
         lastWind = WindScale;
         sr.SetPropertyBlock(mpb);
 
@@ -127,11 +177,14 @@ public class TreeSway : MonoBehaviour
         {
             float t = Time.time * speed * speedMul + phase;
             float w = Mathf.Sin(t) * 0.75f + Mathf.Sin(t * 2.17f + phase * 1.7f) * 0.25f;
-            transform.localRotation = baseRotation * Quaternion.Euler(0f, 0f, w * angle * WindScale);
+            float kk = ShakeK();
+            transform.localRotation = baseRotation * Quaternion.Euler(0f, 0f, still ? 0f : w * angle * WindScale + Mathf.Sin(Time.time * 45f) * kk * 3f);
             return;
         }
 
         if (sr == null || sr.sprite == null) return;
-        if (sr.sprite != lastSprite || !Mathf.Approximately(lastWind, WindScale)) ApplySprite();       // a new picture or a new wind strength
+        bool shaking = IsShaking;
+        if (sr.sprite != lastSprite || !Mathf.Approximately(lastWind, WindScale) || shaking || shakingLastFrame) ApplySprite();       // a new picture, a new wind strength, or a shake
+        shakingLastFrame = shaking;
     }
 }

@@ -30,17 +30,23 @@ Material:
     m_Ints: []
     m_Floats:
     - _BaseY: 0
+    - _Brighten: 0.22
     - _CenterX: 0
     - _Height: 3
+    - _Outline: 0
+    - _OutlineWidth: 1
     - _PPU: 100
     - _Snap: 1
     - _SwayAmount: 0.08
     - _SwayPhase: 0
     - _SwaySpeed: 1
     - _UVPerUnit: 0.3
+    - _UVPerUnitY: 0.3
     - _Wind: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVMinMaxX: {r: 0, g: 1, b: 0, a: 0}
+    - _UVMinMaxY: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
