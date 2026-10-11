@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 954bcdf3b67dcf240841adcf408bd40f, type: 3}
+  m_Name: PropSet
+  m_EditorClassIdentifier: Assembly-CSharp::PropSet
+  entries:
+  - label: Flower_Buttercup
+    prefab: {fileID: 3242746175831005694, guid: b0aee3784120093498f228b21b00bee7, type: 3}
+    weight: 1
+  - label: Flower_Daisy
+    prefab: {fileID: 5085069333786903946, guid: dad1a601a2e5ca648b1f299a43cfda7c, type: 3}
+    weight: 1
+  - label: Flower_Lavender
+    prefab: {fileID: 6305180420259095624, guid: b30454895e2f94e41a0ddcb26b41bfbe, type: 3}
+    weight: 1
+  - label: Flower_Sunflower
+    prefab: {fileID: 5620104599157023642, guid: 44b3d498252b2d04bb6a01d22f053447, type: 3}
+    weight: 1
+  - label: Ground_AcornsLeaf
+    prefab: {fileID: 7727663254323353911, guid: f87c4fe4005898f4f80ba247dee8ef99, type: 3}
+    weight: 0.5
+  - label: Mushroom_Brown
+    prefab: {fileID: 860095778815219473, guid: e3df4c980d8c18642b6e8752aea24387, type: 3}
+    weight: 0.6
+  - label: Mushroom_RedCluster
+    prefab: {fileID: 214744365687182389, guid: d6c2f7208d9890d44967baf37af5c540, type: 3}
+    weight: 0.6
+  - label: Plant_Clover
+    prefab: {fileID: 4405373438517396765, guid: 4f177691697816149bdb738f739483df, type: 3}
+    weight: 1
+  - label: Plant_Fern
+    prefab: {fileID: 4897078255923011271, guid: 6bae25bc1a70648419d8d3965a80c706, type: 3}
+    weight: 1
+  - label: Plant_GrassTuft
+    prefab: {fileID: 487641090977661228, guid: 799df0befcc902649aadd78eb4d2e5e9, type: 3}
+    weight: 1
+  - label: Plant_Reeds
+    prefab: {fileID: 1019319588639719871, guid: 093161adcac81b44d9a472d33ed9893f, type: 3}
+    weight: 1
+  - label: Rock_Pebbles
+    prefab: {fileID: 8166500345181364183, guid: 1887e3f798344514985f483c7487cb26, type: 3}
+    weight: 0.5
+  - label: Wood_BranchPile
+    prefab: {fileID: 911447742830416615, guid: 5544aa13159bc884b8877494874d2a9f, type: 3}
+    weight: 0.5
+  - label: Wood_LogFallen
+    prefab: {fileID: 8494084322289769202, guid: babb48ef618fbd14b8e7b54ebb0b56b4, type: 3}
+    weight: 0.5
+  - label: Wood_Stump
+    prefab: {fileID: 7603985161662669119, guid: 4f4e383fab9293540a57909db8a9c464, type: 3}
+    weight: 0.5
