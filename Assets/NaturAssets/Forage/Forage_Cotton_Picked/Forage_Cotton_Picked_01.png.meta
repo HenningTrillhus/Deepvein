@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 71f11bc11ca733b4d8bb4e9e2e97f97d
+guid: 476ce0d6beff6884eb6d1cc4894cd898
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2067898546876541913
-    second: Wood_0
+      213: -7566414538524382177
+    second: Forage_Cotton_Picked_01_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,9 +49,9 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1
+  alignment: 9
+  spritePivot: {x: 0.5, y: 0.04}
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Wood_0
+      name: Forage_Cotton_Picked_01_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 3
-        width: 29
-        height: 19
+        x: 7
+        y: 0
+        width: 36
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72490e15a395d43e0800000000000000
-      internalID: -2067898546876541913
+      spriteID: f1c27e7d012bef690800000000000000
+      internalID: -7566414538524382177
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Wood_0: -2067898546876541913
+      Forage_Cotton_Picked_01_0: -7566414538524382177
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

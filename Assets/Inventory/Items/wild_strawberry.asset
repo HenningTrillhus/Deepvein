@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828f385200d22b64f808431d2b524311, type: 3}
+  m_Name: wild_strawberry
+  m_EditorClassIdentifier: Assembly-CSharp::DeepVain.Items.ItemData
+  id: wild_strawberry
+  displayName: Wild Strawberry
+  icon: {fileID: 21300000, guid: ee2c44d9a6e80b041b13d6df0ce4239b, type: 3}
+  type: 3
+  rarity: 0
+  description: Small, sweet wild strawberries.
+  maxStack: 99
+  sellValue: 2
+  damage: 0
+  attackSpeed: 1
+  blockAmount: 0
+  equipSlot: 0
+  defence: 0
+  toolPower: 0
+  healAmount: 0
+  useTime: 0.8

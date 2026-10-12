@@ -1,0 +1,325 @@
+fileFormatVersion: 2
+guid: 65a005f6140b05d4ca19ac5cf04ad9f6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8372242693099921076
+    second: Forage_Strawberry_Picked_Sheet_0
+  - first:
+      213: 4296589579473191391
+    second: Forage_Strawberry_Picked_Sheet_1
+  - first:
+      213: -3874187176315481233
+    second: Forage_Strawberry_Picked_Sheet_2
+  - first:
+      213: -4626767488402335506
+    second: Forage_Strawberry_Picked_Sheet_3
+  - first:
+      213: 8430852447935395363
+    second: Forage_Strawberry_Picked_Sheet_4
+  - first:
+      213: -3793387511539176116
+    second: Forage_Strawberry_Picked_Sheet_5
+  - first:
+      213: 6201416973625664538
+    second: Forage_Strawberry_Picked_Sheet_6
+  - first:
+      213: -1792830006816405585
+    second: Forage_Strawberry_Picked_Sheet_7
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Forage_Strawberry_Picked_Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2
+        width: 50
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c416b60f0a1dfcb80800000000000000
+      internalID: -8372242693099921076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forage_Strawberry_Picked_Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2
+        width: 50
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd1052e457d80ab30800000000000000
+      internalID: 4296589579473191391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forage_Strawberry_Picked_Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 2
+        width: 50
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f63975a1a4f1c3ac0800000000000000
+      internalID: -3874187176315481233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forage_Strawberry_Picked_Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 2
+        width: 50
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee8d373ab7b6acfb0800000000000000
+      internalID: -4626767488402335506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forage_Strawberry_Picked_Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 2
+        width: 50
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 326fbe002a7600570800000000000000
+      internalID: 8430852447935395363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forage_Strawberry_Picked_Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 2
+        width: 50
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4ded4f082e2b5bc0800000000000000
+      internalID: -3793387511539176116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forage_Strawberry_Picked_Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 2
+        width: 50
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a14290981ebdf0650800000000000000
+      internalID: 6201416973625664538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forage_Strawberry_Picked_Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 2
+        width: 50
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa70c0d8b969e17e0800000000000000
+      internalID: -1792830006816405585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Forage_Strawberry_Picked_Sheet_0: -8372242693099921076
+      Forage_Strawberry_Picked_Sheet_1: 4296589579473191391
+      Forage_Strawberry_Picked_Sheet_2: -3874187176315481233
+      Forage_Strawberry_Picked_Sheet_3: -4626767488402335506
+      Forage_Strawberry_Picked_Sheet_4: 8430852447935395363
+      Forage_Strawberry_Picked_Sheet_5: -3793387511539176116
+      Forage_Strawberry_Picked_Sheet_6: 6201416973625664538
+      Forage_Strawberry_Picked_Sheet_7: -1792830006816405585
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

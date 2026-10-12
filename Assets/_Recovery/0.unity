@@ -13219,6 +13219,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6338188547526153434, guid: e8b90bceddc928e42bc0189bd48ffe81, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1234074438}
+    - targetCorrespondingSourceObject: {fileID: 6338188547526153434, guid: e8b90bceddc928e42bc0189bd48ffe81, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1234074439}
   m_SourcePrefab: {fileID: 100100000, guid: e8b90bceddc928e42bc0189bd48ffe81, type: 3}
 --- !u!1 &424386298
 GameObject:
@@ -38919,6 +38922,26 @@ MonoBehaviour:
     min: 3
     max: 5
   delay: 0.9
+--- !u!114 &1234074439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234074402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25f3f90b7cb99b44581613fa72f971f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ForagePicker
+  pickKey: 19
+  reach: 1.2
+  reachY: 1.6
+  giveDelay: 0.35
+  totalTime: 0.62
+  showPrompt: 1
+  promptSortingLayer: Default
+  promptSortingOrder: 50
 --- !u!1 &1235591872
 GameObject:
   m_ObjectHideFlags: 0
