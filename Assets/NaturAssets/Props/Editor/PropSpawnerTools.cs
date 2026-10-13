@@ -121,8 +121,9 @@ namespace DeepVain.PropSpawnerTools
                 if (prefab == null) continue;
                 bool animated = IsAnimatedProp(n) && prefab.GetComponent<AnimatorStartOffset>() != null;   // made by Build animated props
                 bool still = prefab.GetComponent<StillPropMarker>() != null;                               // made by Build still props
-                if (!animated && !still) continue;
-                float w = still ? 0.5f : n.StartsWith("Mushroom_") ? 0.6f : 1f;                           // still things and mushrooms are rarer
+                bool forage = prefab.GetComponent<Forageable>() != null;                                    // made by Build forageables (can be picked)
+                if (!animated && !still && !forage) continue;
+                float w = still ? 0.5f : (forage || n.StartsWith("Mushroom_")) ? 0.6f : 1f;               // still things, mushrooms and forageables are rarer
                 entries.Add(new PropSet.Entry { label = n, prefab = prefab, weight = w });
             }
             if (entries.Count == 0)

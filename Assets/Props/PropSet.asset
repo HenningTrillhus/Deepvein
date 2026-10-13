@@ -25,6 +25,18 @@ MonoBehaviour:
   - label: Flower_Sunflower
     prefab: {fileID: 5620104599157023642, guid: 44b3d498252b2d04bb6a01d22f053447, type: 3}
     weight: 1
+  - label: Forage_Blueberry
+    prefab: {fileID: 5353237474031770132, guid: 017086c619122bd458467684a1452e50, type: 3}
+    weight: 0.6
+  - label: Forage_Cotton
+    prefab: {fileID: 6775477689001398232, guid: 8f0d5bfa67c28634cac554e18e268870, type: 3}
+    weight: 0.6
+  - label: Forage_HealingHerb
+    prefab: {fileID: 4404825845330764108, guid: 1394fe30f11c40d41946d18408fec5e9, type: 3}
+    weight: 0.6
+  - label: Forage_Strawberry
+    prefab: {fileID: 8692300150281994935, guid: 4ad05bb58cf702e428e58ed64c73423f, type: 3}
+    weight: 0.6
   - label: Ground_AcornsLeaf
     prefab: {fileID: 7727663254323353911, guid: f87c4fe4005898f4f80ba247dee8ef99, type: 3}
     weight: 0.5

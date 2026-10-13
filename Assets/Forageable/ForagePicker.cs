@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DeepVain.Items;
+using DeepVain.Levels;
 
 /// <summary>
 /// Plukking: står spilleren rett ved noe plukkbart (Forageable) kommer et [E]-merke over det. Trykk E:
@@ -52,6 +53,9 @@ public class ForagePicker : MonoBehaviour
     Sprite promptSprite;
 
     public bool IsPicking { get { return busy; } }
+
+    /// <summary>Kommer hver gang noe er plukket og lagt i sekken (planten, antall). LevelXp gir Foraging-XP.</summary>
+    public event System.Action<Forageable, int> Picked;
 
     void Awake()
     {
@@ -162,23 +166,26 @@ public class ForagePicker : MonoBehaviour
         if (anim != null) anim.PickUp();
 
         float t = 0f;
-        while (t < giveDelay && !cancel) { t += Time.deltaTime; yield return null; }
+        float speed = Mathf.Clamp(1f - PlayerLevels.Bonus("forage_speed"), 0.4f, 1f);       // skill tree: Quick Hands ...
+        float giveAt = giveDelay * speed, doneAt = totalTime * (0.5f + 0.5f * speed);
+        while (t < giveAt && !cancel) { t += Time.deltaTime; yield return null; }
 
         if (!cancel && plant != null && !plant.IsPicked)
         {
-            int amount = plant.RollAmount();
+            int amount = plant.RollAmount() + Mathf.RoundToInt(PlayerLevels.Bonus("forage_bonus"));       // skill tree: Keen Eye ...
             int left = inventory != null && plant.item != null ? inventory.Add(plant.item, amount) : amount;
             int got = amount - left;
             if (got > 0)
             {
                 LootToastUI.Show(plant.item, got);           // the strip in the corner, like the chests
                 plant.Pick();
+                if (Picked != null) Picked(plant, got);
             }
             else Debug.Log("[ForagePicker] Sekken er full, så " + (plant.item != null ? plant.item.displayName : "tingen") + " ble ikke plukket.", this);
             if (left > 0 && got > 0) Debug.Log("[ForagePicker] " + left + " fikk ikke plass.", this);
         }
 
-        while (t < totalTime && !cancel) { t += Time.deltaTime; yield return null; }
+        while (t < doneAt && !cancel) { t += Time.deltaTime; yield return null; }
 
         if (movement != null) { movement.SetForcedMove(0f); movement.SetForcedFacing(0); }
         busy = false; current = null;

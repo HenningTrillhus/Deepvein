@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20ed40fb865f24f42bfa5ecfe5fd203a, type: 3}
+  m_Name: Skill_Combat
+  m_EditorClassIdentifier: Assembly-CSharp::DeepVain.Levels.SkillDef
+  skill: 3
+  displayName: Combat
+  icon: {fileID: 21300000, guid: 168a17d0c12cc134cadde9eb42fb3b50, type: 3}
+  color: {r: 0.6901961, g: 0.1882353, b: 0.1882353, a: 1}
+  available: 1
+  nodes:
+  - id: root
+    displayName: Basic Combat
+    icon: {fileID: 21300000, guid: 168a17d0c12cc134cadde9eb42fb3b50, type: 3}
+    description: Fight with sword and shield.
+    parentId: 
+    requiredLevel: 1
+    cost: 0
+    column: 1
+    row: 0
+    effectKey: 
+    effectValue: 0
+  - id: ca1
+    displayName: Quick Strikes
+    icon: {fileID: 21300000, guid: f945d0eb95222e840b7d11b365a28ea4, type: 3}
+    description: Swing the sword faster. (coming soon)
+    parentId: root
+    requiredLevel: 2
+    cost: 1
+    column: 0
+    row: 1
+    effectKey: attack_speed
+    effectValue: 0.1
+  - id: ca2
+    displayName: Heavy Blows
+    icon: {fileID: 21300000, guid: dc5573ac6b9851d42bf3b3d64a667986, type: 3}
+    description: Hit harder. (coming soon)
+    parentId: ca1
+    requiredLevel: 5
+    cost: 1
+    column: 0
+    row: 2
+    effectKey: attack_damage
+    effectValue: 1
+  - id: ca3
+    displayName: Deadly Edge
+    icon: {fileID: 21300000, guid: cecace6002633234ab5fe821e2c011a7, type: 3}
+    description: Chance of a critical hit. (coming soon)
+    parentId: ca2
+    requiredLevel: 10
+    cost: 2
+    column: 0
+    row: 3
+    effectKey: crit_chance
+    effectValue: 0.05
+  - id: cb1
+    displayName: Tough Skin
+    icon: {fileID: 21300000, guid: b06ff196f39e5774c8d91e2a513f6ce4, type: 3}
+    description: Take less damage. (coming soon)
+    parentId: root
+    requiredLevel: 3
+    cost: 1
+    column: 1
+    row: 1
+    effectKey: defence
+    effectValue: 1
+  - id: cb2
+    displayName: Iron Will
+    icon: {fileID: 21300000, guid: 1270ab0aa8d09e746adb2aded6bddf1c, type: 3}
+    description: More maximum health. (coming soon)
+    parentId: cb1
+    requiredLevel: 6
+    cost: 1
+    column: 1
+    row: 2
+    effectKey: max_health
+    effectValue: 1
+  - id: cb3
+    displayName: Bulwark
+    icon: {fileID: 21300000, guid: b06ff196f39e5774c8d91e2a513f6ce4, type: 3}
+    description: The shield blocks more. (coming soon)
+    parentId: cb2
+    requiredLevel: 12
+    cost: 2
+    column: 1
+    row: 3
+    effectKey: block_power
+    effectValue: 1
+  - id: cc1
+    displayName: Shield Wall
+    icon: {fileID: 21300000, guid: b06ff196f39e5774c8d91e2a513f6ce4, type: 3}
+    description: Blocking costs less stamina. (coming soon)
+    parentId: root
+    requiredLevel: 8
+    cost: 1
+    column: 2
+    row: 1
+    effectKey: block_stamina
+    effectValue: 1
+  - id: cc2
+    displayName: Counter
+    icon: {fileID: 21300000, guid: dc5573ac6b9851d42bf3b3d64a667986, type: 3}
+    description: Hit back after a block. (coming soon)
+    parentId: cc1
+    requiredLevel: 12
+    cost: 2
+    column: 2
+    row: 2
+    effectKey: counter
+    effectValue: 1
+  - id: cc3
+    displayName: Warlord
+    icon: {fileID: 21300000, guid: cecace6002633234ab5fe821e2c011a7, type: 3}
+    description: Enemies fear you. (coming soon)
+    parentId: cc2
+    requiredLevel: 20
+    cost: 3
+    column: 2
+    row: 3
+    effectKey: warlord
+    effectValue: 1

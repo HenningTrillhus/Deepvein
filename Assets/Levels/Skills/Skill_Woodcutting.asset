@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20ed40fb865f24f42bfa5ecfe5fd203a, type: 3}
+  m_Name: Skill_Woodcutting
+  m_EditorClassIdentifier: Assembly-CSharp::DeepVain.Levels.SkillDef
+  skill: 1
+  displayName: Woodcutting
+  icon: {fileID: 21300000, guid: 9faabb4cb161bdd458d3c43315826a91, type: 3}
+  color: {r: 0.3529412, g: 0.6039216, b: 0.19607843, a: 1}
+  available: 1
+  nodes:
+  - id: root
+    displayName: Basic Chopping
+    icon: {fileID: 21300000, guid: 9faabb4cb161bdd458d3c43315826a91, type: 3}
+    description: Fell trees with an axe.
+    parentId: 
+    requiredLevel: 1
+    cost: 0
+    column: 1
+    row: 0
+    effectKey: 
+    effectValue: 0
+  - id: wa1
+    displayName: Swift Chop
+    icon: {fileID: 21300000, guid: f945d0eb95222e840b7d11b365a28ea4, type: 3}
+    description: Chop 10% faster. (coming soon)
+    parentId: root
+    requiredLevel: 2
+    cost: 1
+    column: 0
+    row: 1
+    effectKey: chop_speed
+    effectValue: 0.1
+  - id: wa2
+    displayName: Rhythm Chop
+    icon: {fileID: 21300000, guid: f945d0eb95222e840b7d11b365a28ea4, type: 3}
+    description: Another 10% faster. (coming soon)
+    parentId: wa1
+    requiredLevel: 5
+    cost: 1
+    column: 0
+    row: 2
+    effectKey: chop_speed
+    effectValue: 0.1
+  - id: wa3
+    displayName: Power Chop
+    icon: {fileID: 21300000, guid: dc5573ac6b9851d42bf3b3d64a667986, type: 3}
+    description: Trees fall a hit sooner. (coming soon)
+    parentId: wa2
+    requiredLevel: 10
+    cost: 2
+    column: 0
+    row: 3
+    effectKey: chop_power
+    effectValue: 1
+  - id: wb1
+    displayName: Extra Log
+    icon: {fileID: 21300000, guid: 1c9c39f2bedcfa14781ec10e9d43cd3c, type: 3}
+    description: +1 log from every tree. (coming soon)
+    parentId: root
+    requiredLevel: 3
+    cost: 1
+    column: 1
+    row: 1
+    effectKey: log_bonus
+    effectValue: 1
+  - id: wb2
+    displayName: Bark Collector
+    icon: {fileID: 21300000, guid: 8725b8c0a3f5c674283e0f7fc4577718, type: 3}
+    description: Chance of bark from trees. (coming soon)
+    parentId: wb1
+    requiredLevel: 6
+    cost: 1
+    column: 1
+    row: 2
+    effectKey: bark_chance
+    effectValue: 1
+  - id: wb3
+    displayName: Lumberjack
+    icon: {fileID: 21300000, guid: d4f07d43adee9f943b89e49aff1180b0, type: 3}
+    description: +1 more log from every tree. (coming soon)
+    parentId: wb2
+    requiredLevel: 12
+    cost: 2
+    column: 1
+    row: 3
+    effectKey: log_bonus
+    effectValue: 1
+  - id: wc1
+    displayName: Pine Lore
+    icon: {fileID: 21300000, guid: d4f07d43adee9f943b89e49aff1180b0, type: 3}
+    description: Pine gives better logs. (coming soon)
+    parentId: root
+    requiredLevel: 8
+    cost: 1
+    column: 2
+    row: 1
+    effectKey: lore_pine
+    effectValue: 1
+  - id: wc2
+    displayName: Oak Lore
+    icon: {fileID: 21300000, guid: 1c9c39f2bedcfa14781ec10e9d43cd3c, type: 3}
+    description: Oak gives better logs. (coming soon)
+    parentId: wc1
+    requiredLevel: 12
+    cost: 2
+    column: 2
+    row: 2
+    effectKey: lore_oak
+    effectValue: 1
+  - id: wc3
+    displayName: Old Growth
+    icon: {fileID: 21300000, guid: cecace6002633234ab5fe821e2c011a7, type: 3}
+    description: Ancient trees can be felled. (coming soon)
+    parentId: wc2
+    requiredLevel: 20
+    cost: 3
+    column: 2
+    row: 3
+    effectKey: old_growth
+    effectValue: 1

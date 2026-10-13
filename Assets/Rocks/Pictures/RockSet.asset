@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ea26c85348e524aa35d822d2b030a6, type: 3}
+  m_Name: RockSet
+  m_EditorClassIdentifier: Assembly-CSharp::RockSet
+  entries:
+  - label: Coal_Ash_Wide
+    sprite: {fileID: 21300000, guid: d04f4b4a0854e544292d8e56661b0e00, type: 3}
+    coal: 1
+    weight: 1
+    health: 20
+    chipColor: {r: 0.48667568, g: 0.47933403, b: 0.50312424, a: 1}
+  - label: Coal_Purple_Tall
+    sprite: {fileID: 21300000, guid: d2bfb16abfb07104c8bb6430900e314c, type: 3}
+    coal: 1
+    weight: 1
+    health: 20
+    chipColor: {r: 0.47556546, g: 0.41685244, b: 0.569584, a: 1}
+  - label: Coal_Sandy_Big
+    sprite: {fileID: 21300000, guid: 146c0da3ee9d5e04f8a9de6d5b89d8fb, type: 3}
+    coal: 1
+    weight: 1
+    health: 20
+    chipColor: {r: 0.6574695, g: 0.58092016, b: 0.49961892, a: 1}
+  - label: Coal_Slate_Box
+    sprite: {fileID: 21300000, guid: f8575cf17a85fb54e9572286395a3776, type: 3}
+    coal: 1
+    weight: 1
+    health: 20
+    chipColor: {r: 0.43853688, g: 0.49029568, b: 0.5713021, a: 1}
+  - label: Coal_Taupe_Classic
+    sprite: {fileID: 21300000, guid: 179cadf132e06ba4693b03b5755ff1bc, type: 3}
+    coal: 1
+    weight: 1
+    health: 20
+    chipColor: {r: 0.5694632, g: 0.5103865, b: 0.48305207, a: 1}
+  - label: Stone_Ash_Big
+    sprite: {fileID: 21300000, guid: e57ed881713fafe4ba33d71c5ffe38f9, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.5083051, g: 0.5026867, b: 0.5228318, a: 1}
+  - label: Stone_Ash_Classic
+    sprite: {fileID: 21300000, guid: f879cb7eb1fa988489e6cc09e0fd5340, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.5251469, g: 0.51786715, b: 0.5402522, a: 1}
+  - label: Stone_Brown_Trio
+    sprite: {fileID: 21300000, guid: 10cb9a4c812258f4dab8259fcc0d4aab, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.50105345, g: 0.38671273, b: 0.3051881, a: 1}
+  - label: Stone_Purple_Pair
+    sprite: {fileID: 21300000, guid: bc7bf5cbd2763df45b9e674c9767f452, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.48328942, g: 0.42341235, b: 0.57735693, a: 1}
+  - label: Stone_Purple_Tall
+    sprite: {fileID: 21300000, guid: 9973ea5ece8a1824ea708e6993d17fd7, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.45599687, g: 0.39657375, b: 0.5526321, a: 1}
+  - label: Stone_Sandy_Big
+    sprite: {fileID: 21300000, guid: ce243e8cff2f05e42b5ff87f147db723, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.65115106, g: 0.57256526, b: 0.4876237, a: 1}
+  - label: Stone_Slate_Box
+    sprite: {fileID: 21300000, guid: 2aee17aeea9f62b4c924436d7208b50f, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.44992825, g: 0.5049861, b: 0.59038204, a: 1}
+  - label: Stone_Slate_Wide
+    sprite: {fileID: 21300000, guid: 694702f134ba91549b62eb8c809ed289, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.44075152, g: 0.49356112, b: 0.5747924, a: 1}
+  - label: Stone_Taupe_Classic
+    sprite: {fileID: 21300000, guid: 3f6a542883c31b845afba5037f09109e, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.5740873, g: 0.5130283, b: 0.48385715, a: 1}
+  - label: Stone_Taupe_Wide
+    sprite: {fileID: 21300000, guid: 89de3e2b4380b1644b2d0bafb458bbee, type: 3}
+    coal: 0
+    weight: 1
+    health: 15
+    chipColor: {r: 0.5375659, g: 0.4788028, b: 0.45537704, a: 1}

@@ -4,6 +4,7 @@ using UnityEngine;
 /// Viser øksa i hånda mens spilleren hugger, på samme måte som sverdet vises mens han slår.
 /// Øksa er et eget SpriteRenderer-objekt som ligger som barn av samme HandSocket (Front) som sverdet,
 /// så den følger hånda og underarmen i alle animasjonsbilder.
+/// v2: hakka vises på samme måte mens spilleren hakker stein (RockMiner).
 /// Legges på spilleren (samme objekt som TreeChopper). Lages automatisk av menyen DeepVain > Player > Add held axe.
 /// </summary>
 [DisallowMultipleComponent]
@@ -15,7 +16,7 @@ public class HeldTool : MonoBehaviour
     [Tooltip("Bildet av øksa i hånda (Axe_Held.png: 30x30, grepet i midten, peker mot høyre).")]
     public Sprite axeSprite;
 
-    [Header("Hakke (senere)")]
+    [Header("Hakke")]
     public SpriteRenderer pickaxeRenderer;
     public Sprite pickaxeSprite;
 
@@ -24,11 +25,13 @@ public class HeldTool : MonoBehaviour
     public float linger = 0.12f;
 
     TreeChopper chopper;
-    float axeHideAt;
+    RockMiner miner;
+    float axeHideAt, pickHideAt;
 
     void Awake()
     {
         chopper = GetComponent<TreeChopper>();
+        miner = GetComponent<RockMiner>();
         if (axeRenderer != null)
         {
             if (axeSprite != null) axeRenderer.sprite = axeSprite;
@@ -43,10 +46,19 @@ public class HeldTool : MonoBehaviour
 
     void Update()
     {
-        if (axeRenderer == null) return;
-        bool chopping = chopper != null && chopper.IsChopping;
-        if (chopping) axeHideAt = Time.time + linger;
-        axeRenderer.enabled = chopping || Time.time < axeHideAt;
+        if (axeRenderer != null)
+        {
+            bool chopping = chopper != null && chopper.IsChopping;
+            if (chopping) axeHideAt = Time.time + linger;
+            axeRenderer.enabled = chopping || Time.time < axeHideAt;
+        }
+        if (pickaxeRenderer != null)
+        {
+            if (miner == null) miner = GetComponent<RockMiner>();
+            bool mining = miner != null && miner.IsMining;
+            if (mining) pickHideAt = Time.time + linger;
+            pickaxeRenderer.enabled = mining || Time.time < pickHideAt;
+        }
     }
 
     /// <summary>Er øksa tegnet i hånda akkurat nå?</summary>

@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20ed40fb865f24f42bfa5ecfe5fd203a, type: 3}
+  m_Name: Skill_Mining
+  m_EditorClassIdentifier: Assembly-CSharp::DeepVain.Levels.SkillDef
+  skill: 2
+  displayName: Mining
+  icon: {fileID: 21300000, guid: a75b11944ed4a5d45a3932e807c68c9d, type: 3}
+  color: {r: 0.3529412, g: 0.4862745, b: 0.6901961, a: 1}
+  available: 1
+  nodes:
+  - id: root
+    displayName: Basic Mining
+    icon: {fileID: 21300000, guid: a75b11944ed4a5d45a3932e807c68c9d, type: 3}
+    description: Break rocks with a pickaxe.
+    parentId: 
+    requiredLevel: 1
+    cost: 0
+    column: 1
+    row: 0
+    effectKey: 
+    effectValue: 0
+  - id: ma1
+    displayName: Swift Swing
+    icon: {fileID: 21300000, guid: f945d0eb95222e840b7d11b365a28ea4, type: 3}
+    description: Swing the pickaxe 10% faster.
+    parentId: root
+    requiredLevel: 2
+    cost: 1
+    column: 0
+    row: 1
+    effectKey: mine_speed
+    effectValue: 0.1
+  - id: ma2
+    displayName: Rhythm
+    icon: {fileID: 21300000, guid: f945d0eb95222e840b7d11b365a28ea4, type: 3}
+    description: Another 10% faster.
+    parentId: ma1
+    requiredLevel: 5
+    cost: 1
+    column: 0
+    row: 2
+    effectKey: mine_speed
+    effectValue: 0.1
+  - id: ma3
+    displayName: Power Strike
+    icon: {fileID: 21300000, guid: dc5573ac6b9851d42bf3b3d64a667986, type: 3}
+    description: A further 10% faster.
+    parentId: ma2
+    requiredLevel: 10
+    cost: 2
+    column: 0
+    row: 3
+    effectKey: mine_speed
+    effectValue: 0.1
+  - id: mb1
+    displayName: Extra Stone
+    icon: {fileID: 21300000, guid: e4c4cda7ca381e84bbd3cd0f557371bd, type: 3}
+    description: +1 Stone from every rock.
+    parentId: root
+    requiredLevel: 3
+    cost: 1
+    column: 1
+    row: 1
+    effectKey: stone_bonus
+    effectValue: 1
+  - id: mb2
+    displayName: Coal Finder
+    icon: {fileID: 21300000, guid: 637ce33d0d8711348af672718b1ed10a, type: 3}
+    description: Coal rocks give +1 Coal.
+    parentId: mb1
+    requiredLevel: 6
+    cost: 1
+    column: 1
+    row: 2
+    effectKey: coal_bonus
+    effectValue: 1
+  - id: mb3
+    displayName: Rich Veins
+    icon: {fileID: 21300000, guid: 47a995b64c7c1594fbf6e9cb455ede75, type: 3}
+    description: +1 more Stone from every rock.
+    parentId: mb2
+    requiredLevel: 12
+    cost: 2
+    column: 1
+    row: 3
+    effectKey: stone_bonus
+    effectValue: 1
+  - id: mc1
+    displayName: Copper
+    icon: {fileID: 21300000, guid: d479edb85775e654cbdf777c03227c20, type: 3}
+    description: Copper ore will start to appear. (coming soon)
+    parentId: root
+    requiredLevel: 8
+    cost: 1
+    column: 2
+    row: 1
+    effectKey: ore_copper
+    effectValue: 1
+  - id: mc2
+    displayName: Iron
+    icon: {fileID: 21300000, guid: 47a995b64c7c1594fbf6e9cb455ede75, type: 3}
+    description: Iron ore will start to appear. (coming soon)
+    parentId: mc1
+    requiredLevel: 12
+    cost: 2
+    column: 2
+    row: 2
+    effectKey: ore_iron
+    effectValue: 1
+  - id: mc3
+    displayName: Gems
+    icon: {fileID: 21300000, guid: 7164220d8b9ae1e479183d179505ce01, type: 3}
+    description: Rare gems hide in rocks. (coming soon)
+    parentId: mc2
+    requiredLevel: 20
+    cost: 3
+    column: 2
+    row: 3
+    effectKey: ore_gem
+    effectValue: 1

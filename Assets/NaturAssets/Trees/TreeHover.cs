@@ -5,31 +5,37 @@ using UnityEngine.InputSystem;
 using DeepVain.Items;
 
 /// <summary>
-/// Gives the tree under the mouse a "selected" look: a white outline around the whole silhouette and a slightly brighter picture
+/// Gives the tree (or rock) under the mouse a "selected" look: a white outline around the whole silhouette and a slightly brighter picture
 /// (made by the Sprite Sway shader through TreeSway.SetHighlighted, so no new pictures are needed).
-/// Put ONE of these on any object in the scene (for example the same object as WorldBuilder). It finds the trees by itself:
-/// everything the TreeSpawner made, and everything that has a TreeSway.
-/// Other scripts (the chopping) can read:  TreeHover.Hovered  (the tree under the mouse or null)  and  TreeHover.HoveredInRange.
+/// v3: the look only shows when the player is within reach of the tree/rock (Chop Reach / Mine Reach), and with the right tool in hand
+///     (axe for trees, pickaxe for rocks). Rocks (they have a Mineable) are found as well as trees.
+/// Put ONE of these on any object in the scene (for example the same object as WorldBuilder).
+/// Other scripts can read:  TreeHover.Hovered / HoveredInRange  (the tree)  and  TreeHover.HoveredRock / HoveredRockInRange  (the rock).
 /// </summary>
 [DisallowMultipleComponent]
 public class TreeHover : MonoBehaviour
 {
-    /// <summary>The tree object under the mouse right now (or null).</summary>
+    /// <summary>The tree object under the mouse right now (or null). Only set when it is within reach.</summary>
     public static GameObject Hovered { get; private set; }
-    /// <summary>True when that tree is also close enough to the player to be chopped.</summary>
+    /// <summary>True when that tree is within reach (always true when Hovered is set).</summary>
     public static bool HoveredInRange { get; private set; }
+    /// <summary>The rock under the mouse right now (or null). Only set when it is within reach.</summary>
+    public static GameObject HoveredRock { get; private set; }
+    public static bool HoveredRockInRange { get; private set; }
 
     [Header("Når")]
-    [Tooltip("Bare vis det når spilleren har en øks i hånden (Equipment-siden). Av = alltid.")]
+    [Tooltip("Bare vis det når spilleren har riktig verktøy i hånden: øks for trær, hakke for steiner. Av = alltid.")]
     public bool onlyWithAxe = true;
     [Tooltip("Ikke vis det når musa er over boka/menyene.")]
     public bool ignoreWhenOverUI = true;
 
-    [Header("Rekkevidde")]
-    [Tooltip("Hvor nær spilleren treet må stå for å kunne hogges (units, sidelengs). Brukes av hogge-scriptet.")]
-    public float chopRange = 3f;
-    [Tooltip("Vis utlinjen bare på trær innen rekkevidde. Av = alle trær under musa lyser, også de som er langt unna.")]
-    public bool onlyInRange = false;
+    [Header("Rekkevidde (utlinjen vises og man kan hakke bare innen disse)")]
+    [Tooltip("Hvor nær treet spilleren må stå (units, sidelengs, målt til stammen). Lavt = må stå rett ved siden av.")]
+    public float chopReach = 1.6f;
+    [Tooltip("Hvor nær steinen spilleren må stå (units, sidelengs).")]
+    public float mineReach = 1.6f;
+    [Tooltip("Hvor mye høyere/lavere enn spilleren det kan være (units).")]
+    public float reachHeight = 2f;
 
     [Header("Referanser (valgfritt)")]
     [Tooltip("Tomt = finner spilleren selv (PlayerMovement).")]
@@ -37,15 +43,15 @@ public class TreeHover : MonoBehaviour
     [Tooltip("Tomt = Camera.main.")]
     public Camera cam;
 
-    [Header("Finne trær")]
-    [Tooltip("Hvor ofte listen med trær oppdateres (sekunder). Trær som spawnes senere blir med automatisk.")]
+    [Header("Finne trær og steiner")]
+    [Tooltip("Hvor ofte listen oppdateres (sekunder). Ting som spawnes senere blir med automatisk.")]
     public float refreshEvery = 0.5f;
 
     static readonly HashSet<GameObject> excluded = new HashSet<GameObject>();
-    /// <summary>A tree that must no longer be hovered or highlighted (it is falling / gone).</summary>
-    public static void Exclude(GameObject tree) { if (tree != null) excluded.Add(tree); }
+    /// <summary>A tree or rock that must no longer be hovered or highlighted (it is falling / breaking / gone).</summary>
+    public static void Exclude(GameObject go) { if (go != null) excluded.Add(go); }
 
-    class Target { public GameObject go; public SpriteRenderer sr; public TreeSway sway; public Color baseColor; }
+    class Target { public GameObject go; public SpriteRenderer sr; public TreeSway sway; public Color baseColor; public bool rock; }
 
     readonly List<Target> targets = new List<Target>();
     readonly List<Vector2> shape = new List<Vector2>();
@@ -55,7 +61,7 @@ public class TreeHover : MonoBehaviour
 
     void OnDisable() { Clear(); }
 
-    /// <summary>Look for trees again right now (call it after the world is made, if you like).</summary>
+    /// <summary>Look for trees and rocks again right now.</summary>
     public void Refresh()
     {
         nextRefresh = Time.unscaledTime + refreshEvery;
@@ -63,22 +69,23 @@ public class TreeHover : MonoBehaviour
         targets.RemoveAll(t => t.go == null);
         foreach (var t in targets) seen.Add(t.go);
 
-        foreach (var m in FindObjectsByType<SpawnedTreeMarker>(FindObjectsSortMode.None)) Add(m.gameObject, seen);
-        foreach (var s in FindObjectsByType<TreeSway>(FindObjectsSortMode.None)) Add(s.gameObject, seen);
+        foreach (var m in FindObjectsByType<SpawnedTreeMarker>(FindObjectsSortMode.None)) Add(m.gameObject, seen, false);
+        foreach (var s in FindObjectsByType<TreeSway>(FindObjectsSortMode.None)) Add(s.gameObject, seen, s.GetComponent<Mineable>() != null);
+        foreach (var r in FindObjectsByType<Mineable>(FindObjectsSortMode.None)) Add(r.gameObject, seen, true);
     }
 
-    void Add(GameObject go, HashSet<GameObject> seen)
+    void Add(GameObject go, HashSet<GameObject> seen, bool rock)
     {
         if (!seen.Add(go)) return;
         var sr = go.GetComponentInChildren<SpriteRenderer>();
         if (sr == null) return;
-        targets.Add(new Target { go = go, sr = sr, sway = go.GetComponent<TreeSway>(), baseColor = sr.color });
+        targets.Add(new Target { go = go, sr = sr, sway = go.GetComponent<TreeSway>(), baseColor = sr.color, rock = rock });
     }
 
     void Clear()
     {
         if (current != null) SetLook(current, false);
-        current = null; Hovered = null; HoveredInRange = false;
+        current = null; Hovered = null; HoveredInRange = false; HoveredRock = null; HoveredRockInRange = false;
     }
 
     void Update()
@@ -90,7 +97,6 @@ public class TreeHover : MonoBehaviour
 
         Target hit = null;
         bool allowed = cam != null && Mouse.current != null;
-        if (allowed && onlyWithAxe && (equipment == null || !equipment.HasAxe)) allowed = false;
         if (allowed && ignoreWhenOverUI && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) allowed = false;
 
         if (allowed)
@@ -101,8 +107,7 @@ public class TreeHover : MonoBehaviour
             hit = Pick(world);
         }
 
-        bool inRange = hit != null && InRange(hit);
-        if (hit != null && onlyInRange && !inRange) hit = null;
+        // the look and the click only count within reach
         if (current != null && excluded.Contains(current.go)) { SetLook(current, false); current = null; }
 
         if (hit != current)
@@ -111,14 +116,25 @@ public class TreeHover : MonoBehaviour
             current = hit;
             if (current != null) SetLook(current, true);
         }
-        Hovered = current != null ? current.go : null;
-        HoveredInRange = current != null && inRange;
+        Hovered = current != null && !current.rock ? current.go : null;
+        HoveredInRange = Hovered != null;
+        HoveredRock = current != null && current.rock ? current.go : null;
+        HoveredRockInRange = HoveredRock != null;
+    }
+
+    bool ToolOk(Target t)
+    {
+        if (!onlyWithAxe) return true;
+        if (equipment == null) return false;
+        return t.rock ? equipment.HasPickaxe : equipment.HasAxe;
     }
 
     bool InRange(Target t)
     {
         if (player == null) return true;
-        return Mathf.Abs(t.go.transform.position.x - player.position.x) <= chopRange;
+        float range = t.rock ? mineReach : chopReach;
+        Vector3 d = t.go.transform.position - player.position;
+        return Mathf.Abs(d.x) <= range && Mathf.Abs(d.y) <= reachHeight;
     }
 
     void SetLook(Target t, bool on)
@@ -128,7 +144,7 @@ public class TreeHover : MonoBehaviour
         else if (t.sr != null) t.sr.color = on ? Color.Lerp(t.baseColor, Color.white, 0.35f) : t.baseColor;     // no TreeSway on it: only a lighter tint
     }
 
-    /// <summary>The tree whose drawn shape contains the point. When trees overlap, the one drawn in front wins.</summary>
+    /// <summary>The tree/rock whose drawn shape contains the point, within reach and with the right tool. The one drawn in front wins.</summary>
     Target Pick(Vector2 world)
     {
         Target best = null; int bestLayer = int.MinValue, bestOrder = int.MinValue;
@@ -137,6 +153,7 @@ public class TreeHover : MonoBehaviour
             var t = targets[i];
             if (t.go == null || t.sr == null || !t.sr.enabled || !t.go.activeInHierarchy || t.sr.sprite == null) continue;
             if (excluded.Contains(t.go)) continue;
+            if (!ToolOk(t) || !InRange(t)) continue;
             if (!t.sr.bounds.Contains(new Vector3(world.x, world.y, t.sr.bounds.center.z))) continue;
             if (!Inside(t, world)) continue;
             int layer = SortingLayer.GetLayerValueFromID(t.sr.sortingLayerID), order = t.sr.sortingOrder;

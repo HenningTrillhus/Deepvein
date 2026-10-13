@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20ed40fb865f24f42bfa5ecfe5fd203a, type: 3}
+  m_Name: Skill_Foraging
+  m_EditorClassIdentifier: Assembly-CSharp::DeepVain.Levels.SkillDef
+  skill: 0
+  displayName: Foraging
+  icon: {fileID: 21300000, guid: 2963beb86b4c59e419081a226e64917e, type: 3}
+  color: {r: 0.78431374, g: 0.5647059, b: 0.9411765, a: 1}
+  available: 1
+  nodes:
+  - id: root
+    displayName: Basic Foraging
+    icon: {fileID: 21300000, guid: 2963beb86b4c59e419081a226e64917e, type: 3}
+    description: Pick berries, mushrooms and herbs.
+    parentId: 
+    requiredLevel: 1
+    cost: 0
+    column: 1
+    row: 0
+    effectKey: 
+    effectValue: 0
+  - id: ga1
+    displayName: Quick Hands
+    icon: {fileID: 21300000, guid: f945d0eb95222e840b7d11b365a28ea4, type: 3}
+    description: Pick 10% faster.
+    parentId: root
+    requiredLevel: 2
+    cost: 1
+    column: 0
+    row: 1
+    effectKey: forage_speed
+    effectValue: 0.1
+  - id: ga2
+    displayName: Nimble Fingers
+    icon: {fileID: 21300000, guid: f945d0eb95222e840b7d11b365a28ea4, type: 3}
+    description: Pick another 10% faster.
+    parentId: ga1
+    requiredLevel: 5
+    cost: 1
+    column: 0
+    row: 2
+    effectKey: forage_speed
+    effectValue: 0.1
+  - id: ga3
+    displayName: Master Forager
+    icon: {fileID: 21300000, guid: cecace6002633234ab5fe821e2c011a7, type: 3}
+    description: A further 10% faster. (coming soon)
+    parentId: ga2
+    requiredLevel: 10
+    cost: 2
+    column: 0
+    row: 3
+    effectKey: forage_speed_2
+    effectValue: 0.1
+  - id: gb1
+    displayName: Keen Eye
+    icon: {fileID: 21300000, guid: ee2c44d9a6e80b041b13d6df0ce4239b, type: 3}
+    description: +1 item from every pick.
+    parentId: root
+    requiredLevel: 3
+    cost: 1
+    column: 1
+    row: 1
+    effectKey: forage_bonus
+    effectValue: 1
+  - id: gb2
+    displayName: Bountiful
+    icon: {fileID: 21300000, guid: 2963beb86b4c59e419081a226e64917e, type: 3}
+    description: +1 more item from every pick.
+    parentId: gb1
+    requiredLevel: 6
+    cost: 1
+    column: 1
+    row: 2
+    effectKey: forage_bonus
+    effectValue: 1
+  - id: gb3
+    displayName: Wild Harvest
+    icon: {fileID: 21300000, guid: fb6268cd00478454cafa08444e9ab037, type: 3}
+    description: Rare finds while picking. (coming soon)
+    parentId: gb2
+    requiredLevel: 12
+    cost: 2
+    column: 1
+    row: 3
+    effectKey: forage_rare
+    effectValue: 1
+  - id: gc1
+    displayName: Mushroom Lore
+    icon: {fileID: 21300000, guid: cd59fa40fcb1a3d42a624d678ec98d03, type: 3}
+    description: Know the mushrooms of the forest. (coming soon)
+    parentId: root
+    requiredLevel: 8
+    cost: 1
+    column: 2
+    row: 1
+    effectKey: lore_mushroom
+    effectValue: 1
+  - id: gc2
+    displayName: Herbalist
+    icon: {fileID: 21300000, guid: 1b114745b1668c144afed1dabcb368e9, type: 3}
+    description: Healing herbs work better. (coming soon)
+    parentId: gc1
+    requiredLevel: 12
+    cost: 2
+    column: 2
+    row: 2
+    effectKey: lore_herb
+    effectValue: 1
+  - id: gc3
+    displayName: Nature's Gift
+    icon: {fileID: 21300000, guid: cecace6002633234ab5fe821e2c011a7, type: 3}
+    description: Plants may grow back. (coming soon)
+    parentId: gc2
+    requiredLevel: 20
+    cost: 3
+    column: 2
+    row: 3
+    effectKey: regrow
+    effectValue: 1

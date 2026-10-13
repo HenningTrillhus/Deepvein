@@ -48,6 +48,41 @@ MonoBehaviour:
   propSet: {fileID: 0}
   randomFlip: 1
   jitterX: 0.3
+--- !u!1 &292370601175161388
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5471953423299724118}
+  m_Layer: 0
+  m_Name: RockSlots
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5471953423299724118
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292370601175161388}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7975004384083332939}
+  - {fileID: 5328526369651592462}
+  - {fileID: 1580926465907027711}
+  - {fileID: 6173464602730584289}
+  m_Father: {fileID: 8908328153074404635}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &370837265877002833
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +230,8 @@ MonoBehaviour:
   onlyWithAxe: 1
   ignoreWhenOverUI: 1
   chopRange: 3
-  onlyInRange: 0
+  mineRange: 3
+  reachY: 3
   player: {fileID: 0}
   cam: {fileID: 0}
   refreshEvery: 0.5
@@ -295,6 +331,55 @@ MonoBehaviour:
   propSet: {fileID: 0}
   randomFlip: 1
   jitterX: 0.3
+--- !u!1 &2927939176471015779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5328526369651592462}
+  - component: {fileID: 7417521702897875748}
+  m_Layer: 0
+  m_Name: RockSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5328526369651592462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2927939176471015779}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.9830456, y: 2.8126202, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5471953423299724118}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7417521702897875748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2927939176471015779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29679da817d688347b3e73915c2caceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RockSlot
+  chance: 0.35
+  coalChance: 0.25
+  rockSet: {fileID: 0}
+  randomFlip: 1
+  jitterX: 0.4
 --- !u!1 &3145659015820628992
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +476,55 @@ MonoBehaviour:
   propSet: {fileID: 0}
   randomFlip: 1
   jitterX: 0.3
+--- !u!1 &4179599672408607602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1580926465907027711}
+  - component: {fileID: 2127185365808104840}
+  m_Layer: 0
+  m_Name: RockSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1580926465907027711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4179599672408607602}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.3760471, y: 0.8540077, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5471953423299724118}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2127185365808104840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4179599672408607602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29679da817d688347b3e73915c2caceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RockSlot
+  chance: 0.35
+  coalChance: 0.25
+  rockSet: {fileID: 0}
+  randomFlip: 1
+  jitterX: 0.4
 --- !u!1 &4335568560526748602
 GameObject:
   m_ObjectHideFlags: 0
@@ -1946,6 +2080,55 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &7390510961742854420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7975004384083332939}
+  - component: {fileID: 538436797504878600}
+  m_Layer: 0
+  m_Name: RockSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7975004384083332939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7390510961742854420}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8, y: 0.8116226, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5471953423299724118}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &538436797504878600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7390510961742854420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29679da817d688347b3e73915c2caceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RockSlot
+  chance: 0.35
+  coalChance: 0.25
+  rockSet: {fileID: 0}
+  randomFlip: 1
+  jitterX: 0.4
 --- !u!1 &7902664343003192102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2034,6 +2217,55 @@ MonoBehaviour:
   propSet: {fileID: 0}
   randomFlip: 1
   jitterX: 0.3
+--- !u!1 &8477723240836424963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6173464602730584289}
+  - component: {fileID: 5022217571003235597}
+  m_Layer: 0
+  m_Name: RockSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6173464602730584289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477723240836424963}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9.094719, y: 0.8195152, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5471953423299724118}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5022217571003235597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477723240836424963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29679da817d688347b3e73915c2caceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RockSlot
+  chance: 0.35
+  coalChance: 0.25
+  rockSet: {fileID: 0}
+  randomFlip: 1
+  jitterX: 0.4
 --- !u!1 &8866568194735640383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2066,5 +2298,6 @@ Transform:
   - {fileID: 1661457115884821982}
   - {fileID: 7405002138903427861}
   - {fileID: 8511913398793579757}
+  - {fileID: 5471953423299724118}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

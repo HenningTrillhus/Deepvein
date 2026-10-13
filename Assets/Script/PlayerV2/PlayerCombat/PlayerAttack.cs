@@ -40,6 +40,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerMovement movement;
     private PlayerBlock block;
     private TreeChopper chopper;
+    private RockMiner rockMiner;
     private bool isAttacking;
     private float lastAttackTime = -999f;
     private float currentAngle;
@@ -49,6 +50,9 @@ public class PlayerAttack : MonoBehaviour
     /// <summary>True mens sverdet svinger (brukes av PlayerMovement for å snu spilleren mot musa).</summary>
     public bool IsAttacking => isAttacking;
 
+    /// <summary>Kommer for hvert treff på en fiende (LevelXp gir Combat-XP).</summary>
+    public event System.Action<GameObject> EnemyHit;
+
     void Awake()
     {
         cam = Camera.main;
@@ -56,6 +60,7 @@ public class PlayerAttack : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         block = GetComponent<PlayerBlock>();
         chopper = GetComponent<TreeChopper>();
+        rockMiner = GetComponent<RockMiner>();
 
         if (swordRenderer == null && sword != null)
             swordRenderer = sword.GetComponent<SpriteRenderer>();
@@ -89,6 +94,8 @@ public class PlayerAttack : MonoBehaviour
     {
         // klikk på et tre med øks i hånden = hugge, ikke slå (TreeChopper bestemmer, og slår aldri til når en fiende er nær)
         if (chopper != null && chopper.OnAttackClick()) return;
+        // klikk på en stein med hakke i hånden = hakke (RockMiner, samme regler: fiende nær = slå)
+        if (rockMiner != null && rockMiner.OnAttackClick()) return;
         if (isAttacking) return;
         if (Time.time < lastAttackTime + attackCooldown) return;
         if (block != null && block.IsBlocking) return;   // ikke slå mens skjoldet er oppe
@@ -201,6 +208,7 @@ public class PlayerAttack : MonoBehaviour
 
             Vector2 knockbackDir = ((Vector2)hit.transform.position - (Vector2)attackPivot.position).normalized;
             target.TakeDamage(damage, knockbackDir);
+            if (EnemyHit != null) EnemyHit(hit.gameObject);
         }
     }
 
