@@ -74,6 +74,22 @@ public class TreeSway : MonoBehaviour
         if (t < 0f || t > 1f) return 0f;
         return (1f - t) * (1f - t) * shakeStrength;                      // starts hard, dies out
     }
+    /// <summary>
+    /// How far (object-space units, sideways) the wind bends the sprite at a given height: 0 = bottom of the sprite, 1 = top.
+    /// The same maths as the shader, so things hanging in the tree (apples) can follow the leaves. A shake is not included.
+    /// </summary>
+    public float SwayDx(float h)
+    {
+        if (still || style != Style.Bend) return 0f;
+        float t = Time.timeSinceLevelLoad * speed * speedMul + phase;
+        float s = Mathf.Sin(t + h * 0.9f) * 0.75f + Mathf.Sin(t * 2.17f + phase * 1.7f + h * 2f) * 0.25f;
+        float a = amount * WindScale;
+        float dx = s * a * h * h;
+        dx += Mathf.Sin(Time.timeSinceLevelLoad * 7f * speed * speedMul + phase * 3f + h * 9f) * a * 0.12f * h * h * h;
+        if (snapToPixels && sr != null && sr.sprite != null) dx = Mathf.Round(dx * sr.sprite.pixelsPerUnit) / sr.sprite.pixelsPerUnit;
+        return dx;
+    }
+
     /// <summary>On = no wind sway at all (the tree is falling and is moved by script instead).</summary>
     public void Still(bool on) { still = on; if (style == Style.Bend && mpb != null) ApplySprite(); }
 

@@ -18,18 +18,18 @@ public class PlayerStamina : MonoBehaviour
 
     [Header("Kostnad")]
     [Tooltip("Per sekund mens du løper (Shift).")]
-    public float sprintCostPerSecond = 5f;
+    public float sprintCostPerSecond = 3f;
     public float rollCost = 30f;
     public float jumpCost = 15f;
     [Tooltip("Hver gang han klatrer opp på en kant (fra bakken eller i lufta).")]
-    public float climbCost = 30f;
+    public float climbCost = 15f;
 
     [Header("Fylles opp igjen")]
     [Tooltip("Sekunder etter at du sist brukte stamina før den begynner å stige.")]
-    public float regenDelay = 1f;
-    public float regenPerSecond = 15f;
+    public float regenDelay = 0.6f;
+    public float regenPerSecond = 28f;
     [Tooltip("Sekunder fra regenereringen starter til den går for full fart. Mykere start. 0 = brå.")]
-    public float regenRampTime = 0.6f;
+    public float regenRampTime = 0.4f;
     [Tooltip("Er den tom, må den opp til dette før du kan løpe eller rulle igjen.")]
     public float exhaustedUntil = 15f;
 
@@ -102,6 +102,7 @@ public class PlayerStamina : MonoBehaviour
     void OnValidate()
     {
         if (settingsVersion < 2) { regenPerSecond = 15f; settingsVersion = 2; }
+        if (settingsVersion < 3) { sprintCostPerSecond = 3f; climbCost = 15f; regenDelay = 0.6f; regenPerSecond = 28f; regenRampTime = 0.4f; settingsVersion = 3; }
     }
 #endif
 }

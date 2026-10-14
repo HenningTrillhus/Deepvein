@@ -24,7 +24,7 @@ public class RockMiner : MonoBehaviour
 
     [Header("Fiender")]
     [Tooltip("Er det en fiende nærmere enn dette, er klikket et slag, ikke hakking.")]
-    public float enemyRange = 5f;
+    public float enemyRange = 4f;
     [Tooltip("Tomt = samme som PlayerAttack bruker.")]
     public LayerMask enemyLayer;
 
@@ -115,6 +115,7 @@ public class RockMiner : MonoBehaviour
 
     bool EnemyNear()
     {
+        if (CombatLock.Active) return true;                       // an enemy sees you / is close: the click is a sword swing
         LayerMask mask = enemyLayer.value != 0 ? enemyLayer : (attack != null ? attack.EnemyLayer : (LayerMask)0);
         if (mask.value == 0) return false;
         enemyFilter.useLayerMask = true; enemyFilter.layerMask = mask; enemyFilter.useTriggers = true;

@@ -15,6 +15,13 @@ public class PlayerHealthUI : MonoBehaviour
     [Tooltip("Hvor fort den tapte stripen forsvinner. 0.5 = hele baren på 2 sek.")]
     [SerializeField] private float lostSpeed = 0.5f;
 
+    [Header("Skadetall")]
+    [Tooltip("Flytende tall over spilleren når han mister eller får liv.")]
+    [SerializeField] private bool damageNumbers = true;
+    [Tooltip("Hvor høyt over føttene tallet dukker opp (units).")]
+    [SerializeField] private float numberHeight = 1.7f;
+
+    private int lastHealth = -1;
     private float currentPercent = 1f;   // følger livet direkte
     private float lostPercent = 1f;      // høyre kant av den tapte stripen
     private float delayTimer;
@@ -31,6 +38,18 @@ public class PlayerHealthUI : MonoBehaviour
     void Update()
     {
         if (playerHealth == null) return;
+
+        if (damageNumbers)
+        {
+            int h = playerHealth.Health;
+            if (lastHealth >= 0 && h != lastHealth)
+            {
+                Vector3 at = playerHealth.transform.position + new Vector3(0f, numberHeight, 0f);
+                if (h < lastHealth) DamagePopup.Spawn(at, lastHealth - h, DamagePopup.PlayerHit);
+                else DamagePopup.Spawn(at, h - lastHealth, DamagePopup.Heal, true);
+            }
+            lastHealth = h;
+        }
 
         float target = playerHealth.MaxHealth > 0
             ? (float)playerHealth.Health / playerHealth.MaxHealth

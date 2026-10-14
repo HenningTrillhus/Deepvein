@@ -27,6 +27,12 @@ public class PlayerAttack : MonoBehaviour
     [Tooltip("Kurve for svingen. Bratt start = rask pisk.")]
     [SerializeField] private AnimationCurve swingCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
+    [Header("Sveipe-effekt")]
+    [Tooltip("En lys sveipe bak sverdet mens du svinger.")]
+    [SerializeField] private bool slashEffect = true;
+    [Tooltip("Avstand fra spilleren til sveipen (andel av hitbox-avstanden).")]
+    [SerializeField] private float slashRadiusScale = 1.15f;
+
     [Header("Hitbox")]
     [Tooltip("Avstand fra spilleren til midten av treffsonen.")]
     [SerializeField] private float hitboxDistance = 0.8f;
@@ -128,6 +134,13 @@ public class PlayerAttack : MonoBehaviour
         if (hideRoutine != null) { StopCoroutine(hideRoutine); hideRoutine = null; }
         if (sword != null)
             ShowSword(true);
+
+        if (slashEffect && attackPivot != null)
+        {
+            int order = swordRenderer != null ? swordRenderer.sortingOrder - 1 : CombatFx.SortingOrder - 10;
+            CombatFx.Slash(transform, (Vector2)(attackPivot.position - transform.position), start, end, swingDuration,
+                           hitboxDistance * slashRadiusScale, swingCurve, CombatFx.PlayerSlash, order);
+        }
 
         float t = 0f;
         while (t < swingDuration)

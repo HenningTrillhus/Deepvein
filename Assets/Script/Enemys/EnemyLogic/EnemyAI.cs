@@ -44,6 +44,19 @@ public class EnemyAI : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private NoticedWarning noticedWarning;
 
+    [Header("Kamp: ikke alle samtidig")]
+    [Tooltip("Fiender som venter på tur holder denne avstanden til spilleren (units).")]
+    [SerializeField] private float waitDistance = 3.5f;
+    [Tooltip("Etter et slag trekker fienden seg tilbake til denne avstanden (units).")]
+    [SerializeField] private float retreatDistance = 2.6f;
+    [Tooltip("Hvor lenge den holder seg unna etter et slag (sekunder, tilfeldig mellom disse).")]
+    [SerializeField] private float retreatMin = 0.5f;
+    [SerializeField] private float retreatMax = 1.3f;
+    [Tooltip("Hvor nøyaktig den holder ønsket avstand (units).")]
+    [SerializeField] private float distanceTolerance = 0.35f;
+    [Tooltip("Hvor fort den går fram og tilbake mens den venter (andel av jagefart).")]
+    [Range(0f, 1f)] [SerializeField] private float paceSpeed = 0.4f;
+
     private enum State { Patrol, Chase }
     private State state = State.Patrol;
 
@@ -60,6 +73,13 @@ public class EnemyAI : MonoBehaviour
     private Vector3 wallCheckStart;
 
     public int FacingDirection => direction;
+    /// <summary>Avstand til spilleren (units), 999 hvis ukjent.</summary>
+    public float DistanceToPlayer { get { return player != null ? Vector2.Distance(transform.position, player.position) : 999f; } }
+    private float retreatTimer, paceTimer, idleTimer;
+    private int paceDir;
+    private bool wasAttacking;
+    private EnemyBlock blockRef;
+    private EnemyStateMachine statesRef;
 
     void Awake()
     {
@@ -76,6 +96,10 @@ public class EnemyAI : MonoBehaviour
             GameObject found = GameObject.FindGameObjectWithTag("Player");
             if (found != null) player = found.transform;
         }
+
+        blockRef = GetComponent<EnemyBlock>();
+        statesRef = GetComponent<EnemyStateMachine>();
+        EnemyPhysics.IgnoreOthers(gameObject);          // verken spiller eller fiender dytter på hverandre
     }
 
     void FixedUpdate()
@@ -86,7 +110,12 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        if (attack != null && attack.IsAttacking) return;
+        bool attackingNow = attack != null && attack.IsAttacking;
+        if (wasAttacking && !attackingNow) retreatTimer = Random.Range(retreatMin, retreatMax);     // after a swing: back off a little
+        wasAttacking = attackingNow;
+        if (retreatTimer > 0f) retreatTimer -= Time.fixedDeltaTime;
+
+        if (attackingNow) return;
 
         UpdateState();
 
@@ -163,17 +192,79 @@ public class EnemyAI : MonoBehaviour
     private void Chase()
     {
         float dx = player.position.x - transform.position.x;
+        float dist = Mathf.Abs(dx);
+        int toward = dx >= 0f ? 1 : -1;
+        if (dist > 0.1f) SetDirection(toward);
 
-        if (Mathf.Abs(dx) > 0.1f)
-            SetDirection(dx > 0 ? 1 : -1);
+        EnemyDirector.Join(this);                                   // tell the others we are chasing
+        bool token = EnemyDirector.HasToken(this);                  // only the one with the token goes all the way in
 
-        if (Mathf.Abs(dx) <= stopDistance || (useEdgeDetection && AtLedge()))
+        float want;
+        if (!token) want = waitDistance;                            // waits its turn
+        else if (retreatTimer > 0f) want = retreatDistance;         // just swung: keeps away for a moment
+        else want = stopDistance;                                   // its turn: right up to the player
+
+        float vx = 0f;
+        if (dist > want + distanceTolerance)
         {
-            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-            return;
+            if (!(useEdgeDetection && AtLedge())) vx = toward * chaseSpeed;
+        }
+        else if (dist < want - distanceTolerance)
+        {
+            if (!BackBlocked()) vx = -toward * chaseSpeed * 0.8f;   // backs away (still looking at the player)
+        }
+        else if (!token || retreatTimer > 0f)
+        {
+            // waiting (or keeping away after a swing): shuffles a little back and forth, never stands still like a post
+            float center = token ? retreatDistance : waitDistance;
+            paceTimer -= Time.fixedDeltaTime;
+            if (paceTimer <= 0f)
+            {
+                paceDir = Random.value < 0.5f ? -1 : 1;               // never 0: it is always on its way somewhere
+                paceTimer = Random.Range(0.5f, 1.3f);
+            }
+            float next = dist - paceDir * 0.05f;                    // paceDir +1 = towards the player
+            bool inside = next > center - 0.9f && next < center + 0.9f;
+            if (!inside) paceDir = dist > center ? 1 : -1;    // too far out or too close: turn back towards the middle
+            bool blockedForward = paceDir > 0 && useEdgeDetection && AtLedge();
+            bool blockedBack = paceDir < 0 && BackBlocked();
+            if (blockedForward) paceDir = -1;
+            else if (blockedBack) paceDir = 1;
+            vx = toward * paceDir * chaseSpeed * paceSpeed;
         }
 
-        rb.linearVelocity = new Vector2(direction * chaseSpeed, rb.linearVelocity.y);
+        // never just standing there: when it would stand still (and is not blocking, stunned or swinging), it backs off or shuffles
+        bool busy = (blockRef != null && blockRef.IsBlocking) || (statesRef != null && !statesRef.CanAct);
+        if (Mathf.Abs(vx) < 0.01f && !busy)
+        {
+            idleTimer += Time.fixedDeltaTime;
+            if (idleTimer > 0.2f)
+            {
+                if (token) retreatTimer = Mathf.Max(retreatTimer, Random.Range(retreatMin, retreatMax));      // its turn but waiting: step back first
+                else { paceDir = Random.value < 0.5f ? -1 : 1; paceTimer = Random.Range(0.5f, 1f); }
+                idleTimer = 0f;
+            }
+        }
+        else idleTimer = 0f;
+
+        rb.linearVelocity = new Vector2(vx, rb.linearVelocity.y);
+    }
+
+    /// <summary>True when there is a wall or a drop right behind the enemy (so it will not back into it).</summary>
+    private bool BackBlocked()
+    {
+        if (!useEdgeDetection) return false;
+        if (groundCheck != null)
+        {
+            Vector2 g = groundCheck.position; g.x = 2f * transform.position.x - g.x;
+            if (!Physics2D.OverlapCircle(g, checkRadius, groundLayer)) return true;
+        }
+        if (wallCheck != null)
+        {
+            Vector2 w = wallCheck.position; w.x = 2f * transform.position.x - w.x;
+            if (Physics2D.OverlapCircle(w, checkRadius, groundLayer)) return true;
+        }
+        return false;
     }
 
     // ---------- Helpers ----------

@@ -61,6 +61,9 @@ TagManager:
   - name: AssetsBackGround
     uniqueID: 1085312073
     locked: 0
+  - name: InCamp
+    uniqueID: 103670897
+    locked: 0
   - name: NaturAsset
     uniqueID: 1901756629
     locked: 0

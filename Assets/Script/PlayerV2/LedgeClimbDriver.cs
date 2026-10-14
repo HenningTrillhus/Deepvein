@@ -124,8 +124,6 @@ public class LedgeClimbDriver : MonoBehaviour
             float drawn = Path[Path.Length - 1].y * u;
             Debug.Log("[LedgeClimbDriver] 1 sprite pixel = " + u.ToString("0.0000") + " units. The player is 40 pixels = " + (40f * u).ToString("0.00")
                 + " units tall. The climb is drawn " + drawn.ToString("0.00") + " units high; the ledge is " + ledgeHeight.ToString("0.00") + " units high.");
-            if (u > 0f && Mathf.Abs(drawn - ledgeHeight) > 0.08f * ledgeHeight)
-                Debug.LogWarning("[LedgeClimbDriver] The player is not 1 tile tall (40 pixels should equal the ledge height). Change Pixels Per Unit in Player Setup, or the scale of the player, until the two numbers match.");
         }
 
         float speed = Mathf.Max(0.1f, playbackSpeed);

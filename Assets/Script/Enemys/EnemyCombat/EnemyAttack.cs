@@ -15,7 +15,14 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private float hitboxRadius = 0.5f;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private int damage = 1;
+    private int baseDamage = -1;
     [SerializeField] private float knockbackForce = 6f;
+    [Tooltip("Hvor mye spilleren dyttes når han treffes (1 = som før). Lavere = roligere.")]
+    [Range(0f, 1f)] [SerializeField] private float knockbackScale = 0.55f;
+    [Tooltip("En sveipe-effekt bak slaget.")]
+    [SerializeField] private bool slashEffect = true;
+    [Tooltip("Hvor stor buen er i grader.")]
+    [SerializeField] private float slashArc = 110f;
 
     [Header("Timing")]
     [Tooltip("Hvor nær spilleren må være før den slår.")]
@@ -33,6 +40,7 @@ public class EnemyAttack : MonoBehaviour
     private float lastAttackEnd = -999f;
     private EnemyBlock block;
     private EnemyStateMachine states;
+    private EnemyAI ai;
 
     public bool IsAttacking => isAttacking;
 
@@ -41,6 +49,7 @@ public class EnemyAttack : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         block = GetComponent<EnemyBlock>();
         states = GetComponent<EnemyStateMachine>();
+        ai = GetComponent<EnemyAI>();
 
         GameObject found = GameObject.FindGameObjectWithTag("Player");
         if (found != null) player = found.transform;
@@ -61,7 +70,7 @@ public class EnemyAttack : MonoBehaviour
 
         float dist = Vector2.Distance(transform.position, player.position);
 
-        if (dist <= triggerRange)
+        if (dist <= triggerRange && (ai == null || EnemyDirector.HasToken(ai)))      // only the enemy whose turn it is swings
             StartCoroutine(AttackRoutine());
     }
 
@@ -91,6 +100,15 @@ public class EnemyAttack : MonoBehaviour
         if (hitboxVisual != null)
             hitboxVisual.SetActive(true);
 
+        if (slashEffect && attackPivot != null)
+        {
+            float aim = attackPivot.eulerAngles.z;
+            var body = GetComponentInChildren<SpriteRenderer>();
+            int order = body != null ? body.sortingOrder + 1 : CombatFx.SortingOrder - 10;
+            CombatFx.Slash(transform, (Vector2)(attackPivot.position - transform.position), aim + slashArc * 0.5f, aim - slashArc * 0.5f,
+                           activeTime, attackRange, null, CombatFx.EnemySlash, order);
+        }
+
         float t = 0f;
         bool hasHit = false;
 
@@ -108,6 +126,7 @@ public class EnemyAttack : MonoBehaviour
 
         lastAttackEnd = Time.time;
         isAttacking = false;
+        if (ai != null) EnemyDirector.AttackFinished(ai);       // the turn goes on to the next enemy
     }
 
     private bool TryHit()
@@ -121,7 +140,7 @@ public class EnemyAttack : MonoBehaviour
         Vector2 dir = ((Vector2)hit.transform.position - (Vector2)transform.position).normalized;
         dir.y = Mathf.Max(dir.y, 0.4f);
 
-        target.TakeDamage(damage, dir.normalized * knockbackForce);
+        target.TakeDamage(damage, dir.normalized * knockbackForce * knockbackScale);
         return true;
     }
 
@@ -138,4 +157,13 @@ public class EnemyAttack : MonoBehaviour
         Gizmos.color = new Color(1f, 0f, 1f, 0.3f);
         Gizmos.DrawWireSphere(transform.position, triggerRange);
     }
+
+    /// <summary>Level-skalering (settes ut av EnemySpawner): skade = grunnskade x multiplier (minst 1).</summary>
+    public void ScaleDamage(float multiplier)
+    {
+        if (baseDamage < 0) baseDamage = damage;
+        damage = Mathf.Max(1, (int)System.Math.Round(baseDamage * Mathf.Max(0.1f, multiplier), System.MidpointRounding.AwayFromZero));
+    }
+
+    public int Damage { get { return damage; } }
 }

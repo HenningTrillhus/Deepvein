@@ -34,8 +34,9 @@ public class PlayerBlock : MonoBehaviour
 
     [Header("Skjold-timer")]
     [Tooltip("Hvor lenge du må vente etter at du senket skjoldet før du kan løfte det igjen.")]
-    [SerializeField] private float raiseCooldown = 1f;
+    [SerializeField] private float raiseCooldown = 0.5f;
     private float raiseReadyTime;
+    [SerializeField, HideInInspector] private int settingsVersion;
 
     [Header("Kostnad ved treff")]
     [Tooltip("Hvor lenge du ikke kan blokkere etter at et slag ble blokkert.")]
@@ -81,6 +82,17 @@ public class PlayerBlock : MonoBehaviour
     public float KnockbackMultiplier => knockbackThrough;
     public float ParryKnockback => parryKnockback;
     public bool IsInParryWindow => Time.time <= blockPressedTime + parryWindow;
+    /// <summary>Sekunder igjen før skjoldet kan løftes igjen (0 = klart). Brukes av ringen på UI-et.</summary>
+    public float RaiseCooldownLeft => Mathf.Max(0f, raiseReadyTime - Time.time);
+    public float RaiseCooldownTotal => raiseCooldown;
+
+#if UNITY_EDITOR
+    // players already in the scene have the old value (1 s) saved: move them to the shorter wait once
+    void OnValidate()
+    {
+        if (settingsVersion < 1) { raiseCooldown = 0.5f; settingsVersion = 1; }
+    }
+#endif
 
     void Awake()
     {

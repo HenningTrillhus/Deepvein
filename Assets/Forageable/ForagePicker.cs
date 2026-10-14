@@ -83,6 +83,7 @@ public class ForagePicker : MonoBehaviour
     bool CanPick()
     {
         if (busy) return false;
+        if (CombatLock.Active) return false;                      // an enemy sees you / is close: no [E] mark and E does nothing
         if (movement != null && (movement.IsClimbing || movement.IsLedgeClimbing || movement.IsRolling || movement.IsCrouching || !movement.IsGrounded)) return false;
         if (attack != null && attack.IsAttacking) return false;
         if (block != null && block.IsBlocking) return false;
@@ -109,6 +110,7 @@ public class ForagePicker : MonoBehaviour
     {
         var kb = Keyboard.current;
         bool pressed = kb != null && kb[pickKey].wasPressedThisFrame;
+        if (busy && CombatLock.Active) cancel = true;            // a fight starts while picking: stop
         var target = busy ? null : Nearest();
         bool can = CanPick();
         UpdatePrompt(target != null && can ? target : null);

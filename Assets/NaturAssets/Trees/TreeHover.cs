@@ -98,6 +98,7 @@ public class TreeHover : MonoBehaviour
         Target hit = null;
         bool allowed = cam != null && Mouse.current != null;
         if (allowed && ignoreWhenOverUI && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) allowed = false;
+        if (allowed && CombatLock.Active) allowed = false;       // an enemy is chasing or close: nothing turns white, a click is only a sword swing
 
         if (allowed)
         {

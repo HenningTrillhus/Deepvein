@@ -17,9 +17,18 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("Blokkering")]
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float attackerSearchRadius = 2f;
+    [Tooltip("Hvor lenge spilleren er stunnet når slaget hans blir blokkert/parert av denne fienden (0 = ingen stun).")]
+    [SerializeField] private float stunPlayerOnBlock = 0.7f;
+    [Tooltip("Hvor mye spilleren dyttes tilbake når slaget hans treffer skjoldet (andel av Parry Knockback på EnemyBlock). Lite = bare et lite dytt.")]
+    [Range(0f, 1f)] [SerializeField] private float blockPush = 0.1f;
+    [Tooltip("Hvor mye fienden dyttes tilbake når den treffes (1 = som før). Lavere = roligere.")]
+    [Range(0f, 1f)] [SerializeField] private float hitKnockbackScale = 0.55f;
+    [Header("Effekter")]
+    [SerializeField] private bool combatEffects = true;
     
 
     private int health;
+    private int baseMaxHealth;
     private bool isDead;
     private Rigidbody2D rb;
     private EnemyBlock block;
@@ -28,6 +37,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     void Awake()
     {
+        baseMaxHealth = maxHealth;
         health = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         block = GetComponent<EnemyBlock>();
@@ -37,6 +47,17 @@ public class Enemy : MonoBehaviour, IDamageable
         if (healthBar != null)
             healthBar.SetHealth(health, maxHealth);
     }
+
+    /// <summary>Level-skalering (settes ut av EnemySpawner): maxliv = grunnliv x multiplier (minst 1), og fienden starter med fullt liv.</summary>
+    public void ScaleHealth(float multiplier)
+    {
+        if (baseMaxHealth <= 0) baseMaxHealth = maxHealth;
+        maxHealth = Mathf.Max(1, (int)System.Math.Round(baseMaxHealth * Mathf.Max(0.1f, multiplier), System.MidpointRounding.AwayFromZero));
+        health = maxHealth;
+        if (healthBar != null) healthBar.InitHealth(health, maxHealth);
+    }
+
+    public int MaxHealth { get { return maxHealth; } }
 
     public void TakeDamage(int amount, Vector2 knockbackDirection)
     {
@@ -49,6 +70,12 @@ public class Enemy : MonoBehaviour, IDamageable
         if (block != null && block.CanBlockFrom(attackOrigin))
         {
             block.RegisterBlockedHit();
+            if (combatEffects) BlockFx(attackOrigin);
+            if (stunPlayerOnBlock > 0f)
+            {
+                var ph = FindFirstObjectByType<PlayerHealth>();
+                if (ph != null) ph.Stun(stunPlayerOnBlock);                // parried: the player is stunned
+            }
             amount = Mathf.RoundToInt(amount * block.DamageMultiplier);
             PushBackAttacker(attackOrigin);
 
@@ -56,6 +83,8 @@ public class Enemy : MonoBehaviour, IDamageable
         }
 
         health = Mathf.Max(0, health - amount);
+
+        if (combatEffects) HitFx(knockbackDirection, health <= 0);
 
         if (healthBar != null)
             healthBar.SetHealth(health, maxHealth);
@@ -69,7 +98,7 @@ public class Enemy : MonoBehaviour, IDamageable
         if (states != null) states.EnterHurt();
 
         if (rb != null)
-            rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+            rb.AddForce(knockbackDirection * knockbackForce * hitKnockbackScale, ForceMode2D.Impulse);
     }
 
     private void Die(Vector2 knockbackDirection)
@@ -116,6 +145,39 @@ public class Enemy : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
+    // ---- effects
+    private Vector3 BodyCenter()
+    {
+        var c = GetComponent<Collider2D>();
+        return c != null ? c.bounds.center : transform.position + Vector3.up * 0.5f;
+    }
+
+    private Vector3 FeetPoint()
+    {
+        var c = GetComponent<Collider2D>();
+        return c != null ? new Vector3(c.bounds.center.x, c.bounds.min.y, 0f) : transform.position;
+    }
+
+    /// <summary>A hit on the shield: a crash with sparks on the side the player came from, and a little dust where the player is pushed.</summary>
+    private void BlockFx(Vector2 attackOrigin)
+    {
+        Vector2 toward = attackOrigin - (Vector2)transform.position;
+        float dirX = toward.x >= 0f ? 1f : -1f;
+        Vector3 at = BodyCenter() + new Vector3(dirX * 0.45f, 0.1f, 0f);
+        CombatFx.Parry(at, new Vector2(dirX, 0.35f));
+        CombatFx.Dust(FeetPoint() + new Vector3(dirX * 0.5f, 0f, 0f), (int)dirX, 3);
+    }
+
+    /// <summary>A normal hit: a crash in the body; the dust follows the knockback.</summary>
+    private void HitFx(Vector2 knockbackDirection, bool killed)
+    {
+        Vector3 at = BodyCenter();
+        CombatFx.Impact(at, killed ? 1.6f : 1f, killed);
+        CombatFx.Sparks(at, knockbackDirection, killed ? 10 : 5, 100f, 2.8f);
+        int sign = knockbackDirection.x >= 0f ? 1 : -1;
+        CombatFx.Dust(FeetPoint(), sign, killed ? 5 : 3);
+    }
+
     private void PushBackAttacker(Vector2 attackOrigin)
     {
         Collider2D hit = Physics2D.OverlapCircle(attackOrigin, attackerSearchRadius, playerLayer);
@@ -125,9 +187,9 @@ public class Enemy : MonoBehaviour, IDamageable
         if (playerRb == null) return;
 
         Vector2 pushDir = ((Vector2)playerRb.transform.position - (Vector2)transform.position).normalized;
-        pushDir.y = Mathf.Max(pushDir.y, 0.3f);
+        pushDir.y = Mathf.Max(pushDir.y, 0.1f);
 
         playerRb.linearVelocity = Vector2.zero;
-        playerRb.AddForce(pushDir.normalized * block.ParryKnockback, ForceMode2D.Impulse);
+        playerRb.AddForce(pushDir.normalized * block.ParryKnockback * blockPush, ForceMode2D.Impulse);
     }
 }

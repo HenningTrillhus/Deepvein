@@ -10,7 +10,8 @@ namespace DeepVain.ForageTools
 {
     /// <summary>
     /// DeepVain > Props > Build forageables
-    ///   1. Lager item-ene (Blueberry, Wild Strawberry, Healing Herb, Cotton, Brown Mushroom, Red Cap) hvis de ikke finnes,
+    ///   1. Lager item-ene (Blueberry, Wild Strawberry, Healing Herb, Cotton, Wild Garlic, Dandelion Greens, Wild Carrot, Raspberry, Hazelnut,
+    ///      Brown Mushroom, Red Cap, Chanterelle, Morel) hvis de ikke finnes,
     ///      med ikonene Icon_*.png.
     ///   2. For de fire plantene (Forage_Blueberry, Forage_Strawberry, Forage_HealingHerb, Forage_Cotton): lager animasjon for
     ///      normal og plukket tilstand (8 bilder, 120 ms, loop), en controller med tilstandene Normal og Picked, og en prefab
@@ -36,6 +37,11 @@ namespace DeepVain.ForageTools
             new Plant { folder = "Forage_Strawberry", itemId = "wild_strawberry", itemName = "Wild Strawberry", icon = "Icon_WildStrawberry",  min = 2, max = 4, description = "Small, sweet wild strawberries." },
             new Plant { folder = "Forage_HealingHerb", itemId = "healing_herb",   itemName = "Healing Herb",    icon = "Icon_HealingHerb",     min = 1, max = 2, description = "A feathery herb with a pink flower. Said to heal." },
             new Plant { folder = "Forage_Cotton",     itemId = "cotton",          itemName = "Cotton",          icon = "Icon_Cotton",          min = 1, max = 3, description = "Soft white cotton from an open boll." },
+            new Plant { folder = "Forage_WildGarlic", itemId = "wild_garlic",     itemName = "Wild Garlic",     icon = "Icon_WildGarlic",      min = 1, max = 3, description = "Broad green leaves with a sharp smell. Good in food." },
+            new Plant { folder = "Forage_DandelionGreens", itemId = "dandelion_greens", itemName = "Dandelion Greens", icon = "Icon_DandelionGreens", min = 1, max = 3, description = "Bitter, toothed leaves of the dandelion." },
+            new Plant { folder = "Forage_WildCarrot", itemId = "wild_carrot",     itemName = "Wild Carrot",     icon = "Icon_WildCarrot",      min = 1, max = 2, description = "A thin, sweet root dug from the soil." },
+            new Plant { folder = "Forage_Raspberry",  itemId = "raspberry",       itemName = "Raspberry",       icon = "Icon_Raspberry",       min = 2, max = 4, description = "Soft red berries from a thorny cane." },
+            new Plant { folder = "Forage_Hazelnut",   itemId = "hazelnut",        itemName = "Hazelnut",        icon = "Icon_Hazelnut",        min = 2, max = 5, description = "Round brown nuts in a leafy husk." },
         };
 
         class Mushroom { public string prefab, itemId, itemName, icon, description; public int min, max; }
@@ -43,6 +49,8 @@ namespace DeepVain.ForageTools
         {
             new Mushroom { prefab = "Mushroom_Brown",      itemId = "brown_mushroom", itemName = "Brown Mushroom", icon = "Icon_BrownMushroom", min = 1, max = 2, description = "A firm brown mushroom with a pale stem." },
             new Mushroom { prefab = "Mushroom_RedCluster", itemId = "red_cap",        itemName = "Red Cap",        icon = "Icon_RedCap",        min = 1, max = 2, description = "A red mushroom with white spots. Not for eating." },
+            new Mushroom { prefab = "Mushroom_Chanterelle", itemId = "chanterelle", itemName = "Chanterelle",    icon = "Icon_Chanterelle",   min = 1, max = 2, description = "A golden, trumpet-shaped mushroom. Tastes of apricot." },
+            new Mushroom { prefab = "Mushroom_Morel",      itemId = "morel",          itemName = "Morel",          icon = "Icon_Morel",         min = 1, max = 2, description = "A honeycomb-capped mushroom of the spring woods." },
         };
 
         // ---------- helpers

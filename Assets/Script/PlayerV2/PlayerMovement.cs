@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Fart når du holder Shift. Må være over 4, ellers blir det ikke løpe-animasjon.")]
     public float sprintSpeed = 5.5f;
     public float jumpForce = 7f;
+    [Tooltip("Hopp kan bare brukes når du står på bakken (ikke i lufta, ikke rett etter forrige hopp).")]
+    public float minTimeBetweenJumps = 0.25f;
+    [Tooltip("Av = ingen hopp fra en stige (da kan man bare hoppe fra bakken).")]
+    public bool jumpOffLadder = false;
 
     [Header("Crouch (hold Ctrl)")]
     [Tooltip("Fart når du går bøyd.")]
@@ -107,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
     private float moveInput;
     private float climbInput;
     private bool jumpPressed;
+    private float nextJumpTime;
     private bool isGrounded;
     private bool onLadder;
     private bool isClimbing;
@@ -265,8 +270,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (jumpPressed)
         {
-            if (isGrounded && !shieldUp && !isCrouching)
+            // only from the ground: not while rising (the ground check can still touch the ground just after take-off), and not twice in a row
+            if (isGrounded && !shieldUp && !isCrouching && rb.linearVelocity.y <= 0.5f && Time.time >= nextJumpTime)
             {
+                nextJumpTime = Time.time + minTimeBetweenJumps;
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 if (anim != null) anim.Jump();
                 if (stamina != null) stamina.SpendJump();     // et hopp koster stamina, men blir aldri stoppet
@@ -577,10 +584,14 @@ public class PlayerMovement : MonoBehaviour
         if (jumpPressed)
         {
             jumpPressed = false;
-            StopClimbing();
-            rb.linearVelocity = new Vector2(moveInput * walkSpeed, jumpForce);
-            if (anim != null) anim.Jump();
-            return;
+            if (jumpOffLadder && Time.time >= nextJumpTime)
+            {
+                nextJumpTime = Time.time + minTimeBetweenJumps;
+                StopClimbing();
+                rb.linearVelocity = new Vector2(moveInput * walkSpeed, jumpForce);
+                if (anim != null) anim.Jump();
+                return;
+            }
         }
 
         float vertical;

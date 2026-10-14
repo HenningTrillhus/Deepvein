@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7709839693853485195}
   - component: {fileID: 1970409978719069977}
   - component: {fileID: 567262396319592932}
-  - component: {fileID: 3020016402186876838}
   m_Layer: 0
   m_Name: Mushroom_Brown
   m_TagString: Untagged
@@ -61,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7cc1cab7fa3fcdb48b1bfe320a12a6d0, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -129,25 +128,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimatorStartOffset
   speedVariation: 0.15
---- !u!114 &3020016402186876838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860095778815219473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5fdb48bfc65be9439d72e0479e2fc8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Forageable
-  item: {fileID: 11400000, guid: f14a7a46037b66444b6877e86004ed27, type: 2}
-  minAmount: 1
-  maxAmount: 2
-  hideWhenPicked: 1
-  pickedState: Picked
-  promptHeight: 1.4
-  shine: 1
-  shineMaterial: {fileID: 2100000, guid: 7cc1cab7fa3fcdb48b1bfe320a12a6d0, type: 2}
-  shinePeriod: 2.9
-  shineRun: 0.4

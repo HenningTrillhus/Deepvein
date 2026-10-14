@@ -27,6 +27,18 @@ public class BackgroundTrees : MonoBehaviour
     [Range(0f, 0.5f)] public float scaleVariation = 0.12f;
     public bool randomFlip = true;
 
+    [Header("Busker (valgfritt)")]
+    [Tooltip("Vanlige busker som står mellom trærne, i samme mørke tone. Tom liste = ingen busker. Fylles av DeepVain > Trees > 9 - Add background bushes.")]
+    public Sprite[] bushSprites = new Sprite[0];
+    [Tooltip("Størrelse på buskene (2 = dobbelt så store som tegnet).")]
+    [Min(0.05f)] public float bushScale = 2f;
+    [Range(0f, 0.5f)] public float bushScaleVariation = 0.15f;
+    [Tooltip("Avstand mellom buskene (units).")]
+    public float bushMinGap = 1.6f;
+    public float bushMaxGap = 4.2f;
+    [Tooltip("Legges til Sorting Order, så buskene står litt foran de bakerste trærne.")]
+    public int bushOrderOffset = 1;
+
     [Header("Lag")]
     [Tooltip("Sorting Layer: bak trærne foran (NaturAsset), foran selve bakken (Ground).")]
     public string sortingLayer = "AssetsBackGround";
@@ -188,7 +200,33 @@ public class BackgroundTrees : MonoBehaviour
             made++;
             cx += minGap + (float)rng.NextDouble() * Mathf.Max(0f, maxGap - minGap);
         }
-        if (log) Debug.Log("[BackgroundTrees] " + made + " trær fra x " + (minX - edgeMargin).ToString("0") + " til " + (maxX + edgeMargin).ToString("0") + ", bakke y " + baseY.ToString("0.00") + ".");
+        int bushes = 0;
+        if (bushSprites != null && bushSprites.Length > 0)
+        {
+            var brng = new System.Random(worldSeed ^ 0x2c1b3c6d);
+            float bx = minX - edgeMargin + (float)brng.NextDouble() * bushMaxGap;
+            Sprite prev = null;
+            while (bx < maxX + edgeMargin)
+            {
+                Sprite sp = null;
+                for (int tries = 0; tries < 6; tries++)
+                {
+                    sp = bushSprites[brng.Next(bushSprites.Length)];
+                    if (sp != null && (sp != prev || bushSprites.Length == 1)) break;
+                }
+                if (sp != null)
+                {
+                    float fi = Mathf.Clamp((bx - x0) / Step, 0f, n - 1f);
+                    int i0 = Mathf.FloorToInt(fi), i1 = Mathf.Min(n - 1, i0 + 1);
+                    float gh = Mathf.Lerp(ground[i0], ground[i1], fi - i0);
+                    float y = baseY + (gh - baseY) * followGround;
+                    SpawnBush(sp, new Vector3(bx, y + yOffset, 0f), brng, mat);
+                    bushes++; prev = sp;
+                }
+                bx += bushMinGap + (float)brng.NextDouble() * Mathf.Max(0f, bushMaxGap - bushMinGap);
+            }
+        }
+        if (log) Debug.Log("[BackgroundTrees] " + made + " trær" + (bushes > 0 ? " og " + bushes + " busker" : "") + " fra x " + (minX - edgeMargin).ToString("0") + " til " + (maxX + edgeMargin).ToString("0") + ", bakke y " + baseY.ToString("0.00") + ".");
         return made;
     }
 
@@ -218,6 +256,37 @@ public class BackgroundTrees : MonoBehaviour
             sw.speed = 0.8f;
             go.SetActive(was);
             TreeHover.Exclude(go);                            // never hovered, highlighted or chopped
+        }
+#if UNITY_EDITOR
+        if (!Application.isPlaying) go.hideFlags = HideFlags.DontSaveInEditor;
+#endif
+    }
+
+    void SpawnBush(Sprite sprite, Vector3 pos, System.Random rng, Material mat)
+    {
+        var go = new GameObject("BG_Bush_" + sprite.name, typeof(SpriteRenderer));
+        go.transform.SetParent(container, false);
+        go.transform.position = pos;
+        float k = bushScale * (bushScaleVariation > 0f ? 1f + (float)(rng.NextDouble() * 2.0 - 1.0) * bushScaleVariation : 1f);
+        go.transform.localScale = new Vector3(k, k, 1f);
+
+        var sr = go.GetComponent<SpriteRenderer>();
+        sr.sprite = sprite;
+        sr.sortingLayerName = sortingLayer;
+        sr.sortingOrder = sortingOrder + bushOrderOffset + (orderSpread > 0 ? rng.Next(0, orderSpread + 1) : 0);
+        sr.flipX = randomFlip && rng.Next(2) == 0;
+        sr.color = Color.Lerp(darkTint, lightTint, (float)rng.NextDouble());                // the same dark tone as the trees
+
+        if (sway && mat != null)
+        {
+            bool was = go.activeSelf;
+            go.SetActive(false);
+            var sw = go.AddComponent<TreeSway>();
+            sw.swayMaterial = mat;
+            sw.amount = swayAmount;
+            sw.speed = 0.9f;
+            go.SetActive(was);
+            TreeHover.Exclude(go);
         }
 #if UNITY_EDITOR
         if (!Application.isPlaying) go.hideFlags = HideFlags.DontSaveInEditor;

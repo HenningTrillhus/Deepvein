@@ -13,14 +13,44 @@ MonoBehaviour:
   m_Name: PropSet
   m_EditorClassIdentifier: Assembly-CSharp::PropSet
   entries:
+  - label: Flower_Allium
+    prefab: {fileID: 4146685002215419018, guid: 06361c13234146449ae052e33d5c139d, type: 3}
+    weight: 1
   - label: Flower_Buttercup
     prefab: {fileID: 3242746175831005694, guid: b0aee3784120093498f228b21b00bee7, type: 3}
+    weight: 1
+  - label: Flower_Cornflower
+    prefab: {fileID: 1105176351068956168, guid: f8df652054f90254f98209ac702d2558, type: 3}
+    weight: 1
+  - label: Flower_Cosmos
+    prefab: {fileID: 1007217381219363314, guid: 1b803d8f613d9584090c4a0527effb91, type: 3}
     weight: 1
   - label: Flower_Daisy
     prefab: {fileID: 5085069333786903946, guid: dad1a601a2e5ca648b1f299a43cfda7c, type: 3}
     weight: 1
+  - label: Flower_Dandelion
+    prefab: {fileID: 6198191791585733516, guid: ae47a1b13cb4d3e46ba0aae87acf4bde, type: 3}
+    weight: 1
+  - label: Flower_ForgetMeNot
+    prefab: {fileID: 4260519761269021662, guid: c65b0b2396fbc1047b272239c5754dbf, type: 3}
+    weight: 1
+  - label: Flower_Foxglove
+    prefab: {fileID: 2690187362912642202, guid: 824d92ee14b79954f8e3fc149f0af192, type: 3}
+    weight: 1
   - label: Flower_Lavender
     prefab: {fileID: 6305180420259095624, guid: b30454895e2f94e41a0ddcb26b41bfbe, type: 3}
+    weight: 1
+  - label: Flower_Marigold
+    prefab: {fileID: 3665615714544889516, guid: c1add35ef72602f41ab2ad82179c3e19, type: 3}
+    weight: 1
+  - label: Flower_Pansy
+    prefab: {fileID: 8793291515115492879, guid: 189d237eaf064274b882c0080ee8a527, type: 3}
+    weight: 1
+  - label: Flower_Poppy
+    prefab: {fileID: 4327771268177577274, guid: 1694d5913f673c7469ee27f3484cbe50, type: 3}
+    weight: 1
+  - label: Flower_Snowdrop
+    prefab: {fileID: 5850448407900329900, guid: 6e1be03d34b87124184277b1514f670c, type: 3}
     weight: 1
   - label: Flower_Sunflower
     prefab: {fileID: 5620104599157023642, guid: 44b3d498252b2d04bb6a01d22f053447, type: 3}
@@ -31,11 +61,26 @@ MonoBehaviour:
   - label: Forage_Cotton
     prefab: {fileID: 6775477689001398232, guid: 8f0d5bfa67c28634cac554e18e268870, type: 3}
     weight: 0.6
+  - label: Forage_DandelionGreens
+    prefab: {fileID: 8866072939318560483, guid: 369018d1af3484949919f8b0fdb5184d, type: 3}
+    weight: 0.6
+  - label: Forage_Hazelnut
+    prefab: {fileID: 8870103308376352307, guid: ac54448f95978ed468009a0a7e81efc4, type: 3}
+    weight: 0.6
   - label: Forage_HealingHerb
     prefab: {fileID: 4404825845330764108, guid: 1394fe30f11c40d41946d18408fec5e9, type: 3}
     weight: 0.6
+  - label: Forage_Raspberry
+    prefab: {fileID: 167862441713428635, guid: 8574645869e541d42906b06737f40c41, type: 3}
+    weight: 0.6
   - label: Forage_Strawberry
     prefab: {fileID: 8692300150281994935, guid: 4ad05bb58cf702e428e58ed64c73423f, type: 3}
+    weight: 0.6
+  - label: Forage_WildCarrot
+    prefab: {fileID: 7834950527518639730, guid: 8bf4e92c77ce86d4ab108bca7b53580f, type: 3}
+    weight: 0.6
+  - label: Forage_WildGarlic
+    prefab: {fileID: 3401055340078928924, guid: 840270c54ae87ea40b159c3eac57b06f, type: 3}
     weight: 0.6
   - label: Ground_AcornsLeaf
     prefab: {fileID: 7727663254323353911, guid: f87c4fe4005898f4f80ba247dee8ef99, type: 3}
@@ -43,9 +88,39 @@ MonoBehaviour:
   - label: Mushroom_Brown
     prefab: {fileID: 860095778815219473, guid: e3df4c980d8c18642b6e8752aea24387, type: 3}
     weight: 0.6
+  - label: Mushroom_Chanterelle
+    prefab: {fileID: 106167650682256358, guid: bef8cfbb46df22a4ab0b6abfcad3e1db, type: 3}
+    weight: 0.6
+  - label: Mushroom_Morel
+    prefab: {fileID: 6158465990298530300, guid: 575cb68315df18241ad720b17d6ca7b0, type: 3}
+    weight: 0.6
   - label: Mushroom_RedCluster
     prefab: {fileID: 214744365687182389, guid: d6c2f7208d9890d44967baf37af5c540, type: 3}
     weight: 0.6
+  - label: Plant_BushDarkShrub
+    prefab: {fileID: 4912934014923985636, guid: 5fc6905cba980254f8366c7126a82726, type: 3}
+    weight: 1
+  - label: Plant_BushLowWide
+    prefab: {fileID: 5211245357171932615, guid: 9fed6ec85e637d0409288a05f32c2d56, type: 3}
+    weight: 1
+  - label: Plant_BushOlive
+    prefab: {fileID: 4079719218155446578, guid: 6d4dd6ab8eddbd94c93955063f637162, type: 3}
+    weight: 1
+  - label: Plant_BushRound
+    prefab: {fileID: 2984236344453797232, guid: 7b45e0640a184a0498f7455f494718b0, type: 3}
+    weight: 1
+  - label: Plant_BushSilver
+    prefab: {fileID: 5043135281655262214, guid: c3eff7ca62328524f943a558c3e52650, type: 3}
+    weight: 1
+  - label: Plant_BushSparse
+    prefab: {fileID: 2304117421287983003, guid: 4ce79d2497090db4589d73b7dcfd9374, type: 3}
+    weight: 1
+  - label: Plant_BushTallOval
+    prefab: {fileID: 1294193522932053700, guid: 9a3c9674f39cfcf488218f4ca2826fe1, type: 3}
+    weight: 1
+  - label: Plant_BushTwin
+    prefab: {fileID: 1491356138085434126, guid: 8b854df87cb2af545af29fe92504b70e, type: 3}
+    weight: 1
   - label: Plant_Clover
     prefab: {fileID: 4405373438517396765, guid: 4f177691697816149bdb738f739483df, type: 3}
     weight: 1

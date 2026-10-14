@@ -69,6 +69,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
 
         health = Mathf.Max(0, health - amount);
+        if (amount > 0) HitFx(attackOrigin, knockback);
 
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(knockback, ForceMode2D.Impulse);
@@ -85,9 +86,28 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
 
+    // ---- effects (dust, sparks and a crash)
+    private Vector3 ChestPoint() { return transform.position + new Vector3(0f, 0.7f, 0f); }
+
+    private void HitFx(Vector2 attackOrigin, Vector2 knockback)
+    {
+        CombatFx.Impact(ChestPoint(), 1f, false);
+        CombatFx.Sparks(ChestPoint(), knockback, 4, 100f, 2.4f);
+        CombatFx.Dust(transform.position, knockback.x >= 0f ? 1 : -1, 3);
+    }
+
+    private void BlockFx(Vector2 attackOrigin)
+    {
+        float dirX = attackOrigin.x >= transform.position.x ? 1f : -1f;
+        Vector3 at = ChestPoint() + new Vector3(dirX * 0.45f, 0f, 0f);
+        CombatFx.Clang(at, new Vector2(dirX, 0.4f));
+        CombatFx.Dust(transform.position + new Vector3(dirX * 0.1f, 0f, 0f), -(int)dirX, 3);       // the push goes the other way
+    }
+
     private void HandleBlockedHit(Vector2 attackOrigin, ref int amount, ref Vector2 knockback)
     {
         block.RegisterBlockedHit();   // spiller også ShieldHit-animasjonen
+        BlockFx(attackOrigin);
 
         amount = Mathf.RoundToInt(amount * block.DamageMultiplier);
         knockback *= block.KnockbackMultiplier;
@@ -102,6 +122,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             if (enemyStates != null)
             {
                 enemyStates.EnterStun();
+                CombatFx.Parry(enemyStates.transform.position + new Vector3(0f, 0.7f, 0f), (Vector2)(enemyStates.transform.position - transform.position));
                 return;
             }
         }
@@ -111,6 +132,21 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         Vector2 pushDir = ((Vector2)enemyAI.transform.position - (Vector2)transform.position).normalized;
         enemyAI.ApplyKnockback(pushDir * block.ParryKnockback);
+    }
+
+    /// <summary>Stunner spilleren i så mange sekunder (brukes når et slag blir parert av en fiende).</summary>
+    public void Stun(float seconds)
+    {
+        if (IsDead || seconds <= 0f) return;
+        if (anim != null) anim.Hit();
+        StartCoroutine(StunFor(seconds));
+    }
+
+    private IEnumerator StunFor(float seconds)
+    {
+        IsStunned = true;
+        yield return new WaitForSeconds(seconds);
+        IsStunned = false;
     }
 
     private IEnumerator StunRoutine()
