@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour, IDamageable
     private EnemyBlock block;
     private EnemyAnimator enemyAnimator;
     private EnemyStateMachine states;
+    private EnemyAttack attack;
 
     void Awake()
     {
@@ -43,6 +44,7 @@ public class Enemy : MonoBehaviour, IDamageable
         block = GetComponent<EnemyBlock>();
         enemyAnimator = GetComponent<EnemyAnimator>();
         states = GetComponent<EnemyStateMachine>();
+        attack = GetComponent<EnemyAttack>();
 
         if (healthBar != null)
             healthBar.SetHealth(health, maxHealth);
@@ -58,12 +60,13 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     public int MaxHealth { get { return maxHealth; } }
+    public bool IsDead { get { return isDead; } }
 
     public void TakeDamage(int amount, Vector2 knockbackDirection)
     {
         // Eneste ting som stopper et treff er at fienden allerede er død.
         // Ingen state, ingen animasjon, ingen lås kan svelge et slag.
-        if (isDead) return;
+        if (isDead || (states != null && states.IsDead)) return;
 
         Vector2 attackOrigin = (Vector2)transform.position - knockbackDirection.normalized * 1f;
 
@@ -74,7 +77,7 @@ public class Enemy : MonoBehaviour, IDamageable
             if (stunPlayerOnBlock > 0f)
             {
                 var ph = FindFirstObjectByType<PlayerHealth>();
-                if (ph != null) ph.Stun(stunPlayerOnBlock);                // parried: the player is stunned
+                if (ph != null) ph.Recoil(stunPlayerOnBlock, false);       // parried: the sword bounces back (the Recoil animation)
             }
             amount = Mathf.RoundToInt(amount * block.DamageMultiplier);
             PushBackAttacker(attackOrigin);
@@ -95,15 +98,30 @@ public class Enemy : MonoBehaviour, IDamageable
             return;
         }
 
-        if (states != null) states.EnterHurt();
-
-        if (rb != null)
-            rb.AddForce(knockbackDirection * knockbackForce * hitKnockbackScale, ForceMode2D.Impulse);
+        // A hit stops the enemy's swing (and shield), unless it has just been interrupted: then it has "armor" for a moment, so it
+        // cannot be stun-locked. It still takes the damage either way.
+        bool armored = attack != null && attack.IsAttacking && attack.HasArmor;
+        if (!armored)
+        {
+            if (states != null) states.EnterHurt();
+            if (rb != null)
+            {
+                rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);        // same knockback every time, whatever it was doing
+                rb.AddForce(knockbackDirection * knockbackForce * hitKnockbackScale, ForceMode2D.Impulse);
+            }
+        }
     }
 
     private void Die(Vector2 knockbackDirection)
     {
         isDead = true;
+
+        // the nameplate (bar, name, level) disappears the moment the enemy dies
+        var bar = healthBar != null ? healthBar : GetComponent<HealthBar>();
+        if (bar != null) bar.Hide();
+
+        // a swing that is already under way must not finish: no hit from a dead goblin
+        if (attack != null) attack.Interrupt();
 
         if (states != null)
             states.EnterDead();
@@ -119,8 +137,6 @@ public class Enemy : MonoBehaviour, IDamageable
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
         }
-
-        Debug.Log("Die kjørt, Dead satt til true");
 
         // La collideren være, men gjør den til trigger så spilleren går gjennom liket
         foreach (Collider2D c in GetComponentsInChildren<Collider2D>())

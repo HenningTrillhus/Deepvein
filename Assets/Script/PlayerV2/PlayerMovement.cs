@@ -111,6 +111,13 @@ public class PlayerMovement : MonoBehaviour
     private float moveInput;
     private float climbInput;
     private bool jumpPressed;
+    private bool wasGrounded;
+    private float airFallSpeed;
+    private AirSlam airSlam;
+    private AirSlam Slam { get { if (airSlam == null) { airSlam = GetComponent<AirSlam>(); if (airSlam == null) airSlam = gameObject.AddComponent<AirSlam>(); } return airSlam; } }
+    // one jump per time on the ground: after a jump he must have FALLEN and touched down again before the next one
+    private bool jumpLocked, jumpFell;
+    private float jumpLockTime;
     private float nextJumpTime;
     private bool isGrounded;
     private bool onLadder;
@@ -141,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         anim = GetComponent<PlayerAnimator>();
         attack = GetComponent<PlayerAttack>();
+        airSlam = GetComponent<AirSlam>();
         block = GetComponent<PlayerBlock>();
         stamina = GetComponent<PlayerStamina>();
         cam = Camera.main;
@@ -203,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (visual != null)
-            visual.localScale = new Vector3(visualBaseScale.x * facing, visualBaseScale.y, visualBaseScale.z);
+            visual.localScale = new Vector3(visualBaseScale.x * facing * VisualSquash.x, visualBaseScale.y * VisualSquash.y, visualBaseScale.z);
 
         if (anim != null)
             anim.SetMotion(Mathf.Abs(rb.linearVelocity.x), rb.linearVelocity.y, isGrounded, isClimbing, climbInput);
@@ -224,9 +232,21 @@ public class PlayerMovement : MonoBehaviour
         // Rullen styrer farten selv (coroutine)
         if (isRolling) return;
 
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isGrounded = CheckGrounded();
+        // touching down after a fall: tell the effects how hard (the fastest downward speed during the fall)
+        if (!isGrounded) airFallSpeed = Mathf.Max(airFallSpeed, -rb.linearVelocity.y);
+        else
+        {
+            if (!wasGrounded && airFallSpeed > 2.5f && !isClimbing && Landed != null) Landed(airFallSpeed);
+            airFallSpeed = 0f;
+        }
+        wasGrounded = isGrounded;
         onLadder = Physics2D.OverlapCircle(transform.position, ladderCheckRadius, ladderLayer);
 
+        // the air slam moves the body itself (fall, land): no walking, jumping or climbing meanwhile
+        if (Slam.IsActive) { jumpPressed = false; return; }
+
+        UpdateJumpLock();
         UpdateClimbState();
 
         if (isClimbing)
@@ -271,11 +291,13 @@ public class PlayerMovement : MonoBehaviour
         if (jumpPressed)
         {
             // only from the ground: not while rising (the ground check can still touch the ground just after take-off), and not twice in a row
-            if (isGrounded && !shieldUp && !isCrouching && rb.linearVelocity.y <= 0.5f && Time.time >= nextJumpTime)
+            if (isGrounded && !jumpLocked && !shieldUp && !isCrouching && rb.linearVelocity.y <= 0.5f && Time.time >= nextJumpTime)
             {
                 nextJumpTime = Time.time + minTimeBetweenJumps;
+                jumpLocked = true; jumpFell = false; jumpLockTime = Time.time;     // no new jump before he has fallen and touched down
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 if (anim != null) anim.Jump();
+                if (Jumped != null) Jumped();
                 if (stamina != null) stamina.SpendJump();     // et hopp koster stamina, men blir aldri stoppet
             }
 
@@ -283,6 +305,43 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (!shieldUp) HandleStep();
+    }
+
+    /// <summary>
+    /// Standing on something: the ground check circle must touch a surface BELOW its centre (a floor), not just anything.
+    /// A wall beside the player (or a ceiling) used to count as ground, so he could jump again in the air next to a wall.
+    /// </summary>
+    private bool CheckGrounded()
+    {
+        if (groundCheck == null) return false;
+        Vector2 c = groundCheck.position;
+        var hits = Physics2D.OverlapCircleAll(c, groundCheckRadius, groundLayer);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            var h = hits[i];
+            if (h == null || h.isTrigger) continue;
+            if (h.OverlapPoint(c)) return true;                       // the centre is inside the ground
+            if (h.OverlapPoint(c + Vector2.down * 0.03f)) return true;   // the ground is right under the centre (feet exactly on the surface)
+            Vector2 cp = h.ClosestPoint(c);
+            if (cp.y <= c.y - 0.02f) return true;                      // the touch point is below the centre: a floor, not a wall beside
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// One jump per time on the ground. After a jump the lock opens only when he has FALLEN (moved down) and is on the ground again, so a
+    /// ground check that wrongly says "ground" at the top of the jump (next to a wall, on a prop ...) cannot give a second jump.
+    /// </summary>
+    private void UpdateJumpLock()
+    {
+        if (!jumpLocked) return;
+        float vy = rb.linearVelocity.y;
+        if (vy < -1f) jumpFell = true;
+        float g = Mathf.Max(0.1f, Mathf.Abs(Physics2D.gravity.y) * Mathf.Max(0.01f, defaultGravity));
+        float flight = 2f * jumpForce / g;                                             // the time a jump on level ground takes
+        bool landed = isGrounded && jumpFell && vy > -0.5f;
+        bool timeout = isGrounded && Time.time - jumpLockTime > flight + 0.4f && Mathf.Abs(vy) < 0.5f;     // never stay locked
+        if (landed || timeout || isClimbing || isLedgeClimbing) jumpLocked = false;
     }
 
     /// <summary>Gå = walkSpeed. Hold Shift = sprintSpeed (ikke mens du blokkerer eller slår).</summary>
@@ -688,6 +747,12 @@ public class PlayerMovement : MonoBehaviour
 
     /// <summary>Kommer når spilleren selv trykker gå eller hopp. TreeChopper bruker den til å avbryte hogging.</summary>
     public event System.Action PlayerInput;
+    /// <summary>He took off in a jump.</summary>
+    public event System.Action Jumped;
+    /// <summary>He touched down after a fall: the speed he hit the ground with (units per second, positive).</summary>
+    public event System.Action<float> Landed;
+    /// <summary>A small stretch / squash of the picture (x, y), set by PlayerMoveFx. 1, 1 = normal.</summary>
+    public Vector2 VisualSquash { get; set; } = Vector2.one;
 
     /// <summary>-1 / +1 = gå i den retningen uten tastetrykk, 0 = vanlig styring igjen.</summary>
     public void SetForcedMove(float dir) { forcedMove = Mathf.Clamp(dir, -1f, 1f); forcedMoveOn = Mathf.Abs(dir) > 0.001f; }

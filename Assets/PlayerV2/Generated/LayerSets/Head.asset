@@ -249,3 +249,33 @@ MonoBehaviour:
     - {fileID: -4738785360604553094, guid: 09c42b81666051c49ae9cbbbc1f48256, type: 3}
     - {fileID: -3002183644382519311, guid: 09c42b81666051c49ae9cbbbc1f48256, type: 3}
     - {fileID: -5289041812786653259, guid: 09c42b81666051c49ae9cbbbc1f48256, type: 3}
+  - anim: Recoil
+    frames:
+    - {fileID: 3546837767399685105, guid: ecae1e61689548743917b11d72a4880d, type: 3}
+    - {fileID: -4794725286823699672, guid: ecae1e61689548743917b11d72a4880d, type: 3}
+    - {fileID: -4467798798661066172, guid: ecae1e61689548743917b11d72a4880d, type: 3}
+    - {fileID: 5094919361501815849, guid: ecae1e61689548743917b11d72a4880d, type: 3}
+    - {fileID: -1511830638668880461, guid: ecae1e61689548743917b11d72a4880d, type: 3}
+    - {fileID: -1183943831948984286, guid: ecae1e61689548743917b11d72a4880d, type: 3}
+    - {fileID: 6790198972913648822, guid: ecae1e61689548743917b11d72a4880d, type: 3}
+    - {fileID: 7105704028665824139, guid: ecae1e61689548743917b11d72a4880d, type: 3}
+  - anim: AirSlamStart
+    frames:
+    - {fileID: -4580977926703296517, guid: 2370c7c4195b9be43b80823efc27c1ad, type: 3}
+    - {fileID: 5416527438762190817, guid: 2370c7c4195b9be43b80823efc27c1ad, type: 3}
+    - {fileID: 3769522974882719284, guid: 2370c7c4195b9be43b80823efc27c1ad, type: 3}
+  - anim: AirSlamFall
+    frames:
+    - {fileID: 3002995032807215046, guid: 94dcca6d25926cf448e7b5ba4b27ace7, type: 3}
+    - {fileID: 5753017549908079371, guid: 94dcca6d25926cf448e7b5ba4b27ace7, type: 3}
+  - anim: AirSlamStrike
+    frames:
+    - {fileID: -4518537865640122565, guid: 1bb9c80d3a922d94d985879113573037, type: 3}
+    - {fileID: -8089834044488608769, guid: 1bb9c80d3a922d94d985879113573037, type: 3}
+  - anim: AirSlamLand
+    frames:
+    - {fileID: -9129113751280765288, guid: a85a7c005adcf794c9dcfe9f4a5b8f98, type: 3}
+    - {fileID: -3733056969986932503, guid: a85a7c005adcf794c9dcfe9f4a5b8f98, type: 3}
+    - {fileID: 742058215618719660, guid: a85a7c005adcf794c9dcfe9f4a5b8f98, type: 3}
+    - {fileID: 4117924101657872683, guid: a85a7c005adcf794c9dcfe9f4a5b8f98, type: 3}
+    - {fileID: 3928694330843800986, guid: a85a7c005adcf794c9dcfe9f4a5b8f98, type: 3}

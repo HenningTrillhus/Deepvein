@@ -1,0 +1,12 @@
+Goblin hit reaction - 7 frames of 28x32 (sheet 196x32), left to right.
+Frame is 4px wider than the normal 24x32 goblin: the goblin's rest position is x=4 (so his feet match the other animations
+when you offset the frame by -4 px in x). Feet stand on row 31. The extra room on the left is for the backward lean.
+Frame 1 is a white hit-flash. Play once, then go back to idle.
+frame  name       duration_ms
+1      impact     70
+2      recoil     90
+3      stagger    110
+4      airborne   130
+5      land       110
+6      recover    110
+7      settle     110

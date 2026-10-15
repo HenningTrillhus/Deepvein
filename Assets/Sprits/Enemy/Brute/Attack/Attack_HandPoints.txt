@@ -1,0 +1,11 @@
+Goblin attack - fist (grip) positions for placing the weapon as its own game object
+Coordinates are pixels in the 24x32 frame, origin top-left (x right, y down).
+Rotation hint: degrees counter-clockwise for a bat sprite that points RIGHT (WoodenBat_Horizontal.png),
+rotated around its grip near the handle end. These are suggestions - tweak in the engine.
+frame  name           fist_x  fist_y  rotation  duration_ms
+1      anticipation   4.5     19      160       110
+2      windup         3.5     13      130       150
+3      strike         21.5    18      20        60
+4      impact         21.5    23      -40       150
+5      recover        15.5    24      -70       110
+6      settle         10.5    22      -90       110

@@ -58,8 +58,20 @@ public class EnemyBlock : MonoBehaviour
             shieldVisual.SetActive(false);
     }
 
+    void OnDisable()
+    {
+        isBlocking = false;
+    }
+
     void Update()
     {
+        // the shield only counts while the enemy really is in its block pose (not when hurt, stunned or dead)
+        if (isBlocking && states != null && (states.IsDead || states.Current != EnemyState.Block))
+        {
+            Cancel();
+            return;
+        }
+
         if (isBlocking)
         {
             if (Time.time >= blockEndTime)
@@ -96,6 +108,15 @@ public class EnemyBlock : MonoBehaviour
         if (states != null) states.EnterBlock();
     }
 
+    /// <summary>Skjoldet går ned med en gang (truffet, stunnet, død).</summary>
+    public void Cancel()
+    {
+        if (!isBlocking) return;
+        isBlocking = false;
+        cooldownUntil = Time.time + 0.4f;
+        if (shieldVisual != null) shieldVisual.SetActive(false);
+    }
+
     private void StopBlocking()
     {
         isBlocking = false;
@@ -107,6 +128,7 @@ public class EnemyBlock : MonoBehaviour
     public bool CanBlockFrom(Vector2 attackOrigin)
     {
         if (!isBlocking) return false;
+        if (states != null && (states.IsDead || states.IsStunned || states.Current != EnemyState.Block)) return false;
 
         Vector2 toAttacker = (attackOrigin - (Vector2)transform.position).normalized;
         Vector2 facing = Vector2.right * (ai != null ? ai.FacingDirection : 1);

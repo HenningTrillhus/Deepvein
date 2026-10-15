@@ -30,6 +30,8 @@ public class PlayerAnimator : MonoBehaviour
     static readonly int pDrink = Animator.StringToHash("Drink");
     static readonly int pLedgeClimbing = Animator.StringToHash("LedgeHang");
     static readonly int pLedgeClimb = Animator.StringToHash("LedgeClimb");
+    static readonly int pRecoil = Animator.StringToHash("Recoil");
+    static readonly int pAirSlamPhase = Animator.StringToHash("AirSlamPhase");
 
 
     void Awake()
@@ -49,6 +51,10 @@ public class PlayerAnimator : MonoBehaviour
     }
 
     public void Jump()      { if (animator != null) animator.SetTrigger(pJump); }
+    /// <summary>The sword bounced off a shield / the player is thrown a little back.</summary>
+    public void Recoil()    { if (animator != null) animator.SetTrigger(pRecoil); }
+    /// <summary>The air slam: 0 none, 1 windup, 2 fall (loops), 3 strike, 4 land. Set by AirSlam.cs.</summary>
+    public void SetAirSlamPhase(int phase) { if (animator != null) animator.SetInteger(pAirSlamPhase, phase); }
     public void Attack()    { if (animator != null) animator.SetTrigger(pAttack); }
     public void Hit()       { if (animator != null) animator.SetTrigger(pHit); }
     public void ShieldHit() { if (animator != null) animator.SetTrigger(pShieldHit); }

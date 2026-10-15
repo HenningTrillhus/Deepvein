@@ -1,0 +1,12 @@
+Goblin block (raise shield) - fist positions for placing the shield as its own game object
+Coordinates are pixels in the 24x32 goblin frame, origin top-left (x right, y down).
+Shield sprite (GoblinShield.png, 24x32): grip centre is at about (8, 15.5) - put that point on the fist.
+Draw the shield BEHIND the goblin so the fist covers the grip.
+Frames 1-3 = raise (play once, play backwards to lower). Frames 4-6 = hold, loop them.
+frame  name          fist_x  fist_y  duration_ms
+1      raise_start   14.5    21      80
+2      raise_mid     17.5    17      80
+3      brace         20.5    15      110
+4      hold_a        20.5    15      120
+5      hold_b        20.5    16      120
+6      hold_c        20.5    15      120

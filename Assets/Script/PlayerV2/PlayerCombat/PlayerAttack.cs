@@ -24,6 +24,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float swingDuration = 0.22f;
     [Tooltip("Hvile før neste slag.")]
     [SerializeField] private float attackCooldown = 0.45f;
+    [Tooltip("Et klikk rett FØR neste slag er klart huskes så lenge (sekunder) og slår så snart det er klart. Gjør slagene lettere å time.")]
+    [SerializeField] private float inputBuffer = 0.18f;
     [Tooltip("Kurve for svingen. Bratt start = rask pisk.")]
     [SerializeField] private AnimationCurve swingCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
@@ -48,6 +50,11 @@ public class PlayerAttack : MonoBehaviour
     private TreeChopper chopper;
     private RockMiner rockMiner;
     private bool isAttacking;
+    private Coroutine swingRoutine;
+    private PlayerHealth health;
+    private float bufferedUntil;
+    private AirSlam airSlam;
+    private AirSlam Slam { get { if (airSlam == null) { airSlam = GetComponent<AirSlam>(); if (airSlam == null) airSlam = gameObject.AddComponent<AirSlam>(); } return airSlam; } }
     private float lastAttackTime = -999f;
     private float currentAngle;
 
@@ -65,6 +72,8 @@ public class PlayerAttack : MonoBehaviour
         anim = GetComponent<PlayerAnimator>();
         movement = GetComponent<PlayerMovement>();
         block = GetComponent<PlayerBlock>();
+        health = GetComponent<PlayerHealth>();
+        airSlam = GetComponent<AirSlam>();
         chopper = GetComponent<TreeChopper>();
         rockMiner = GetComponent<RockMiner>();
 
@@ -91,7 +100,31 @@ public class PlayerAttack : MonoBehaviour
 
         if (isAttacking)
             CheckHits();
+
+        // a click that came just before the swing was ready is fired as soon as it is
+        if (bufferedUntil > 0f)
+        {
+            if (Time.time > bufferedUntil || (health != null && (health.IsDead || health.IsStunned))) bufferedUntil = 0f;
+            else if (!isAttacking && Time.time >= lastAttackTime + attackCooldown)
+            {
+                bufferedUntil = 0f;
+                if (CanSwingNow()) StartSwing();
+            }
+        }
     }
+
+    /// <summary>The damage of a normal swing (the air slam multiplies it).</summary>
+    public int Damage { get { return damage; } }
+
+    /// <summary>Shows or hides the sword from outside (the air slam holds it up in its own animation).</summary>
+    public void ForceSword(bool on)
+    {
+        if (hideRoutine != null) { StopCoroutine(hideRoutine); hideRoutine = null; }
+        ShowSword(on);
+    }
+
+    /// <summary>Lets LevelXp etc. know that an enemy was hit by something other than the normal swing.</summary>
+    public void NotifyEnemyHit(GameObject enemy) { if (EnemyHit != null) EnemyHit(enemy); }
 
     /// <summary>Hvilke lag fiendene ligger på (TreeChopper bruker den til å se om det er fiender i nærheten).</summary>
     public LayerMask EnemyLayer => enemyLayer;
@@ -102,20 +135,54 @@ public class PlayerAttack : MonoBehaviour
         if (chopper != null && chopper.OnAttackClick()) return;
         // klikk på en stein med hakke i hånden = hakke (RockMiner, samme regler: fiende nær = slå)
         if (rockMiner != null && rockMiner.OnAttackClick()) return;
-        if (isAttacking) return;
-        if (Time.time < lastAttackTime + attackCooldown) return;
-        if (block != null && block.IsBlocking) return;   // ikke slå mens skjoldet er oppe
-        if (movement != null && (movement.IsCrouching || movement.IsRolling)) return;
+        if (health != null && (health.IsStunned || health.IsDead)) return;      // stunned or dead: no swing
+        if (Slam.IsActive) return;                        // the air slam is going: no other swing
+        // an attack high in the air = the air slam (the sword goes up and he comes down hard)
+        if (!isAttacking && Time.time >= lastAttackTime + attackCooldown && Slam.TryStart()) return;
+        if (isAttacking || Time.time < lastAttackTime + attackCooldown)
+        {
+            bufferedUntil = Time.time + inputBuffer;                            // not ready yet: remember the click
+            return;
+        }
+        if (!CanSwingNow()) return;
+        StartSwing();
+    }
+
+    private bool CanSwingNow()
+    {
+        if (health != null && (health.IsStunned || health.IsDead)) return false;
+        if (block != null && block.IsBlocking) return false;   // ikke slå mens skjoldet er oppe
+        if (movement != null && (movement.IsCrouching || movement.IsRolling)) return false;
 
         // Mens du spurter kan du slå fremover, men ikke bakover - da må du stoppe opp først
         if (movement != null && movement.IsSprinting)
         {
             bool aimRight = Mathf.Cos(GetAimAngle() * Mathf.Deg2Rad) > 0f;
             bool moveRight = movement.HorizontalInput > 0f;
-            if (aimRight != moveRight) return;
+            if (aimRight != moveRight) return false;
         }
+        return true;
+    }
 
-        StartCoroutine(SwingRoutine());
+    private void StartSwing()
+    {
+        swingRoutine = StartCoroutine(SwingRoutine());
+    }
+
+    /// <summary>The swing is knocked out of the player's hand (hit, stun): no more hits from it, the slash effect goes away.</summary>
+    public void CancelSwing()
+    {
+        if (!isAttacking) return;
+        if (swingRoutine != null) { StopCoroutine(swingRoutine); swingRoutine = null; }
+        isAttacking = false;
+        bufferedUntil = 0f;
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Transform c = transform.GetChild(i);
+            if (c.name == "FxFlip") Destroy(c.gameObject);
+        }
+        if (hideRoutine != null) { StopCoroutine(hideRoutine); hideRoutine = null; }
+        ShowSword(false);
     }
 
     private IEnumerator SwingRoutine()
@@ -155,6 +222,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         isAttacking = false;
+        swingRoutine = null;
         if (swordFollowsHand) hideRoutine = StartCoroutine(HideSwordAfter(swordLinger));
         else ShowSword(false);
     }
@@ -219,8 +287,15 @@ public class PlayerAttack : MonoBehaviour
             IDamageable target = hit.GetComponentInParent<IDamageable>();
             if (target == null) continue;
 
-            Vector2 knockbackDir = ((Vector2)hit.transform.position - (Vector2)attackPivot.position).normalized;
-            target.TakeDamage(damage, knockbackDir);
+            // a dead enemy is not hit again (and gives no XP)
+            var enemy = hit.GetComponentInParent<Enemy>();
+            if (enemy != null && enemy.IsDead) continue;
+
+            // sideways from the player (a little up), not from the pivot to the enemy's feet: the push is steady and the shield check is true
+            float dx = hit.bounds.center.x - transform.position.x;
+            float side = Mathf.Abs(dx) > 0.05f ? Mathf.Sign(dx) : (Mathf.Cos(attackPivot.eulerAngles.z * Mathf.Deg2Rad) >= 0f ? 1f : -1f);
+            Vector2 knockbackDir = new Vector2(side, 0.25f).normalized;
+            CombatTrace.Hit(target, gameObject, damage, knockbackDir);
             if (EnemyHit != null) EnemyHit(hit.gameObject);
         }
     }

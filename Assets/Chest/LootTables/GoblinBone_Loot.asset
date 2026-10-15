@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08f2b386ba30c1d4b8b934131b7e073c, type: 3}
+  m_Name: GoblinBone_Loot
+  m_EditorClassIdentifier: Assembly-CSharp::DeepVain.Items.ChestLootTable
+  entries:
+  - item: {fileID: 11400000, guid: 03e8ab0217160b749ba17f5aa5c368d7, type: 2}
+    chance: 85
+    minAmount: 3
+    maxAmount: 6
+  - item: {fileID: 11400000, guid: 3ac6950d62a62b8438f8dd4c6a230085, type: 2}
+    chance: 40
+    minAmount: 2
+    maxAmount: 5
+  - item: {fileID: 11400000, guid: d69c63b9cab31284bb1c25411244973a, type: 2}
+    chance: 45
+    minAmount: 1
+    maxAmount: 3
+  - item: {fileID: 11400000, guid: 7dc089ba2743ca541be42792256efe62, type: 2}
+    chance: 30
+    minAmount: 1
+    maxAmount: 3
+  - item: {fileID: 11400000, guid: 22d1de3efa8965b428e9e8746222d514, type: 2}
+    chance: 35
+    minAmount: 1
+    maxAmount: 2
+  - item: {fileID: 11400000, guid: f4b7bf505729c24498274f2fc109dbfb, type: 2}
+    chance: 12
+    minAmount: 1
+    maxAmount: 1
+  maxDifferentItems: 0
+  neverEmpty: 1

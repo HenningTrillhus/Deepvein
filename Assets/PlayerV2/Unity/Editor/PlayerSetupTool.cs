@@ -57,6 +57,12 @@ namespace DeepVain.Player.EditorTools
             new AnimDef("Roll",        40, 8, false, 55, 50, 45, 45, 45, 45, 45, 45, 50, 60, 70),
             new AnimDef("Drink",       24, 0, false, 70, 70, 80, 110, 130, 110, 90, 80, 60),
             new AnimDef("EnterDoor",   24, 0, false, 90, 90, 90, 90, 90, 90, 90, 90),
+            // recoil (the sword bounces off a shield / thrown a little back) and the air slam (start, fall (loops), strike, land)
+            new AnimDef("Recoil",       32, 4, false, 50, 55, 65, 70, 70, 80, 90, 100),
+            new AnimDef("AirSlamStart", 40, 8, false, 55, 55, 65),
+            new AnimDef("AirSlamFall", 40, 8, true, 60, 60),
+            new AnimDef("AirSlamStrike", 40, 8, false, 40, 40),
+            new AnimDef("AirSlamLand", 40, 8, false, 70, 95, 90, 90, 100),
         };
 
         // back to front
@@ -212,6 +218,8 @@ namespace DeepVain.Player.EditorTools
             ctrl.AddParameter("Crouching", AnimatorControllerParameterType.Bool);
             ctrl.AddParameter("Roll", AnimatorControllerParameterType.Trigger);
             ctrl.AddParameter("Drink", AnimatorControllerParameterType.Trigger);
+            ctrl.AddParameter("Recoil", AnimatorControllerParameterType.Trigger);
+            ctrl.AddParameter("AirSlamPhase", AnimatorControllerParameterType.Int);     // 0 none, 1 start, 2 fall, 3 strike, 4 land (AirSlam.cs sets it)
             var sm = ctrl.layers[0].stateMachine;
             var st = new Dictionary<string, AnimatorState>();
             foreach (var a in Anims) { var s = sm.AddState(a.name); s.motion = clips[a.name]; s.speed = a.speed; st[a.name] = s; }
@@ -232,7 +240,7 @@ namespace DeepVain.Player.EditorTools
             var t2 = Any("Hit"); t2.AddCondition(AnimatorConditionMode.If, 0, "Hit"); t2.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t2.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned");
             var t3 = Any("Attack"); t3.AddCondition(AnimatorConditionMode.If, 0, "Attack"); t3.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t3.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); t3.AddCondition(AnimatorConditionMode.IfNot, 0, "Blocking");
             var t4 = Any("Jump"); t4.AddCondition(AnimatorConditionMode.If, 0, "Jump"); t4.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t4.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); t4.AddCondition(AnimatorConditionMode.IfNot, 0, "Blocking");
-            var t5 = Any("Fall"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Grounded"); t5.AddCondition(AnimatorConditionMode.Less, -0.1f, "VelY"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Climbing"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "LedgeHang");
+            var t5 = Any("Fall"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Grounded"); t5.AddCondition(AnimatorConditionMode.Less, -0.1f, "VelY"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Climbing"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); t5.AddCondition(AnimatorConditionMode.IfNot, 0, "LedgeHang"); t5.AddCondition(AnimatorConditionMode.Equals, 0, "AirSlamPhase");
             var t7 = Any("PickUp"); t7.AddCondition(AnimatorConditionMode.If, 0, "PickUp"); t7.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); t7.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned");
 
             // ladder: only entered from the normal states (so ClimbIdle does not get kicked back into Climb)
@@ -285,6 +293,19 @@ namespace DeepVain.Player.EditorTools
             var tD = Any("Drink"); tD.AddCondition(AnimatorConditionMode.If, 0, "Drink"); tD.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead"); tD.AddCondition(AnimatorConditionMode.IfNot, 0, "Stunned"); tD.AddCondition(AnimatorConditionMode.IfNot, 0, "Blocking");
             Go("Drink", "Idle", true);
             // EnterDoor has no transitions: DoorEnterDriver plays it by hand (turns the Animator off while it runs)
+
+            // recoil: trigger Recoil. Afterwards Fall if he is in the air, else Idle
+            var tRc = Any("Recoil"); tRc.AddCondition(AnimatorConditionMode.If, 0, "Recoil"); tRc.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead");
+            Go("Recoil", "Fall", true).AddCondition(AnimatorConditionMode.IfNot, 0, "Grounded");
+            Go("Recoil", "Idle", true);
+
+            // air slam: AirSlamPhase (set by AirSlam.cs) picks the picture; 0 = back to normal
+            string[] slamStates = { "AirSlamStart", "AirSlamFall", "AirSlamStrike", "AirSlamLand" };
+            for (int si = 0; si < slamStates.Length; si++)
+            {
+                var ts = Any(slamStates[si]); ts.AddCondition(AnimatorConditionMode.Equals, si + 1, "AirSlamPhase"); ts.AddCondition(AnimatorConditionMode.IfNot, 0, "Dead");
+                Go(slamStates[si], "Idle").AddCondition(AnimatorConditionMode.Equals, 0, "AirSlamPhase");
+            }
 
             // after Death the body fades away (and stays gone)
             Go("Death", "DeathFade", true);

@@ -1185,6 +1185,11 @@ MonoBehaviour:
   - Roll
   - Drink
   - EnterDoor
+  - Recoil
+  - AirSlamStart
+  - AirSlamFall
+  - AirSlamStrike
+  - AirSlamLand
   female: 0
   blinkHidden: 0
   sortingLayer: Default

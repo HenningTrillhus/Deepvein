@@ -27,6 +27,12 @@ public class PropSpawner : MonoBehaviour
     [Tooltip("Unngå at samme prop kommer rett etter hverandre: hvor mange av de siste som hoppes over hvis mulig.")]
     [Min(0)] public int avoidRepeats = 1;
 
+    [Header("Plukkbare (bær, urter, sopp)")]
+    [Tooltip("På: plukkbare skal alltid være frie. Andre props som overlapper en plukkbar fjernes, og to plukkbare oppå hverandre blir til én. En sopp som ikke er plukkbar (mangler Forageable) settes ikke ut.")]
+    public bool clearOverlaps = true;
+    [Tooltip("Hvor mye bildene må overlappe før noe fjernes (1 = de berører hverandre, 0.5 = halvparten).")]
+    [Range(0.2f, 1f)] public float overlapFactor = 0.8f;
+
     [Header("Kjøring")]
     [Tooltip("Sett ut props automatisk når spillet starter (etter at WorldBuilder har laget verden).")]
     public bool populateOnStart = true;
@@ -71,12 +77,20 @@ public class PropSpawner : MonoBehaviour
 
             var entry = set.Pick(rng, recent);
             if (entry == null) { missing++; continue; }
+            if (clearOverlaps && entry.prefab != null && entry.prefab.name.StartsWith("Mushroom_") && entry.prefab.GetComponent<Forageable>() == null)
+            {
+                if (!warnedPlainMushroom) { warnedPlainMushroom = true; Debug.LogWarning("[PropSpawner] " + entry.prefab.name + " er ikke plukkbar (mangler Forageable), så den settes ikke ut. Kjør DeepVain > Props > Build forageables.", this); }
+                missing++; continue;
+            }
             recent.Add(entry); while (recent.Count > avoidRepeats) recent.RemoveAt(0);
 
             Spawn(slot, entry, rng);
             made++;
         }
-        if (log) Debug.Log("[PropSpawner] " + made + " props av " + slots.Count + " plasser (" + skipped + " ble ikke med på sjansen" + (missing > 0 ? ", " + missing + " uten prop-liste" : "") + ").");
+        int removed = clearOverlaps ? RemoveOverlaps(slots) : 0;
+        made -= removed;
+        if (log) Debug.Log("[PropSpawner] " + made + " props av " + slots.Count + " plasser (" + skipped + " ble ikke med på sjansen" + (missing > 0 ? ", " + missing + " uten prop-liste" : "")
+                           + (removed > 0 ? ", " + removed + " fjernet fordi de overlappet en plukkbar" : "") + ").");
         return made;
     }
 
@@ -101,6 +115,58 @@ public class PropSpawner : MonoBehaviour
 #if UNITY_EDITOR
         if (!Application.isPlaying) go.hideFlags = HideFlags.DontSaveInEditor;       // en forhåndsvisning i editor skal ikke lagres i scenen
 #endif
+    }
+
+    bool warnedPlainMushroom;
+
+    static float WidthOf(GameObject go)
+    {
+        var sr = go.GetComponentInChildren<SpriteRenderer>();
+        return sr != null ? Mathf.Max(0.2f, sr.bounds.size.x) : 0.8f;
+    }
+
+    bool Overlaps(GameObject a, GameObject b)
+    {
+        Vector3 pa = a.transform.position, pb = b.transform.position;
+        if (Mathf.Abs(pa.y - pb.y) > 1f) return false;
+        return Mathf.Abs(pa.x - pb.x) < 0.5f * (WidthOf(a) + WidthOf(b)) * overlapFactor;
+    }
+
+    /// <summary>Plukkbare (Forageable) skal ikke ligge under noe annet: props som overlapper dem fjernes, og dobbelt-plukkbare blir til én.</summary>
+    int RemoveOverlaps(List<PropSlot> slots)
+    {
+        var props = new List<GameObject>();
+        foreach (var slot in slots)
+        {
+            if (slot == null) continue;
+            for (int i = 0; i < slot.transform.childCount; i++)
+            {
+                var c = slot.transform.GetChild(i);
+                if (c.GetComponent<SpawnedPropMarker>() != null) props.Add(c.gameObject);
+            }
+        }
+        props.Sort((a, b) => a.transform.position.x.CompareTo(b.transform.position.x));
+        var forage = props.FindAll(p => p.GetComponent<Forageable>() != null);
+        var kill = new HashSet<GameObject>();
+        for (int i = 0; i < forage.Count; i++)
+        {
+            if (kill.Contains(forage[i])) continue;
+            for (int j = i + 1; j < forage.Count; j++)
+                if (!kill.Contains(forage[j]) && Overlaps(forage[i], forage[j])) kill.Add(forage[j]);        // the left one stays
+        }
+        foreach (var p in props)
+        {
+            if (p.GetComponent<Forageable>() != null || kill.Contains(p)) continue;
+            foreach (var f in forage)
+                if (!kill.Contains(f) && Overlaps(p, f)) { kill.Add(p); break; }
+        }
+        foreach (var go in kill)
+        {
+            if (go == null) continue;
+            go.SetActive(false);                                  // out of Forageable.All and out of the picture right now
+            if (Application.isPlaying) Destroy(go); else DestroyImmediate(go);
+        }
+        return kill.Count;
     }
 
     static int Hash(int a, int b, int c)

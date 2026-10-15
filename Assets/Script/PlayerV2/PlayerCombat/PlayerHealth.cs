@@ -12,6 +12,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] private float invincibleTime = 1f;
     [SerializeField] private float blinkInterval = 0.08f;
 
+    [Header("Recoil (kastet litt bakover)")]
+    [Tooltip("På: et treff som tar liv spiller Recoil-animasjonen (kastet bakover). Av: den gamle Hit-animasjonen.")]
+    [SerializeField] private bool recoilOnDamage = true;
+
     [Header("Knockback")]
     [Tooltip("Hvor lenge spilleren mister kontrollen etter et treff. Hit-animasjonen varer ca. 0.3 s.")]
     [SerializeField] private float stunTime = 0.3f;
@@ -33,6 +37,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private PlayerBlock block;
     private PlayerAnimator anim;
     private PlayerLayerSync layers;
+    private PlayerAttack attackRef;
+    private AirSlam airSlam;
+    private AirSlam Slam { get { if (airSlam == null) { airSlam = GetComponent<AirSlam>(); if (airSlam == null) airSlam = gameObject.AddComponent<AirSlam>(); } return airSlam; } }
 
     public int Health => health;
     public int MaxHealth => maxHealth;
@@ -46,11 +53,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         block = GetComponent<PlayerBlock>();
         anim = GetComponent<PlayerAnimator>();
         layers = GetComponentInChildren<PlayerLayerSync>();
+        attackRef = GetComponent<PlayerAttack>();
+        airSlam = GetComponent<AirSlam>();
     }
 
     public void TakeDamage(int amount, Vector2 knockback)
     {
-        if (invincible || health <= 0) return;
+        // invincible after a hit, during the roll's i-frames (dodging was set by the roll but never read before), and when dead
+        if (invincible || dodging || health <= 0) return;
 
         // Hvor kom slaget fra? Knockback peker bort fra angriperen.
         Vector2 attackOrigin = (Vector2)transform.position - knockback.normalized * 1f;
@@ -69,15 +79,25 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
 
         health = Mathf.Max(0, health - amount);
+        // an air slam has hyper armor: a hit still hurts, but it does not knock him out of the slam (no stun, no knockback)
+        bool armored = Slam.IsActive && Slam.hyperArmor;
         if (amount > 0) HitFx(attackOrigin, knockback);
+        if (amount > 0 && attackRef != null && !armored) attackRef.CancelSwing();     // a hit knocks the swing out of your hand
+        if (amount > 0 && !armored) Slam.Cancel();              // ... and stops an air slam (unless it has armor)
 
-        rb.linearVelocity = Vector2.zero;
-        rb.AddForce(knockback, ForceMode2D.Impulse);
+        if (!armored)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(knockback, ForceMode2D.Impulse);
+        }
 
         if (health > 0)
         {
-            if (anim != null) anim.Hit();
-            StartCoroutine(StunRoutine());
+            if (!armored)
+            {
+                if (anim != null) { if (recoilOnDamage) anim.Recoil(); else anim.Hit(); }
+                StartCoroutine(StunRoutine());
+            }
             StartCoroutine(InvincibilityRoutine());
         }
         else
@@ -112,8 +132,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         amount = Mathf.RoundToInt(amount * block.DamageMultiplier);
         knockback *= block.KnockbackMultiplier;
 
-        Collider2D attacker = Physics2D.OverlapCircle(attackOrigin, attackerSearchRadius, enemyLayer);
-        if (attacker == null) return;
+        // the enemy that really swung (EnemyAttack says so); only when that is not known the closest one is used
+        Component attacker = CombatTrace.Attacker != null ? (Component)CombatTrace.Attacker.transform : null;
+        if (attacker == null)
+        {
+            Collider2D c = Physics2D.OverlapCircle(attackOrigin, attackerSearchRadius, enemyLayer);
+            if (c == null) return;
+            attacker = c;
+        }
 
         // Parry: traff innenfor vinduet -> stun i stedet for vanlig knockback
         if (block.IsInParryWindow)
@@ -132,6 +158,27 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         Vector2 pushDir = ((Vector2)enemyAI.transform.position - (Vector2)transform.position).normalized;
         enemyAI.ApplyKnockback(pushDir * block.ParryKnockback);
+    }
+
+    /// <summary>
+    /// The sword bounced off a shield (or he is thrown a little back): the Recoil animation, no control for a moment, a little dust where
+    /// he skids. A swing or an air slam that was going is stopped.
+    /// </summary>
+    public void Recoil(float seconds, bool clang = false)
+    {
+        if (IsDead || seconds <= 0f) return;
+        if (attackRef != null) attackRef.CancelSwing();
+        Slam.Cancel();
+        if (anim != null) anim.Recoil();
+        if (clang) CombatFx.Impact(ChestPoint() + new Vector3(0.45f, 0f, 0f), 1.1f, false);
+        StartCoroutine(StunFor(seconds));
+        StartCoroutine(SkidDust(0.25f));
+    }
+
+    private IEnumerator SkidDust(float after)
+    {
+        yield return new WaitForSeconds(after);
+        if (!IsDead) CombatFx.Dust(transform.position, -1, 4);
     }
 
     /// <summary>Stunner spilleren i så mange sekunder (brukes når et slag blir parert av en fiende).</summary>

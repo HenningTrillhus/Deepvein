@@ -1,0 +1,3 @@
+Goblin corpse fades away in particles - 9 frames of 52x32 (sheet 468x32), left to right, 110 ms each.
+Same frame size and placement as the Death animation (the corpse is Death_08.png) - play this right after it.
+The body breaks into small particles that rise a little, turn pale grey and thin out. The LAST frame (9) is empty - remove the object after it.

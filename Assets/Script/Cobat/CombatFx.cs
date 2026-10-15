@@ -126,13 +126,21 @@ public static class CombatFx
         // the picture is FxSprites.SlashRadiusPx big in the middle of the crescent: scale it so that is the wanted radius (world units)
         float scale = radius * 100f / FxSprites.SlashRadiusPx;
         float total = Mathf.Max(0.12f, duration + 0.07f);
-        var fx = FxFlip.Spawn(frames, frames.Length / total, SortingLayer, order, origin, scale, aim, follow);
-        // cancel a scaled parent (the goblin is scale 3) and keep the swing direction
+        // NOT a child of the player/enemy: if that object is mirrored (scale x = -1 when it looks left) a child would be mirrored as well,
+        // and the slash to the left was drawn as if it was a slash to the right. It follows the position instead.
+        var fx = FxFlip.Spawn(frames, frames.Length / total, SortingLayer, order, origin, scale, aim, null);
         var t = fx.transform;
-        Vector3 ls = follow.lossyScale;
-        t.localScale = new Vector3(scale / Mathf.Max(0.0001f, Mathf.Abs(ls.x)), (down ? 1f : -1f) * scale / Mathf.Max(0.0001f, Mathf.Abs(ls.y)), 1f);
+        t.localScale = new Vector3(scale, (down ? 1f : -1f) * scale, 1f);
         t.position = origin;
         t.rotation = Quaternion.Euler(0f, 0f, aim);
+        var f = fx.gameObject.AddComponent<SlashFollow>();
+        f.target = follow; f.offset = (Vector3)originLocal;
+    }
+
+    class SlashFollow : MonoBehaviour
+    {
+        public Transform target; public Vector3 offset;
+        void LateUpdate() { if (target != null) transform.position = new Vector3(target.position.x + offset.x, target.position.y + offset.y, transform.position.z); }
     }
 
     // ------------------------------------------------------------------------------------------ the engine

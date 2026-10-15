@@ -1,0 +1,13 @@
+Goblin death - 8 frames of 52x32 (sheet 416x32), left to right.
+He starts standing at the RIGHT side of the frame (his rest position is x=24; offset the frame by -24 px in x so he lines up with
+the other animations), falls backward to the left and ends up lying on his back. Ground line = row 31.
+Play once and hold the last frame (frame 8) as the corpse.
+frame  name                    duration_ms
+1      impact (white flash)    70
+2      recoil                  80
+3      falling                 90
+4      tipping over            80
+5      almost down             80
+6      slam + bounce           90
+7      lying, dust             130
+8      lying still (hold)      160

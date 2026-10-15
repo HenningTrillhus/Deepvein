@@ -64,6 +64,9 @@ TagManager:
   - name: InCamp
     uniqueID: 103670897
     locked: 0
+  - name: CampAsset
+    uniqueID: 1294059353
+    locked: 0
   - name: NaturAsset
     uniqueID: 1901756629
     locked: 0

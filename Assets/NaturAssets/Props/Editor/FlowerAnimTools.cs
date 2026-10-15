@@ -33,6 +33,13 @@ namespace DeepVain.FlowerAnimTools
             if (imp.filterMode != FilterMode.Point) { imp.filterMode = FilterMode.Point; changed = true; }
             if (imp.textureCompression != TextureImporterCompression.Uncompressed) { imp.textureCompression = TextureImporterCompression.Uncompressed; changed = true; }
             var s = new TextureImporterSettings(); imp.ReadTextureSettings(s);
+            // Full Rect (not Tight): the props sway in the wind, and a Tight mesh cuts the top of the picture off when it bends
+            if (s.spriteMeshType != SpriteMeshType.FullRect)
+            {
+                s.spriteMeshType = SpriteMeshType.FullRect;
+                imp.SetTextureSettings(s);
+                changed = true;
+            }
             // bottom centre, 2 art pixels up (the empty rows under the roots) so the flower stands on the ground line
             if (s.spriteAlignment != (int)SpriteAlignment.Custom || !Mathf.Approximately(imp.spritePivot.y, 0.04f))
             {
@@ -110,6 +117,15 @@ namespace DeepVain.FlowerAnimTools
                 if (ctrl == null) ctrl = AnimatorController.CreateAnimatorControllerAtPathWithClip(ctrlPath, clip);
 
                 string prefabPath = dir + "/" + name + ".prefab";
+                // keep what the prefab already has from "Build forageables": rebuilding must not make a berry or mushroom unpickable
+                Forageable keepForage = null; Material keepMat = null;
+                var oldPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                if (oldPrefab != null)
+                {
+                    keepForage = oldPrefab.GetComponent<Forageable>();
+                    var oldSr = oldPrefab.GetComponent<SpriteRenderer>();
+                    if (keepForage != null && oldSr != null) keepMat = oldSr.sharedMaterial;
+                }
                 var go = new GameObject(name);
                 var sr = go.AddComponent<SpriteRenderer>();
                 sr.sprite = sprites[0];
@@ -120,6 +136,12 @@ namespace DeepVain.FlowerAnimTools
                 anim.cullingMode = AnimatorCullingMode.CullCompletely;       // not animated while off screen
                 go.AddComponent<AnimatorStartOffset>();
                 go.transform.localScale = new Vector3(2f, 2f, 1f);
+                if (keepForage != null)
+                {
+                    var fg = go.AddComponent<Forageable>();
+                    EditorUtility.CopySerialized(keepForage, fg);
+                    if (keepMat != null) sr.sharedMaterial = keepMat;
+                }
                 PrefabUtility.SaveAsPrefabAsset(go, prefabPath);
                 Object.DestroyImmediate(go);
                 made++;

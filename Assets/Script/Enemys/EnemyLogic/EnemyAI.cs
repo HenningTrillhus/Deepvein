@@ -80,6 +80,7 @@ public class EnemyAI : MonoBehaviour
     private bool wasAttacking;
     private EnemyBlock blockRef;
     private EnemyStateMachine statesRef;
+    private PlayerHealth playerHealth;
 
     void Awake()
     {
@@ -99,6 +100,11 @@ public class EnemyAI : MonoBehaviour
 
         blockRef = GetComponent<EnemyBlock>();
         statesRef = GetComponent<EnemyStateMachine>();
+        if (player != null)
+        {
+            playerHealth = player.GetComponentInParent<PlayerHealth>();
+            if (playerHealth == null) playerHealth = player.GetComponentInChildren<PlayerHealth>();
+        }
         EnemyPhysics.IgnoreOthers(gameObject);          // verken spiller eller fiender dytter på hverandre
     }
 
@@ -117,6 +123,31 @@ public class EnemyAI : MonoBehaviour
 
         if (attackingNow) return;
 
+        if (statesRef != null)
+        {
+            if (statesRef.IsDead) return;
+
+            // hurt, parried or stunned: it does not walk, the knockback slides out and brakes
+            if (!statesRef.CanAct)
+            {
+                float bx = Mathf.MoveTowards(rb.linearVelocity.x, 0f, 14f * Time.fixedDeltaTime);
+                rb.linearVelocity = new Vector2(bx, rb.linearVelocity.y);
+                return;
+            }
+
+            // the shield is up: it stands, but keeps looking at the player
+            if (statesRef.Current == EnemyState.Block)
+            {
+                if (player != null)
+                {
+                    float bdx = player.position.x - transform.position.x;
+                    if (Mathf.Abs(bdx) > 0.1f) SetDirection(bdx >= 0f ? 1 : -1);
+                }
+                rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+                return;
+            }
+        }
+
         UpdateState();
 
         if (state == State.Chase) Chase();
@@ -127,6 +158,13 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdateState()
     {
+        // the player is dead: it gives up and goes back to its route
+        if (playerHealth != null && playerHealth.IsDead)
+        {
+            state = State.Patrol;
+            return;
+        }
+
         bool sees = CanSeePlayer();
 
         if (sees)
@@ -286,6 +324,13 @@ public class EnemyAI : MonoBehaviour
         SetDirection(-direction);
         pauseTimer = turnPause;
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+    }
+
+    /// <summary>Snur fienden mot et punkt (brukes når et slag starter, så den aldri slår bakover).</summary>
+    public void FaceTowards(float worldX)
+    {
+        float dx = worldX - transform.position.x;
+        if (Mathf.Abs(dx) > 0.05f) SetDirection(dx >= 0f ? 1 : -1);
     }
 
     private void SetDirection(int dir)

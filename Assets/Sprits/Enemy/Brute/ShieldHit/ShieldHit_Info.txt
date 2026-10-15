@@ -1,0 +1,12 @@
+Goblin takes a hit on the shield - 7 frames of 48x38 (sheet 336x38), left to right.
+Same layout as BlockShield (goblin at top-left, feet on row 31) but 48px wide so the sparks have room to the right.
+Shield is baked in. Frames 5-7 are the normal hold pose again, so go back to the BlockShield hold loop after frame 4 or 7.
+Shield hitbox (x, y, w, h) per frame, in frame pixels (shield is pushed back a few px on the recoil):
+frame  name        hitbox_x  hitbox_y  w   h   duration_ms
+1      hit         16        0         16  32  60
+2      recoil_a    15        1         16  32  70
+3      recoil_b    14        1         16  32  80
+4      return      15        0         16  32  80
+5      hold_a      16        0         16  32  90
+6      hold_b      16        1         16  32  90
+7      hold_c      16        0         16  32  110

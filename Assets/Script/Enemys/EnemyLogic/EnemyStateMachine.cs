@@ -19,6 +19,8 @@ public class EnemyStateMachine : MonoBehaviour
 
     private EnemyAnimator animatorControl;
     private Rigidbody2D rb;
+    private EnemyAttack attackRef;
+    private EnemyBlock blockRef;
 
     private EnemyState state = EnemyState.Idle;
     private float lockUntil;
@@ -26,6 +28,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     public EnemyState Current => state;
     public bool IsDead => state == EnemyState.Dead || state == EnemyState.Fade;
+    public bool IsHurt => state == EnemyState.Hurt;
 
     public bool IsStunned => state == EnemyState.StunStart
                           || state == EnemyState.StunLoop
@@ -38,6 +41,8 @@ public class EnemyStateMachine : MonoBehaviour
     {
         animatorControl = GetComponent<EnemyAnimator>();
         rb = GetComponent<Rigidbody2D>();
+        attackRef = GetComponent<EnemyAttack>();
+        blockRef = GetComponent<EnemyBlock>();
     }
 
     void Update()
@@ -65,8 +70,18 @@ public class EnemyStateMachine : MonoBehaviour
     public void EnterBlock()                 => Enter(EnemyState.Block);
     public void ExitBlock()                  { if (state == EnemyState.Block) Enter(EnemyState.Idle); }
     public void EnterParry()                 => Enter(EnemyState.Parry, parryLockTime);
+    /// <summary>Hurt, stunned or dead: a swing under way is cancelled and the shield goes down. Nothing it was doing can finish.</summary>
+    private void CancelActions()
+    {
+        if (attackRef == null) attackRef = GetComponent<EnemyAttack>();       // (components added in another order at runtime)
+        if (blockRef == null) blockRef = GetComponent<EnemyBlock>();
+        if (attackRef != null) attackRef.Interrupt();
+        if (blockRef != null) blockRef.Cancel();
+    }
+
     public void EnterDead()
     {
+        CancelActions();
         StopStun();
         Enter(EnemyState.Dead, float.MaxValue);
     }
@@ -74,6 +89,7 @@ public class EnemyStateMachine : MonoBehaviour
     public void EnterHurt()
     {
         // Et treff bryter stunet
+        CancelActions();
         StopStun();
         Enter(EnemyState.Hurt, hurtLockTime);
     }
@@ -83,6 +99,7 @@ public class EnemyStateMachine : MonoBehaviour
     {
         if (IsDead) return;
 
+        CancelActions();
         StopStun();
         stunRoutine = StartCoroutine(StunRoutine());
     }

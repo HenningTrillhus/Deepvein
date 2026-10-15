@@ -28,9 +28,9 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Color levelColor = new Color(1f, 0.32f, 0.26f);
 
     [Header("Vises")]
-    [Tooltip("Skjul baren når fienden har fullt liv (og det er gått Show After Hit sekunder siden sist treff).")]
-    [SerializeField] private bool hideWhenFull = true;
-    [Tooltip("Navn og level står alltid over fienden, også når baren er skjult (full liv).")]
+    [Tooltip("På: livbaren, navnet og levelet vises hele tiden, også på full liv, helt til fienden dør (da forsvinner alt med en gang).")]
+    [SerializeField] private bool alwaysShowBar = true;
+    [Tooltip("Navn og level står alltid over fienden (brukes bare når Always Show Bar er av).")]
     [SerializeField] private bool alwaysShowName = true;
     [SerializeField] private float showAfterHit = 3f;
     [Tooltip("Hvor raskt fyllingen følger livet (0 = rett dit).")]
@@ -185,11 +185,19 @@ public class HealthBar : MonoBehaviour
     private float lostTimer, flashTimer, shownUntil;
     private int lastHealth = -1;
     private bool built;
+    private bool dead;
 
     public string DisplayName { get { return displayName; } }
     public int Level { get { return level; } }
 
     void Awake() { Build(); }
+
+    /// <summary>Hides the whole nameplate (bar, name and level) for good. Called when the enemy dies.</summary>
+    public void Hide()
+    {
+        dead = true;
+        if (plate != null) plate.gameObject.SetActive(false);
+    }
 
     /// <summary>Gives the enemy another name and level (call from a spawner, for example).</summary>
     public void Setup(string name, int newLevel)
@@ -316,6 +324,7 @@ public class HealthBar : MonoBehaviour
 
     void Apply()
     {
+        if (dead) { if (plate != null && plate.gameObject.activeSelf) plate.gameObject.SetActive(false); return; }
         const float U = 0.01f;
         int fw = Mathf.RoundToInt(InnerW * currentPercent);
         int lw = Mathf.RoundToInt(InnerW * lostPercent);
@@ -329,7 +338,7 @@ public class HealthBar : MonoBehaviour
             lostR.transform.localPosition = new Vector3((5f + fw) * U, 2f * U, 0f);
             lostR.transform.localScale = new Vector3(lw - fw, 1f, 1f);
         }
-        bool visible = !hideWhenFull || currentPercent < 0.999f || Time.time < shownUntil || lostPercent > currentPercent + 0.001f;
+        bool visible = alwaysShowBar || currentPercent < 0.999f || Time.time < shownUntil || lostPercent > currentPercent + 0.001f;
         frameR.enabled = visible;
         if (!visible) { fillR.enabled = false; lostR.enabled = false; }
         bool nameOn = visible || alwaysShowName;

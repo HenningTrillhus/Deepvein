@@ -20,6 +20,16 @@ public class PlayerMoveFx : MonoBehaviour
     public bool rollWind = true;
     public bool rollDust = true;
     public bool sprintDust = true;
+    [Tooltip("Et lite støvpust når du hopper av gårde og lander.")]
+    public bool jumpDust = true;
+    [Tooltip("Små støvpust for hvert skritt når du går og løper.")]
+    public bool footstepDust = true;
+    [Tooltip("Et lite støvpust når du snur fort.")]
+    public bool turnDust = true;
+    [Tooltip("En liten strekk når du hopper og klem når du lander (bare litt).")]
+    public bool squashAndStretch = true;
+    [Tooltip("Et lite ryst i kameraet ved harde landinger (0 = av).")]
+    public float landShake = 0.03f;
 
     [Header("Støv")]
     [Tooltip("Hvor ofte det kommer et støvpust når du løper (sekunder).")]
@@ -43,6 +53,10 @@ public class PlayerMoveFx : MonoBehaviour
     SpriteRenderer windRenderer;
     Coroutine windRoutine, rollDustRoutine;
     float sprintTimer;
+    int lastFrame = -1; string lastAnim = "";
+    float lastDirSign; float turnCooldown;
+    Vector2 squash = Vector2.one; float squashTimer, squashTime = 0.15f; Vector2 squashFrom = Vector2.one;
+    AirSlam airSlam;
     readonly List<SpriteRenderer> pool = new List<SpriteRenderer>();
 
     void Awake()
@@ -51,6 +65,7 @@ public class PlayerMoveFx : MonoBehaviour
         sync = GetComponentInChildren<PlayerLayerSync>();
         col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
+        airSlam = GetComponent<AirSlam>();
 
         // the wind is a child of the player's picture object, so it flips and scales exactly like the sprites
         var go = new GameObject("RollWind");
@@ -65,11 +80,17 @@ public class PlayerMoveFx : MonoBehaviour
         if (movement == null) return;
         movement.RollStarted += OnRollStarted;
         movement.RollEnded += OnRollEnded;
+        movement.Jumped += OnJumped;
+        movement.Landed += OnLanded;
     }
 
     void OnDisable()
     {
-        if (movement != null) { movement.RollStarted -= OnRollStarted; movement.RollEnded -= OnRollEnded; }
+        if (movement != null)
+        {
+            movement.RollStarted -= OnRollStarted; movement.RollEnded -= OnRollEnded;
+            movement.Jumped -= OnJumped; movement.Landed -= OnLanded; movement.VisualSquash = Vector2.one;
+        }
         if (windRenderer != null) windRenderer.enabled = false;
     }
 
@@ -155,9 +176,83 @@ public class PlayerMoveFx : MonoBehaviour
         rollDustRoutine = null;
     }
 
+    // ------------------------------------------------------------------ jump, landing, footsteps, turning (small)
+    void OnJumped()
+    {
+        if (squashAndStretch) Squash(new Vector2(0.9f, 1.14f), 0.14f);           // a little stretch up
+        if (!jumpDust || dustFrames == null || dustFrames.Length == 0) return;
+        Vector2 f = FeetPosition(); float u = UnitsPerPixel();
+        for (int i = -1; i <= 1; i += 2)                                           // two small puffs, one to each side
+            Puff(f + new Vector2(i * 4f * u, 0f), 0.42f + 0.15f * Random.value, new Vector2(i * Random.Range(0.4f, 0.9f), Random.Range(0.15f, 0.35f)));
+    }
+
+    void OnLanded(float impact)
+    {
+        if (airSlam != null && airSlam.IsActive) return;                           // the slam has its own, bigger landing
+        float k = Mathf.Clamp01((impact - 2.5f) / 12f);                            // 0 = a tiny drop, 1 = a long fall
+        if (squashAndStretch) Squash(new Vector2(Mathf.Lerp(1.06f, 1.16f, k), Mathf.Lerp(0.94f, 0.82f, k)), Mathf.Lerp(0.11f, 0.2f, k));
+        if (landShake > 0f && impact > 11f) CombatFeel.Shake(landShake * Mathf.Lerp(0.5f, 1f, k), 0.12f);
+        if (!jumpDust || dustFrames == null || dustFrames.Length == 0) return;
+        Vector2 f = FeetPosition(); float u = UnitsPerPixel();
+        int n = k > 0.5f ? 4 : 2;
+        for (int i = 0; i < n; i++)
+        {
+            int side = i % 2 == 0 ? -1 : 1;
+            Puff(f + new Vector2(side * (3f + i * 2f) * u, 0f), 0.4f + 0.45f * k + 0.12f * Random.value,
+                 new Vector2(side * Random.Range(0.6f, 1.4f), Random.Range(0.1f, 0.4f)));
+        }
+    }
+
+    void Squash(Vector2 target, float time)
+    {
+        squashFrom = target; squash = target; squashTimer = time; squashTime = time;
+    }
+
+    void LateUpdate()
+    {
+        if (movement == null) return;
+        if (squashTimer > 0f)
+        {
+            squashTimer -= Time.deltaTime;
+            float t = 1f - Mathf.Clamp01(squashTimer / Mathf.Max(0.01f, squashTime));
+            float e = t * t * (3f - 2f * t);                                         // smooth back to 1
+            squash = Vector2.Lerp(squashFrom, Vector2.one, e);
+        }
+        else squash = Vector2.one;
+        movement.VisualSquash = squashAndStretch ? squash : Vector2.one;
+    }
+
+    void FootAndTurnDust()
+    {
+        if (sync == null || movement == null || dustFrames == null || dustFrames.Length == 0) return;
+        // a tiny puff each time a foot comes down: Walk and Run both have 8 pictures, the feet land on pictures 0 and 4
+        string anim = sync.CurrentAnimation; int frame = sync.CurrentFrame;
+        bool stepAnim = anim == "Walk" || anim == "Run";
+        if (footstepDust && stepAnim && movement.IsGrounded && (anim != lastAnim || frame != lastFrame) && frame % 4 == 0 && Random.value < (anim == "Run" ? 0.9f : 0.65f))
+        {
+            int dir = movement.Facing; float u = UnitsPerPixel();
+            Puff(FeetPosition() + new Vector2(-dir * 2f * u, 0f), (anim == "Run" ? 0.34f : 0.26f) + 0.08f * Random.value,
+                 new Vector2(-dir * Random.Range(0.1f, 0.45f), Random.Range(0.05f, 0.2f)));
+        }
+        lastAnim = anim; lastFrame = frame;
+
+        // turning around at speed: a small skid puff behind
+        float vx = rb != null ? rb.linearVelocity.x : 0f;
+        float s = Mathf.Abs(vx) > 1.5f ? Mathf.Sign(vx) : 0f;
+        turnCooldown -= Time.deltaTime;
+        float input = Mathf.Sign(movement.HorizontalInput) * (Mathf.Abs(movement.HorizontalInput) > 0.1f ? 1f : 0f);
+        if (turnDust && movement.IsGrounded && turnCooldown <= 0f && s != 0f && input != 0f && input != s)
+        {
+            turnCooldown = 0.35f;
+            float u = UnitsPerPixel();
+            Puff(FeetPosition() + new Vector2(s * 3f * u, 0f), 0.4f + 0.12f * Random.value, new Vector2(s * Random.Range(0.3f, 0.8f), Random.Range(0.1f, 0.25f)));
+        }
+    }
+
     // ------------------------------------------------------------------ sprint
     void Update()
     {
+        FootAndTurnDust();
         if (!sprintDust || dustFrames == null || dustFrames.Length == 0 || movement == null) return;
         if (movement.IsSprinting && Mathf.Abs(rb != null ? rb.linearVelocity.x : 1f) > 4f && GroundedGuess())
         {

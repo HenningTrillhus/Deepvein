@@ -23,6 +23,9 @@ public class Chest : MonoBehaviour
     public enum State { Closed, Opening, Open }
 
     [Header("Innhold")]
+    [Tooltip("Tabell med prosent-sjanse per ting (lag via Create > DeepVain > Chest Loot Table). Trekkes hver gang kista åpnes.")]
+    public ChestLootTable lootTable;
+    [Tooltip("Faste ting som ALLTID ligger i kista (i tillegg til det som trekkes fra tabellen).")]
     public LootEntry[] loot;
     [Tooltip("På: tingene legges rett i sekken når kista åpnes (til kista får sitt eget vindu i inventory).")]
     public bool giveToInventory = true;
@@ -70,6 +73,10 @@ public class Chest : MonoBehaviour
     public Color GlowColor { get; private set; } = Color.white;
     public event Action<Chest> Opened;
 
+    /// <summary>Alt som ligger i kista nå: faste ting + det som ble trukket fra tabellen.</summary>
+    public System.Collections.Generic.List<LootEntry> Contents { get; private set; } = new System.Collections.Generic.List<LootEntry>();
+    bool rolled;
+
     bool playerNear;
     Inventory playerInventory;
     float idleTimer, glowTimer;
@@ -98,14 +105,24 @@ public class Chest : MonoBehaviour
     public ItemRarity ComputeBestRarity()
     {
         ItemRarity best = ItemRarity.Common;
-        if (loot != null)
-            foreach (var l in loot)
-                if (l != null && l.item != null && l.amount > 0 && l.item.rarity > best) best = l.item.rarity;
+        foreach (var l in Contents)
+            if (l != null && l.item != null && l.amount > 0 && l.item.rarity > best) best = l.item.rarity;
         return best;
+    }
+
+    /// <summary>Samler faste ting og trekker tabellen (bare én gang per kiste).</summary>
+    void BuildContents()
+    {
+        if (rolled) return;
+        rolled = true;
+        Contents.Clear();
+        if (loot != null) foreach (var l in loot) if (l != null && l.item != null && l.amount > 0) Contents.Add(new LootEntry { item = l.item, amount = l.amount });
+        if (lootTable != null) Contents.AddRange(lootTable.Roll());
     }
 
     void Awake()
     {
+        BuildContents();
         BestRarity = ComputeBestRarity();
         GlowColor = RarityColor(BestRarity);
         if (glowRenderer != null) glowRenderer.enabled = false;
@@ -229,8 +246,8 @@ public class Chest : MonoBehaviour
 
     IEnumerator GiveLootRoutine()
     {
-        if (!giveToInventory || playerInventory == null || loot == null) yield break;
-        foreach (var l in loot)
+        if (!giveToInventory || playerInventory == null) yield break;
+        foreach (var l in Contents)
         {
             if (l == null || l.item == null || l.amount <= 0) continue;
             int left = playerInventory.Add(l.item, l.amount);

@@ -22,6 +22,9 @@ public class EnemySpawner : MonoBehaviour
         [Tooltip("Navn (bare for deg).")] public string label = "Goblin";
         public GameObject prefab;
         [Tooltip("Hvor ofte (1 = vanlig, 3 = tre ganger så ofte).")] [Min(0f)] public float weight = 1f;
+        [Tooltip("Navnet som vises over fienden. Tomt = Display Name lenger ned.")] public string displayName = "";
+        [Tooltip("Denne typen settes bare ut så langt unna spilleren ved start (units). 0 = overalt. Bruk f.eks. 40 for en sterkere type, så de ikke står rett ved start.")]
+        [Min(0f)] public float minDistance = 0f;
     }
 
     [Header("Fiender")]
@@ -158,27 +161,31 @@ public class EnemySpawner : MonoBehaviour
     }
 
     // ------------------------------------------------------------------------------------------------ the spawning
-    GameObject Pick(System.Random rng)
+    bool Allowed(Entry e, float distance) { return e != null && e.prefab != null && e.minDistance <= distance; }
+
+    Entry Pick(System.Random rng, float distance = float.MaxValue)
     {
         float total = 0f;
-        foreach (var e in enemies) if (e != null && e.prefab != null) total += e.weight;
+        foreach (var e in enemies) if (Allowed(e, distance)) total += e.weight;
         if (total <= 0f) return null;
         float r = (float)(rng.NextDouble() * total);
+        Entry last = null;
         foreach (var e in enemies)
         {
-            if (e == null || e.prefab == null) continue;
+            if (!Allowed(e, distance)) continue;
+            last = e;
             r -= e.weight;
-            if (r <= 0f) return e.prefab;
+            if (r <= 0f) return e;
         }
-        return null;
+        return last;
     }
 
-    GameObject Place(GameObject prefab, float x, float gy, int level = 1)
+    GameObject Place(Entry entry, float x, float gy, int level = 1)
     {
-        var go = Instantiate(prefab, new Vector3(x, gy + spawnLift, 0f), Quaternion.identity, container);
-        go.name = prefab.name;
+        var go = Instantiate(entry.prefab, new Vector3(x, gy + spawnLift, 0f), Quaternion.identity, container);
+        go.name = entry.prefab.name;
         Spawned.Add(go);
-        if (useLevels) ApplyLevel(go, level);
+        if (useLevels) ApplyLevel(go, level, entry);
         return go;
     }
 
@@ -193,7 +200,7 @@ public class EnemySpawner : MonoBehaviour
         return r < p1 ? 1 : r < p1 + p2 ? 2 : 3;
     }
 
-    void ApplyLevel(GameObject go, int level)
+    void ApplyLevel(GameObject go, int level, Entry entry = null)
     {
         level = Mathf.Clamp(level, 1, 3);
         int i = level - 1;
@@ -201,7 +208,8 @@ public class EnemySpawner : MonoBehaviour
         float dm = damageMultiplier != null && damageMultiplier.Length > i ? damageMultiplier[i] : 1f;
         var e = go.GetComponent<Enemy>(); if (e != null) e.ScaleHealth(hm);
         var a = go.GetComponent<EnemyAttack>(); if (a != null) a.ScaleDamage(dm);
-        var bar = go.GetComponent<HealthBar>(); if (bar != null) bar.Setup(string.IsNullOrEmpty(displayName) ? go.name : displayName, level);
+        string shown = entry != null && !string.IsNullOrEmpty(entry.displayName) ? entry.displayName : (string.IsNullOrEmpty(displayName) ? go.name : displayName);
+        var bar = go.GetComponent<HealthBar>(); if (bar != null) bar.Setup(shown, level);
     }
 
     bool FarFromOthers(float x, float spacing)
@@ -232,7 +240,8 @@ public class EnemySpawner : MonoBehaviour
             float gy;
             if (Mathf.Abs(x - px) >= minDistanceFromPlayer && FarFromOthers(x, minSpacing) && GoodSpot(x, topY, out gy))
             {
-                var prefab = Pick(rng);
+                var prefab = Pick(rng, Mathf.Abs(x - px));
+                if (prefab == null) { x += minGap + (float)rng.NextDouble() * Mathf.Max(0f, maxGap - minGap); continue; }
                 int n = (rng.NextDouble() < groupChance) ? rng.Next(Mathf.Min(groupMin, groupMax), Mathf.Max(groupMin, groupMax) + 1) : 1;
                 if (n > 1) groups++;
                 for (int i = 0; i < n; i++)
@@ -241,7 +250,7 @@ public class EnemySpawner : MonoBehaviour
                     float gy2;
                     if (i == 0) gy2 = gy;
                     else if (!GoodSpot(xx, topY, out gy2)) continue;
-                    Place(i == 0 ? prefab : (Pick(rng) ?? prefab), xx, gy2, RollLevel(rng, Mathf.Abs(xx - px)));
+                    Place(i == 0 ? prefab : (Pick(rng, Mathf.Abs(xx - px)) ?? prefab), xx, gy2, RollLevel(rng, Mathf.Abs(xx - px)));
                     wild++;
                 }
             }
@@ -263,7 +272,7 @@ public class EnemySpawner : MonoBehaviour
                         float gy;
                         if (Mathf.Abs(gx - px) < guardMinPlayerDistance) continue;
                         if (!FarFromOthers(gx, 2.5f) || !GoodSpot(gx, topY, out gy)) continue;
-                        var prefab = Pick(rng);
+                        var prefab = Pick(rng, Mathf.Abs(gx - px));
                         if (prefab == null) break;
                         Place(prefab, gx, gy, Mathf.Max(guardLevel, RollLevel(rng, Mathf.Abs(gx - px)))); guards++;
                         break;

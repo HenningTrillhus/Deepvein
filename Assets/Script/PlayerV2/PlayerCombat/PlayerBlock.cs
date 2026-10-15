@@ -61,6 +61,7 @@ public class PlayerBlock : MonoBehaviour
     private PlayerAnimator anim;
     private PlayerAttack attack;
     private PlayerMovement movement;
+    private PlayerHealth healthRef;
     private PlayerLayerSync layerSync;
     private SpriteRenderer[] shieldRenderers;
     private bool holdingBlock;
@@ -72,6 +73,7 @@ public class PlayerBlock : MonoBehaviour
 
     // Lesbart utenfra
     public bool IsBlocking => holdingBlock && !exhausted && stamina > 0f && Time.time >= cooldownUntil
+                          && !(healthRef != null && (healthRef.IsStunned || healthRef.IsDead))      // stunned or dead: the shield is not up
                           && !(attack != null && attack.IsAttacking)   // skjoldet er nede mens du slår
                           && !(movement != null && (movement.IsCrouching || movement.IsRolling));   // og mens du bøyer deg / ruller // skjoldet er nede mens du slår
     public float Stamina => stamina;
@@ -101,6 +103,7 @@ public class PlayerBlock : MonoBehaviour
         anim = GetComponent<PlayerAnimator>();
         attack = GetComponent<PlayerAttack>();
         movement = GetComponent<PlayerMovement>();
+        healthRef = GetComponent<PlayerHealth>();
         layerSync = GetComponentInChildren<PlayerLayerSync>();
         if (shieldVisual != null) shieldRenderers = shieldVisual.GetComponentsInChildren<SpriteRenderer>(true);
 
