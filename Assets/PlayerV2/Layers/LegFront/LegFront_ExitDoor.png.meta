@@ -1,0 +1,357 @@
+fileFormatVersion: 2
+guid: b41b733440aca1a4c9ed86867344934d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4635684929217262716
+    second: LegFront_ExitDoor_0
+  - first:
+      213: -617363459850472099
+    second: LegFront_ExitDoor_1
+  - first:
+      213: 4952189055224402832
+    second: LegFront_ExitDoor_2
+  - first:
+      213: 9018492773469786535
+    second: LegFront_ExitDoor_3
+  - first:
+      213: 4450901786783594140
+    second: LegFront_ExitDoor_4
+  - first:
+      213: 7712123990748917818
+    second: LegFront_ExitDoor_5
+  - first:
+      213: -6737064643815984648
+    second: LegFront_ExitDoor_6
+  - first:
+      213: 5769671698490655964
+    second: LegFront_ExitDoor_7
+  - first:
+      213: -1364075068527089639
+    second: LegFront_ExitDoor_00
+  - first:
+      213: -271602645635909176
+    second: LegFront_ExitDoor_01
+  - first:
+      213: 8226416569473474427
+    second: LegFront_ExitDoor_02
+  - first:
+      213: -3053174971376094405
+    second: LegFront_ExitDoor_03
+  - first:
+      213: -9086314143803678249
+    second: LegFront_ExitDoor_04
+  - first:
+      213: 3199849573285914140
+    second: LegFront_ExitDoor_05
+  - first:
+      213: 1459232982845972044
+    second: LegFront_ExitDoor_06
+  - first:
+      213: -6209874041094444125
+    second: LegFront_ExitDoor_07
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 33
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LegFront_ExitDoor_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 918e97dc3f4d11de0800000000000000
+      internalID: -1364075068527089639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_ExitDoor_01
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c9b0d235d21b3cf0800000000000000
+      internalID: -271602645635909176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_ExitDoor_02
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7f9ad5d84a1a2270800000000000000
+      internalID: 8226416569473474427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_ExitDoor_03
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b33b30a3a81f0a5d0800000000000000
+      internalID: -3053174971376094405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_ExitDoor_04
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d169f47d6de6e180800000000000000
+      internalID: -9086314143803678249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_ExitDoor_05
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c16646ebb36286c20800000000000000
+      internalID: 3199849573285914140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_ExitDoor_06
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4e5113aaac304410800000000000000
+      internalID: 1459232982845972044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegFront_ExitDoor_07
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ab65a0067812d9a0800000000000000
+      internalID: -6209874041094444125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      LegFront_ExitDoor_0: -4635684929217262716
+      LegFront_ExitDoor_00: -1364075068527089639
+      LegFront_ExitDoor_01: -271602645635909176
+      LegFront_ExitDoor_02: 8226416569473474427
+      LegFront_ExitDoor_03: -3053174971376094405
+      LegFront_ExitDoor_04: -9086314143803678249
+      LegFront_ExitDoor_05: 3199849573285914140
+      LegFront_ExitDoor_06: 1459232982845972044
+      LegFront_ExitDoor_07: -6209874041094444125
+      LegFront_ExitDoor_1: -617363459850472099
+      LegFront_ExitDoor_2: 4952189055224402832
+      LegFront_ExitDoor_3: 9018492773469786535
+      LegFront_ExitDoor_4: 4450901786783594140
+      LegFront_ExitDoor_5: 7712123990748917818
+      LegFront_ExitDoor_6: -6737064643815984648
+      LegFront_ExitDoor_7: 5769671698490655964
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

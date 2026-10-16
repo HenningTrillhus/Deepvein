@@ -1,0 +1,357 @@
+fileFormatVersion: 2
+guid: 9b5fc94422f14d646927aab49c3666e7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5405180416129751958
+    second: ArmFront_ExitDoor_0
+  - first:
+      213: 8915420200950583744
+    second: ArmFront_ExitDoor_1
+  - first:
+      213: 3733697331702572608
+    second: ArmFront_ExitDoor_2
+  - first:
+      213: 6770299833691250466
+    second: ArmFront_ExitDoor_3
+  - first:
+      213: -7108794458276591494
+    second: ArmFront_ExitDoor_4
+  - first:
+      213: -8042752103408191815
+    second: ArmFront_ExitDoor_5
+  - first:
+      213: 2442225902567095320
+    second: ArmFront_ExitDoor_6
+  - first:
+      213: 3103347031969081550
+    second: ArmFront_ExitDoor_7
+  - first:
+      213: -6296514787167670677
+    second: ArmFront_ExitDoor_00
+  - first:
+      213: 130855000780356686
+    second: ArmFront_ExitDoor_01
+  - first:
+      213: 8041259919274329795
+    second: ArmFront_ExitDoor_02
+  - first:
+      213: -7262617649083470803
+    second: ArmFront_ExitDoor_03
+  - first:
+      213: 649112278726301569
+    second: ArmFront_ExitDoor_04
+  - first:
+      213: -4872009632751817196
+    second: ArmFront_ExitDoor_05
+  - first:
+      213: 7079621614446567198
+    second: ArmFront_ExitDoor_06
+  - first:
+      213: -8626933012768348878
+    second: ArmFront_ExitDoor_07
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 33
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ArmFront_ExitDoor_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6e60e359294e98a0800000000000000
+      internalID: -6296514787167670677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArmFront_ExitDoor_01
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4cb89e0ee3e0d100800000000000000
+      internalID: 130855000780356686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArmFront_ExitDoor_02
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c6ceeaca4b489f60800000000000000
+      internalID: 8041259919274329795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArmFront_ExitDoor_03
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2ca5e62abff53b90800000000000000
+      internalID: -7262617649083470803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArmFront_ExitDoor_04
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18753d8ad2c120900800000000000000
+      internalID: 649112278726301569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArmFront_ExitDoor_05
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41eeb815d05236cb0800000000000000
+      internalID: -4872009632751817196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArmFront_ExitDoor_06
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1fd341595edf3260800000000000000
+      internalID: 7079621614446567198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArmFront_ExitDoor_07
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 24
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2352ad0e12af64880800000000000000
+      internalID: -8626933012768348878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ArmFront_ExitDoor_0: 5405180416129751958
+      ArmFront_ExitDoor_00: -6296514787167670677
+      ArmFront_ExitDoor_01: 130855000780356686
+      ArmFront_ExitDoor_02: 8041259919274329795
+      ArmFront_ExitDoor_03: -7262617649083470803
+      ArmFront_ExitDoor_04: 649112278726301569
+      ArmFront_ExitDoor_05: -4872009632751817196
+      ArmFront_ExitDoor_06: 7079621614446567198
+      ArmFront_ExitDoor_07: -8626933012768348878
+      ArmFront_ExitDoor_1: 8915420200950583744
+      ArmFront_ExitDoor_2: 3733697331702572608
+      ArmFront_ExitDoor_3: 6770299833691250466
+      ArmFront_ExitDoor_4: -7108794458276591494
+      ArmFront_ExitDoor_5: -8042752103408191815
+      ArmFront_ExitDoor_6: 2442225902567095320
+      ArmFront_ExitDoor_7: 3103347031969081550
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

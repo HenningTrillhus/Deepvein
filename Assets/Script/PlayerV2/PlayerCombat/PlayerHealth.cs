@@ -31,6 +31,17 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private int health;
     private bool invincible;
+
+    [Header("Dører")]
+    [Tooltip("Sekunder spilleren ikke kan skades etter at han har gått gjennom en dør (regnes fra han får kontrollen tilbake).")]
+    public float doorGraceTime = 3f;
+    private float graceUntil;
+    /// <summary>True mens spilleren er trygg etter en dør (eller midt i overgangen).</summary>
+    public bool HasDoorGrace { get { return Time.time < graceUntil; } }
+    /// <summary>Trygg så lenge overgangen pågår (kalles av DoorEnterDriver).</summary>
+    public void LockInvulnerable() { graceUntil = float.MaxValue; }
+    /// <summary>Starter de trygge sekundene etter døra.</summary>
+    public void StartDoorGrace() { graceUntil = Time.time + doorGraceTime; }
     public void SetDodging(bool on) { dodging = on && !IsDead; }
     private bool dodging;
     private Rigidbody2D rb;
@@ -60,7 +71,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void TakeDamage(int amount, Vector2 knockback)
     {
         // invincible after a hit, during the roll's i-frames (dodging was set by the roll but never read before), and when dead
-        if (invincible || dodging || health <= 0) return;
+        if (invincible || dodging || health <= 0 || Time.time < graceUntil) return;
 
         // Hvor kom slaget fra? Knockback peker bort fra angriperen.
         Vector2 attackOrigin = (Vector2)transform.position - knockback.normalized * 1f;

@@ -50,7 +50,16 @@ public class CameraFollow : MonoBehaviour
             transform.position.z // keep the camera's Z (usually -10)
         );
  
-        if (useBounds && cam != null && cam.orthographic)
+        // Inside a map that has a MapBounds (the inside of the goblin camp, ...): stop at its edges. The player keeps walking, the camera stands still.
+        var map = target != null ? MapBounds.Find(target.position) : null;
+        if (map != null && cam != null && cam.orthographic)
+        {
+            float hh = cam.orthographicSize, hw = hh * cam.aspect;
+            Rect a = map.Area;
+            pos.x = a.width <= 2f * hw ? a.center.x : Mathf.Clamp(pos.x, a.xMin + hw, a.xMax - hw);              // a map narrower than the screen: centre it
+            if (map.limitCameraY) pos.y = a.height <= 2f * hh ? a.center.y : Mathf.Clamp(pos.y, a.yMin + hh, a.yMax - hh);
+        }
+        else if (useBounds && cam != null && cam.orthographic)
         {
             // Keep the camera's view edges inside the world bounds
             float halfHeight = cam.orthographicSize;

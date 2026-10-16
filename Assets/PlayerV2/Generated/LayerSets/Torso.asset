@@ -249,6 +249,16 @@ MonoBehaviour:
     - {fileID: -5245176662251969353, guid: 02301fdce10d5024e930b131d2c17664, type: 3}
     - {fileID: -3679606993820473437, guid: 02301fdce10d5024e930b131d2c17664, type: 3}
     - {fileID: 3980904201341073291, guid: 02301fdce10d5024e930b131d2c17664, type: 3}
+  - anim: ExitDoor
+    frames:
+    - {fileID: -8683128971823482438, guid: c26fb5c414fd8434bb06eb105797eb46, type: 3}
+    - {fileID: 8717582152998340031, guid: c26fb5c414fd8434bb06eb105797eb46, type: 3}
+    - {fileID: 2137263283089635540, guid: c26fb5c414fd8434bb06eb105797eb46, type: 3}
+    - {fileID: -6410530847961257057, guid: c26fb5c414fd8434bb06eb105797eb46, type: 3}
+    - {fileID: -1654495344020629893, guid: c26fb5c414fd8434bb06eb105797eb46, type: 3}
+    - {fileID: -1351788429587331615, guid: c26fb5c414fd8434bb06eb105797eb46, type: 3}
+    - {fileID: 447740243882994257, guid: c26fb5c414fd8434bb06eb105797eb46, type: 3}
+    - {fileID: 1384609559863433520, guid: c26fb5c414fd8434bb06eb105797eb46, type: 3}
   - anim: Recoil
     frames:
     - {fileID: -6981873175885065185, guid: 60878325f7d40c24b83761b1c9a8daef, type: 3}

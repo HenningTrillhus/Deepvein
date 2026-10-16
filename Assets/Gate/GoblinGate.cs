@@ -45,6 +45,8 @@ public class GoblinGate : MonoBehaviour
     public float standTolerance = 0.06f;
     [Tooltip("Gir opp å gå mot midten etter så mange sekunder.")]
     public float approachTimeout = 2f;
+    [Tooltip("Spilleren settes på bakken under porten, selv om selve port-objektet ligger høyere enn føttene.")]
+    public bool snapToGround = true;
 
     [Header("Overgang (svart sirkel)")]
     [Tooltip("Sekunder fra E (og spilleren står i midten) til sirkelen begynner å lukke seg.")]
@@ -178,16 +180,28 @@ public class GoblinGate : MonoBehaviour
 
         StartCoroutine(IrisWipe.CloseRoutine(irisClose, irisDelay));
         var driver = p.GetComponent<DoorEnterDriver>();
+        bool exitWalk = false;
         if (driver != null && driver.Ready)
-            yield return driver.Play(doTeleport);
+        {
+            if (driver.ReadyExit)
+            {
+                // walk in with the back to us; after the move he stays locked, the circle opens and he walks OUT of the other door towards us
+                exitWalk = true;
+                yield return driver.Play(doTeleport, irisHold, () => { StartCoroutine(IrisWipe.OpenRoutine(irisOpen)); Close(); });
+            }
+            else yield return driver.Play(doTeleport);
+        }
         else
             yield return new WaitForSeconds(irisDelay + irisClose);
         doTeleport();
-        // the iris must be shut before the next step
-        yield return new WaitForSeconds(irisHold);
-        StartCoroutine(IrisWipe.OpenRoutine(irisOpen));
-        Close();
-        yield return new WaitForSeconds(irisOpen);
+        if (!exitWalk)
+        {
+            // the iris must be shut before the next step
+            yield return new WaitForSeconds(irisHold);
+            StartCoroutine(IrisWipe.OpenRoutine(irisOpen));
+            Close();
+            yield return new WaitForSeconds(irisOpen);
+        }
         Finish(p, true);
     }
 
@@ -202,13 +216,28 @@ public class GoblinGate : MonoBehaviour
         busy = false;
     }
 
+    /// <summary>The ground below the door (the player's own ground layers), so he stands on it even if the door object sits higher than his feet.</summary>
+    static float GroundY(PlayerMovement p, Vector3 pos)
+    {
+        var hits = Physics2D.RaycastAll(new Vector2(pos.x, pos.y + 0.5f), Vector2.down, 12f, p.groundLayer);
+        foreach (var h in hits)
+        {
+            if (h.collider == null || h.collider.isTrigger || h.collider.transform.root == p.transform.root) continue;
+            return h.point.y;
+        }
+        return pos.y;
+    }
+
     void Teleport(PlayerMovement p, Vector3 pos)
     {
         var rb = p.GetComponent<Rigidbody2D>();
         Vector3 cur = p.transform.position;
-        Vector3 np = new Vector3(pos.x, pos.y + 0.02f, cur.z);
+        float gy = snapToGround ? GroundY(p, pos) : pos.y;
+        Vector3 np = new Vector3(pos.x, gy + 0.02f, cur.z);
         p.transform.position = np;
         if (rb != null) { rb.position = new Vector2(np.x, np.y); rb.linearVelocity = Vector2.zero; }
+        var dd = p.GetComponent<DoorEnterDriver>(); var hp = p.GetComponent<PlayerHealth>();
+        if (hp != null && (dd == null || !dd.IsPlaying)) hp.StartDoorGrace();      // no door animation running: the safe seconds start now
         Physics2D.SyncTransforms();
         var cam = Camera.main;                                              // the camera follows with a delay: snap it, so it is not seen flying across
         if (cam != null) { var cp = cam.transform.position; cam.transform.position = new Vector3(np.x, np.y, cp.z); }

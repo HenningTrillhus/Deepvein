@@ -1185,6 +1185,7 @@ MonoBehaviour:
   - Roll
   - Drink
   - EnterDoor
+  - ExitDoor
   - Recoil
   - AirSlamStart
   - AirSlamFall

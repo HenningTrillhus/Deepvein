@@ -57,6 +57,7 @@ namespace DeepVain.Player.EditorTools
             new AnimDef("Roll",        40, 8, false, 55, 50, 45, 45, 45, 45, 45, 45, 50, 60, 70),
             new AnimDef("Drink",       24, 0, false, 70, 70, 80, 110, 130, 110, 90, 80, 60),
             new AnimDef("EnterDoor",   24, 0, false, 90, 90, 90, 90, 90, 90, 90, 90),
+            new AnimDef("ExitDoor",    24, 0, false, 90, 90, 90, 90, 90, 90, 90, 90),
             // recoil (the sword bounces off a shield / thrown a little back) and the air slam (start, fall (loops), strike, land)
             new AnimDef("Recoil",       32, 4, false, 50, 55, 65, 70, 70, 80, 90, 100),
             new AnimDef("AirSlamStart", 40, 8, false, 55, 55, 65),

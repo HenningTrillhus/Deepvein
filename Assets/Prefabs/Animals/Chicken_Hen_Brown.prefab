@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6723282263532798244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7199750551025298208}
+  - component: {fileID: 4835302169270505298}
+  - component: {fileID: 7197014437445294344}
+  m_Layer: 0
+  m_Name: Chicken_Hen_Brown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7199750551025298208
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723282263532798244}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &4835302169270505298
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723282263532798244}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: -938420037
+  m_SortingLayer: -5
+  m_SortingOrder: 6
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: 7fedc0c767131a44893e94c767256e9e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.24, y: 0.24}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!114 &7197014437445294344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723282263532798244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa3b3bfd1257d549bd25faea6024e3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Chicken
+  sr: {fileID: 4835302169270505298}
+  idle:
+  - {fileID: 21300000, guid: 7fedc0c767131a44893e94c767256e9e, type: 3}
+  - {fileID: 21300000, guid: 50adf6576177a274d9d7eca8e6890ea0, type: 3}
+  - {fileID: 21300000, guid: f785603833c2b0642bffa94c3eb55aa3, type: 3}
+  - {fileID: 21300000, guid: a152e084f1bdd974b8f29aa52895f1fb, type: 3}
+  peck:
+  - {fileID: 21300000, guid: 53f19ce42a5bc704db78b5c07e276ed2, type: 3}
+  - {fileID: 21300000, guid: 537fa767b9fcf934b8ca9209f660a061, type: 3}
+  - {fileID: 21300000, guid: 71f4092eb4db5114cb113b4afafdc562, type: 3}
+  - {fileID: 21300000, guid: 2850a4577a7803249b6d4572e05f5ded, type: 3}
+  - {fileID: 21300000, guid: b17ccf0029103e146a81d18525129a97, type: 3}
+  - {fileID: 21300000, guid: 158ac5d01e5e262489bb3ab5de499b41, type: 3}
+  walk:
+  - {fileID: 21300000, guid: c6fad30830af14f4fbc4b28d634118c3, type: 3}
+  - {fileID: 21300000, guid: b3d4ac616a4a0ef40b05235cdb1bc376, type: 3}
+  - {fileID: 21300000, guid: 90cfda55791c57d458c681796f9fc7d2, type: 3}
+  - {fileID: 21300000, guid: 24b0d22545441184da22770bbb71e708, type: 3}
+  - {fileID: 21300000, guid: 5281149a22bce3242bfd5a2a1c112fa6, type: 3}
+  - {fileID: 21300000, guid: d5ca0789128e8b94493fc0e944a9a1b3, type: 3}
+  run:
+  - {fileID: 21300000, guid: 5a4a15d426e75dd4aaa9e7a5406d6b09, type: 3}
+  - {fileID: 21300000, guid: b01ce636de2fcb34db73bfdecdae2a64, type: 3}
+  - {fileID: 21300000, guid: 9e4031303427efe4bb249c03c4736db9, type: 3}
+  - {fileID: 21300000, guid: 9776be379f01897468b5686da8d9b1ec, type: 3}
+  - {fileID: 21300000, guid: 140967dd8a1cf744ea06d55ba433c307, type: 3}
+  - {fileID: 21300000, guid: fc1fdc198b7719149a59f23a094aafd1, type: 3}
+  idleFps: 4.5
+  peckFps: 9
+  walkFps: 9
+  runFps: 14
+  walkSpeed: 0.8
+  runSpeed: 2.8
+  useHome: 0
+  homeX: 0
+  roamHalfWidth: 4
+  scareDistance: 2.4
+  scareRunTime: 1.7
+  scareHeight: 2
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  stepHeight: 0.35
+  gravity: 22

@@ -325,6 +325,15 @@ public class PlayerMovement : MonoBehaviour
             Vector2 cp = h.ClosestPoint(c);
             if (cp.y <= c.y - 0.02f) return true;                      // the touch point is below the centre: a floor, not a wall beside
         }
+        // Thin floors (a wooden platform, a bridge): the ground check circle sits well below the feet and only finds ground that is thick enough to reach it.
+        // So also look right under the feet: a thin box just below the bottom of the collider, as wide as the feet. Not while he is moving up (a jump).
+        if (col != null && rb != null && rb.linearVelocity.y <= 0.5f)
+        {
+            Bounds b = col.bounds;
+            var under = Physics2D.OverlapBoxAll(new Vector2(b.center.x, b.min.y - 0.04f), new Vector2(b.size.x * 0.9f, 0.08f), 0f, groundLayer);
+            for (int i = 0; i < under.Length; i++)
+                if (under[i] != null && !under[i].isTrigger && under[i] != col) return true;
+        }
         return false;
     }
 
